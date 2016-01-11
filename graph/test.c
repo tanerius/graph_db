@@ -3,17 +3,17 @@
 #include "graph.h"
 
 /* Function to print the adjacency list of graph*/
-void displayGraph(graph_p graph)
+void displayGraph(Graph_p graph)
 {
     int i;
     for (i = 0; i < graph->num_vertices; i++)
     {
-        adjlist_node_p adjListPtr = graph->adjListArr[i].head;
+        Node_p node_ptr = graph->arr_list[i].head;
         printf("\n%d: ", i);
-        while (adjListPtr)
+        while (node_ptr)
         {
-            printf("%d->", adjListPtr->vertex);
-            adjListPtr = adjListPtr->next;
+            printf("%d->", node_ptr->vertex);
+            node_ptr = node_ptr->next;
         }
         printf("NULL\n");
     }
@@ -21,8 +21,8 @@ void displayGraph(graph_p graph)
     
 int main()
 {
-    graph_p undir_graph = createGraph(5, UNDIRECTED);
-    graph_p dir_graph = createGraph(5, DIRECTED);
+    Graph_p undir_graph = createGraph(5, UNDIRECTED);
+    Graph_p dir_graph = createGraph(5, DIRECTED);
     addEdge(undir_graph, 0, 1);
     addEdge(undir_graph, 0, 4);
     addEdge(undir_graph, 1, 2);

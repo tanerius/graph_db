@@ -10,36 +10,37 @@
 typedef enum {UNDIRECTED=0, DIRECTED} usr_graph_type;
  
 /* Adjacency list node */
-typedef struct adjlist_node
+typedef struct Node
 {
     int vertex;                /*Index to adjacency list array*/
-    struct adjlist_node *next; /*Pointer to the next node*/
-}adjlist_node_t, *adjlist_node_p;
+    struct Node *next; /*Pointer to the next node*/
+}Node_t, *Node_p;
  
 /* Adjacency list */
-typedef struct adjlist
+typedef struct List
 {
-    int num_members;           /*number of members in the list (for future use)*/
-    adjlist_node_t *head;      /*head of the adjacency linked list*/
-}adjlist_t, *adjlist_p;
+    int num_members;            /*number of members in the list (for future use)*/
+    Node_t *head;               /*head of the adjacency linked list*/
+}List_t, *List_p;
  
 /* Graph structure. A graph is an array of adjacency lists.
    Size of array will be number of vertices in graph*/
-typedef struct graph
+typedef struct Graph
 {
     /* Define the type of graph */
     usr_graph_type type;      
     /* Number of vertices */
-    int num_vertices;         
-    adjlist_p adjListArr;     /*Adjacency lists' array*/
-}graph_t, *graph_p;
+    int num_vertices;
+    /* Array of adjacency lists */
+    List_p arr_list;      
+}Graph_t, *Graph_p;
  
 
-void addEdge(graph_t *graph, int src, int dest);
-graph_p createGraph(int n, usr_graph_type type);
-adjlist_node_p createNode(int v);
-void destroyGraph(graph_p graph);
-void displayGraph(graph_p graph);
+void addEdge(Graph_t*, int, int);
+Graph_p createGraph(int, usr_graph_type);
+Node_p createNode(int);
+void destroyGraph(Graph_p);
+void displayGraph(Graph_p);
 
 /* Exit function to handle a conditional exit due to error or other*/
 __inline void cond_exit(const char* title, const char* msg)
