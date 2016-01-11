@@ -1,0 +1,14 @@
+
+=== TODO: list for the initial idea
+==============================================================================
+- Payoad object definition
+- Hashing payload types so that a payloads in a graph may not be mixed 
+- Serialization of a particular graph (place in storage)
+- Deserialization of a graph (ability to place in memory from storage)
+- Protocol for client side interaction: create and read stuff
+- Indexing of particular property from payload object
+- Serialization/Deserialization of payoad
+- Extend primary functionality to guarantee ACID
+- Implement a logger
+- Implement explicit configurability (via config files)
+- Daemonize 
