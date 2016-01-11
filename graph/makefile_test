@@ -1,0 +1,22 @@
+# Declare a variable for the compliler which we are going to use
+CC=g++
+# Declare another variable with the flags which we are going to use
+CFLAGS=-g -Wall -std=c++11 
+
+default: graph_test
+
+graph_test: graph.o test.o 
+	$(CC) $(FLAGS) -o build/graph_test build/test.o build/graph.o
+
+test.o: init test.c graph.h
+	$(CC) $(FLAGS) -c test.c -o build/test.o
+
+graph.o: init graph.c graph.h
+	$(CC) $(CFLAGS) -c graph.c -o build/graph.o
+
+init: 
+	mkdir build
+
+clean:
+	rm build/*.o
+
