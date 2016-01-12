@@ -21,23 +21,24 @@ void displayGraph(Graph_p graph)
     
 int main()
 {
-    Graph_p undir_graph = createGraph(5, UNDIRECTED);
-    Graph_p dir_graph = createGraph(5, DIRECTED);
-    addEdge(undir_graph, 0, 1);
-    addEdge(undir_graph, 0, 4);
-    addEdge(undir_graph, 1, 2);
-    addEdge(undir_graph, 1, 3);
-    addEdge(undir_graph, 1, 4);
-    addEdge(undir_graph, 2, 3);
-    addEdge(undir_graph, 3, 4);
+    Graph_p undir_graph = createGraph(UNDIRECTED);
+    Graph_p dir_graph = createGraph(DIRECTED);
+    usr_ret_type result;
+    result = addEdge(undir_graph, 0, 1, NULL);
+    result = addEdge(undir_graph, 0, 4, NULL);
+    result = addEdge(undir_graph, 1, 2, NULL);
+    result = addEdge(undir_graph, 1, 3, NULL);
+    result = addEdge(undir_graph, 1, 4, NULL);
+    result = addEdge(undir_graph, 2, 3, NULL);
+    result = addEdge(undir_graph, 3, 4, NULL);
     
-    addEdge(dir_graph, 0, 1);
-    addEdge(dir_graph, 0, 4);
-    addEdge(dir_graph, 1, 2);
-    addEdge(dir_graph, 1, 3);
-    addEdge(dir_graph, 1, 4);
-    addEdge(dir_graph, 2, 3);
-    addEdge(dir_graph, 3, 4);
+    result = addEdge(dir_graph, 0, 1, NULL);
+    result = addEdge(dir_graph, 0, 4, NULL);
+    result = addEdge(dir_graph, 1, 2, NULL);
+    result = addEdge(dir_graph, 1, 3, NULL);
+    result = addEdge(dir_graph, 1, 4, NULL);
+    result = addEdge(dir_graph, 2, 3, NULL);
+    result = addEdge(dir_graph, 3, 4, NULL);
     
     printf("\nUNDIRECTED GRAPH");
     displayGraph(undir_graph);
