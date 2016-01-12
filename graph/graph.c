@@ -1,4 +1,5 @@
 /*graph.c*/
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
@@ -23,6 +24,9 @@ usr_ret_type addEdge(Graph_t *graph, big_number src, big_number dest, void *payl
 
     /* Add an edge from src to dst in the adjacency list*/
     Node_p newNode = createNode(dest,payload);
+    if (!newNode){
+        return NO_NODE;
+    }
     newNode->next = graph->arr_list[src].head;
     graph->arr_list[src].head = newNode;
     graph->arr_list[src].num_edges++;
@@ -30,6 +34,9 @@ usr_ret_type addEdge(Graph_t *graph, big_number src, big_number dest, void *payl
     if(graph->type == UNDIRECTED){
         /* Add an edge from dest to src also*/
         newNode = createNode(src,payload);
+        if (!newNode){
+            return NO_NODE;
+        }
         newNode->next = graph->arr_list[dest].head;
         graph->arr_list[dest].head = newNode;
         graph->arr_list[dest].num_edges++;
@@ -103,13 +110,15 @@ Graph_p createGraph(usr_graph_type type){
     // graph will create a pointer
     Graph_p graph = (Graph_p)createMemory(sizeof(Graph_t));
     if(!graph)
-        cond_exit("Error", "Unable to allocate memory for graph");
+        return NULL;
     // allocate memory for initial page
     graph->num_vertices = MAX_PAGE_SIZE;
     graph->type = type;
     graph->arr_list = (List_p)createMemory(MAX_PAGE_SIZE * sizeof(List_t));
-    if(!graph->arr_list)
-        cond_exit("Error", "Unable to allocate memory for array list");
+    if(!graph->arr_list){
+        free(graph);
+        return NULL;
+    }
     graph->deleted_element = NULL;
     graph->total_deleted = 0;
     graph->next_available_id = 0;
@@ -146,8 +155,9 @@ void *createMemory(size_t size){
 Node_p createNode(big_number vertex_id, void *p){
     // newNode is a pointer
     Node_p new_node = (Node_p)createMemory(sizeof(Node_t));
-    if(!new_node)
-        cond_exit("Error", "Unable to allocate memory for new node");
+    if(!new_node){
+        return NULL;
+    }
     // goes to which vertex (index)?
     new_node->vertex = vertex_id;
     new_node->next = NULL;
@@ -155,6 +165,19 @@ Node_p createNode(big_number vertex_id, void *p){
     new_node->type = C1; // generic type
 
     return new_node;
+}
+
+/* Leletes elements from the list */
+usr_ret_type deleteGraphElement(Graph_t *graph, big_number element_index){
+    if(element_index >= graph->num_vertices)
+        return NO_INDEX;
+    graph->arr_list[element_index].is_deleted = true;
+    if(graph->arr_list[element_index].num_edges > 0){
+        for(big_number j = 0; j < graph->arr_list[element_index].num_edges; j++){
+            destroyEdges(graph->arr_list[element_index].head);
+        }
+    }
+    return OK;
 }
 
 /* Destroys edges */

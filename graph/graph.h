@@ -28,7 +28,9 @@ typedef enum {
     PAGE_FULL,              /* the adjacency array is full realloc it */
     SRC_GONE,               /* the source element has been deleted or isnt assigned */
     DST_GONE,               /* the destination element has been deleted or isnt assigned */
-    MEM_FULL                /* memory could not be allocated */
+    MEM_FULL,               /* memory could not be allocated */
+    NO_INDEX,                /* invalid index when referencing something with an index */
+    NO_NODE
 } usr_ret_type;
 
 
@@ -88,15 +90,9 @@ usr_ret_type addGraphElement(Graph_t*, void*); // payload cant be null
 Graph_p createGraph(usr_graph_type);
 void *createMemory(size_t);
 Node_p createNode(big_number, void*);
+usr_ret_type deleteGraphElement(Graph_t*, big_number); // only flag as deleted
 void destroyEdges(Node_p);
 void destroyGraph(Graph_p);
 void *resizeMemory(void*, size_t);
 
-/* Exit function to handle a conditional exit due to error or other*/
-__inline void cond_exit(const char* title, const char* msg)
-{
-    printf("[%s]: %s \nTerminating...\n", title, msg);
-    exit(1);
-}
- 
 #endif

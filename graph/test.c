@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -26,11 +27,12 @@ typedef struct custom_payload {
         char c;
     } Payload, *Payload_p;
     
+
+
 int main()
 {
-
-
-    Payload_p c = (Payload_p)malloc(5 * sizeof(Payload));
+    Payload_p c = (Payload_p)createMemory(5 * sizeof(Payload));
+    assert(c != NULL);
 
     c[0].x=1;
     c[0].b=true;
@@ -51,7 +53,7 @@ int main()
     usr_ret_type result;
 
     Graph_p undir_graph = createGraph(UNDIRECTED);
-    
+    assert(undir_graph != NULL);
     result = addGraphElement(undir_graph, &(c[0]));
     assert(result == OK);
     result = addGraphElement(undir_graph, &(c[1]));
@@ -80,7 +82,7 @@ int main()
     
 
     Graph_p dir_graph = createGraph(DIRECTED);
-
+    assert(dir_graph != NULL);
     result = addGraphElement(dir_graph, &(c[0]));
     assert(result == OK);
     result = addGraphElement(dir_graph, &(c[1]));
