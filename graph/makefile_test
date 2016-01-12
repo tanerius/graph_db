@@ -2,21 +2,22 @@
 CC=g++
 # Declare another variable with the flags which we are going to use
 CFLAGS=-g -Wall -std=c++11 
+OBJDIR=build
 
 default: graph_test
 
 graph_test: graph.o test.o 
-	$(CC) $(FLAGS) -o build/graph_test build/test.o build/graph.o
+	$(CC) $(FLAGS) -o $(OBJDIR)/graph_test $(OBJDIR)/test.o $(OBJDIR)/graph.o
 
 test.o: init test.c graph.h
-	$(CC) $(FLAGS) -c test.c -o build/test.o
+	$(CC) $(FLAGS) -c test.c -o $(OBJDIR)/test.o
 
 graph.o: init graph.c graph.h
-	$(CC) $(CFLAGS) -c graph.c -o build/graph.o
+	$(CC) $(CFLAGS) -c graph.c -o $(OBJDIR)/graph.o
 
 init: 
-	mkdir build
+	-mkdir -p $(OBJDIR)
 
 clean:
-	rm build/*.o
+	-rm -rf $(OBJDIR)
 

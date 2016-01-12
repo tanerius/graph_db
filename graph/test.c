@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "graph.h"
 
 /* Function to print the adjacency list of graph*/
@@ -18,27 +19,93 @@ void displayGraph(Graph_p graph)
         printf("NULL\n");
     }
 }
+
+typedef struct custom_payload {
+        int x;
+        bool b;
+        char c;
+    } Payload, *Payload_p;
     
 int main()
 {
-    Graph_p undir_graph = createGraph(UNDIRECTED);
-    Graph_p dir_graph = createGraph(DIRECTED);
+
+
+    Payload_p c = (Payload_p)malloc(5 * sizeof(Payload));
+
+    c[0].x=1;
+    c[0].b=true;
+    c[0].c='a';
+    c[1].x=1;
+    c[1].b=true;
+    c[1].c='a';
+    c[2].x=1;
+    c[2].b=true;
+    c[2].c='a';
+    c[3].x=1;
+    c[3].b=true;
+    c[3].c='a';
+    c[4].x=1;
+    c[4].b=true;
+    c[4].c='a';
+
     usr_ret_type result;
-    result = addEdge(undir_graph, 0, 1, NULL);
-    result = addEdge(undir_graph, 0, 4, NULL);
-    result = addEdge(undir_graph, 1, 2, NULL);
-    result = addEdge(undir_graph, 1, 3, NULL);
-    result = addEdge(undir_graph, 1, 4, NULL);
-    result = addEdge(undir_graph, 2, 3, NULL);
-    result = addEdge(undir_graph, 3, 4, NULL);
+
+    Graph_p undir_graph = createGraph(UNDIRECTED);
     
+    result = addGraphElement(undir_graph, &(c[0]));
+    assert(result == OK);
+    result = addGraphElement(undir_graph, &(c[1]));
+    assert(result == OK);
+    result = addGraphElement(undir_graph, &(c[2]));
+    assert(result == OK);
+    result = addGraphElement(undir_graph, &(c[3]));
+    assert(result == OK);
+    result = addGraphElement(undir_graph, &(c[4]));
+    assert(result == OK);
+    
+    result = addEdge(undir_graph, 0, 1, NULL);
+    assert(result == OK);
+    result = addEdge(undir_graph, 0, 4, NULL);
+    assert(result == OK);
+    result = addEdge(undir_graph, 1, 2, NULL);
+    assert(result == OK);
+    result = addEdge(undir_graph, 1, 3, NULL);
+    assert(result == OK);
+    result = addEdge(undir_graph, 1, 4, NULL);
+    assert(result == OK);
+    result = addEdge(undir_graph, 2, 3, NULL);
+    assert(result == OK);
+    result = addEdge(undir_graph, 3, 4, NULL);
+    assert(result == OK);
+    
+
+    Graph_p dir_graph = createGraph(DIRECTED);
+
+    result = addGraphElement(dir_graph, &(c[0]));
+    assert(result == OK);
+    result = addGraphElement(dir_graph, &(c[1]));
+    assert(result == OK);
+    result = addGraphElement(dir_graph, &(c[2]));
+    assert(result == OK);
+    result = addGraphElement(dir_graph, &(c[3]));
+    assert(result == OK);
+    result = addGraphElement(dir_graph, &(c[4]));
+    assert(result == OK);
+
     result = addEdge(dir_graph, 0, 1, NULL);
+    assert(result == OK);
     result = addEdge(dir_graph, 0, 4, NULL);
+    assert(result == OK);
     result = addEdge(dir_graph, 1, 2, NULL);
+    assert(result == OK);
     result = addEdge(dir_graph, 1, 3, NULL);
+    assert(result == OK);
     result = addEdge(dir_graph, 1, 4, NULL);
+    assert(result == OK);
     result = addEdge(dir_graph, 2, 3, NULL);
+    assert(result == OK);
     result = addEdge(dir_graph, 3, 4, NULL);
+    assert(result == OK);
     
     printf("\nUNDIRECTED GRAPH");
     displayGraph(undir_graph);
