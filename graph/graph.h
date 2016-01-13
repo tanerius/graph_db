@@ -22,6 +22,7 @@ typedef enum {
     C3
 } usr_edge_type;
 
+/* all the return types ever */
 typedef enum {
     OK=0,                   /* ok */
     BAD_PAYLOAD,            /* illegal payload was provided */
@@ -29,8 +30,8 @@ typedef enum {
     SRC_GONE,               /* the source element has been deleted or isnt assigned */
     DST_GONE,               /* the destination element has been deleted or isnt assigned */
     MEM_FULL,               /* memory could not be allocated */
-    NO_INDEX,                /* invalid index when referencing something with an index */
-    NO_NODE
+    NO_INDEX,               /* invalid index when referencing something with an index */
+    NO_NODE                 /* cannot allocate memory for node */
 } usr_ret_type;
 
 
