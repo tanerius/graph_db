@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <endian.h>
+// #include <endian.h>
 #include "graph.h"
 
 
@@ -103,6 +103,46 @@ usr_ret_type addGraphElement(Graph_t *graph, void *payload){
     }
     graph->arr_list[i].num_edges = 0;
     graph->arr_list[i].head = NULL;
+    
+    big_number id_hi;
+    big_number id_lo;
+    usr_ret_type get_ids = computeID(graph, &id_hi, &id_lo, true);
+
+    if(get_ids == OK){
+        graph->arr_list[i].id_hi = id_hi;
+        graph->arr_list[i].id_lo = id_lo;
+    }
+    else{
+        graph->arr_list[i].is_deleted = true;
+        graph->total_deleted = graph->total_deleted + 1;
+        graph->deleted_element = &(graph->arr_list[i]);
+    }
+
+    return get_ids;
+}
+
+/* write the next ID of the node */
+usr_ret_type computeID(Graph_t *graph, big_number *hi, big_number *lo, bool do_update){
+    // Make sure that this part is extra paranoid!
+    big_number tmp_hi = graph->id_hi;
+    big_number tmp_lo = graph->id_lo;
+    if(tmp_lo < THEORETICAL_MAX){
+        *(hi) = tmp_hi;
+        *(lo) = tmp_lo + 1;
+    }
+    else{
+        if(tmp_hi < THEORETICAL_MAX){
+            *(hi) = tmp_hi+1;
+            *(lo) = 0;
+        }
+        else{
+            return MAX_NODES;
+        }
+    }
+    if(do_update){
+        graph->id_hi = *(hi);
+        graph->id_lo = *(lo);
+    }
     return OK;
 }
 
@@ -124,6 +164,8 @@ Graph_p createGraph(usr_graph_type type){
     graph->total_deleted = 0;
     graph->next_available_id = 0;
     graph->needs_page_increase = false;
+    graph->id_hi = 0;
+    graph->id_hi = 0;
 
     for(int i = 0; i < MAX_PAGE_SIZE; i++){
         // initialize the list

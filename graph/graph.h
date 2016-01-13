@@ -8,12 +8,10 @@
 #define TRUE        1
 #define FALSE       0
 // MAX_PAGE_SIZE defines by how much should the adjacency list size grow once it reaches max size
-#define MAX_PAGE_SIZE       20
-#define VERSION_MAJOR        1
-#define VERSION_MINOR        0
-#define MAX_COUNTER         1000000 // theoretical maxumum for some stuff
-
-typedef unsigned char 
+#define MAX_PAGE_SIZE            20
+#define VERSION_MAJOR             1
+#define VERSION_MINOR             0
+#define THEORETICAL_MAX     1000000 // theoretical maxumum for some stuff
 
 
 // Main typoes of graphs. THese cannot mix
@@ -36,12 +34,13 @@ typedef enum {
     DST_GONE,               /* the destination element has been deleted or isnt assigned */
     MEM_FULL,               /* memory could not be allocated */
     NO_INDEX,               /* invalid index when referencing something with an index */
-    NO_NODE                 /* cannot allocate memory for node */
+    NO_NODE,                /* cannot allocate memory for node */
+    MAX_NODES               /* maximum elements reached - you're NUTS! */
 } usr_ret_type;
 
 
 // define the apsolute maximum number container
-typedef long big_number,*big_number_p;
+typedef unsigned long big_number,*big_number_p;
  
 /* Adjacency list node */
 typedef struct Node
@@ -63,6 +62,8 @@ typedef struct Node
 /* Adjacency list */
 typedef struct List
 {
+    big_number id_hi;                   /* hi order id */
+    big_number id_lo;                   /* low order id */
     big_number num_edges;             /* number of edges */
     big_number list_id;                 /* unique id of list - incremental*/
     void *payload;                      /* List payload */
@@ -74,6 +75,10 @@ typedef struct List
    Size of array will be number of vertices in graph*/
 typedef struct Graph
 {
+    /* last id assigned */
+    big_number id_hi;                   /* hi order id - for counting */
+    big_number id_lo;                   /* low order id - for counting */
+
     /* Define the type of graph */
     usr_graph_type type;      
     /* Number of vertices */
@@ -93,6 +98,7 @@ typedef struct Graph
 
 usr_ret_type addEdge(Graph_t*, big_number, big_number, void*);
 usr_ret_type addGraphElement(Graph_t*, void*); // payload cant be null
+usr_ret_type computeID(Graph_t*, big_number*, big_number*, bool b);
 Graph_p createGraph(usr_graph_type);
 void *createMemory(size_t);
 Node_p createNode(big_number, void*);
