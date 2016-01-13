@@ -1,6 +1,7 @@
 /*graph.c*/
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 // #include <endian.h>
 #include "graph.h"
@@ -147,7 +148,7 @@ usr_ret_type computeID(Graph_t *graph, big_number *hi, big_number *lo, const boo
 }
 
 /* Function to create a graph with n vertices; Creates both directed and undirected graphs*/
-Graph_p createGraph(const usr_graph_type type){
+Graph_p createGraph(const usr_graph_type type, const char *fn){
     // graph will create a pointer
     Graph_p graph = (Graph_p)createMemory(sizeof(Graph_t));
     if(!graph)
@@ -176,6 +177,13 @@ Graph_p createGraph(const usr_graph_type type){
         graph->arr_list[i].is_deleted = false;    // active cell
         graph->arr_list[i].head = NULL;           // This means no edges
     }
+
+    // allocate a filename 
+    graph->db_filename = (char*)createMemory(strlen(fn) + 1);
+    // add the terminator
+    memset(graph->db_filename, '\0', strlen(fn));
+    strcpy(graph->db_filename,fn);
+    
 
     return graph;
 }

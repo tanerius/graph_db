@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include "graph.h"
 
 /* Function to print the adjacency list of graph*/
@@ -52,8 +53,9 @@ int main()
 
     usr_ret_type result;
 
-    Graph_p undir_graph = createGraph(UNDIRECTED);
+    Graph_p undir_graph = createGraph(UNDIRECTED,"./default_u_db.gdb");
     assert(undir_graph != NULL);
+    printf("Graph %s created in memory",undir_graph->db_filename);
     result = addGraphElement(undir_graph, &(c[0]));
     assert(result == OK);
     result = addGraphElement(undir_graph, &(c[1]));
@@ -81,7 +83,7 @@ int main()
     assert(result == OK);
     
 
-    Graph_p dir_graph = createGraph(DIRECTED);
+    Graph_p dir_graph = createGraph(DIRECTED,"./default_d_db.gdb");
     assert(dir_graph != NULL);
     result = addGraphElement(dir_graph, &(c[0]));
     assert(result == OK);

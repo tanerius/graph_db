@@ -13,7 +13,6 @@
 #define VERSION_MINOR             0
 #define THEORETICAL_MAX     1000000 // theoretical maxumum for some stuff
 
-
 // Main typoes of graphs. THese cannot mix
 typedef enum {UNDIRECTED=0, DIRECTED} usr_graph_type;
 
@@ -82,6 +81,9 @@ typedef struct Graph
     /* for multiple threads access */
     bool is_safe_for_access;
 
+    /* filename where graph is stored for persistence */
+    char *db_filename;
+
     /* Define the type of graph */
     usr_graph_type type;      
     /* Number of vertices */
@@ -102,7 +104,7 @@ typedef struct Graph
 usr_ret_type addEdge(Graph_t*, const big_number, const big_number, void*);
 usr_ret_type addGraphElement(Graph_t*, void*); // payload cant be null
 usr_ret_type computeID(Graph_t*, big_number*, big_number*, const bool b);
-Graph_p createGraph(const usr_graph_type);
+Graph_p createGraph(const usr_graph_type, const char*);
 void *createMemory(const size_t);
 Node_p createNode(big_number, void*);
 usr_ret_type deleteGraphElement(Graph_t*, const big_number); // only flag as deleted
