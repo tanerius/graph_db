@@ -1,19 +1,24 @@
 # Declare a variable for the compliler which we are going to use
-CC=g++
+CP=g++
 # Declare another variable with the flags which we are going to use
-CFLAGS=-g -Wall -std=c++11 
+CPFLAGS=-g -Wall -std=c++11 
 
 CC=gcc
 CFLAGS=-g -Wall -std=c99
+
 OBJDIR=build
 
 default: graph_test
 
-graph_test: graph.o test.o 
-	$(CC) $(FLAGS) -o $(OBJDIR)/graph_test $(OBJDIR)/test.o $(OBJDIR)/graph.o
+graph_test: graph.o test.o graphutils.o
+	$(CP) $(CPFLAGS) -o $(OBJDIR)/graph_test $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphutils.o
 
 test.o: init test.c graph.h
-	$(CC) $(FLAGS) -c test.c -o $(OBJDIR)/test.o
+	$(CC) $(CFLAGS) -c test.c -o $(OBJDIR)/test.o
+
+# Compile the utils
+graphutils.o: init graph.o graph.h graphutils.h
+	$(CP) $(CPFLAGS) -c graphutils.h -o $(OBJDIR)/graphutils.o
 
 graph.o: init graph.c graph.h
 	$(CC) $(CFLAGS) -c graph.c -o $(OBJDIR)/graph.o
