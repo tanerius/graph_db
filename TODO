@@ -3,6 +3,7 @@
 ==============================================================================
 - Payoad object definition
 - Hashing payload types so that a payloads in a graph may not be mixed 
+- Check endinness 
 - Serialization of a particular graph (place in storage)
 - Deserialization of a graph (ability to place in memory from storage)
 - Protocol for client side interaction: create and read stuff

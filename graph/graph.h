@@ -9,6 +9,11 @@
 #define FALSE       0
 // MAX_PAGE_SIZE defines by how much should the adjacency list size grow once it reaches max size
 #define MAX_PAGE_SIZE       20
+#define VERSION_MAJOR        1
+#define VERSION_MINOR        0
+#define MAX_COUNTER         1000000 // theoretical maxumum for some stuff
+
+typedef unsigned char 
 
 
 // Main typoes of graphs. THese cannot mix
