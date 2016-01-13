@@ -79,6 +79,9 @@ typedef struct Graph
     big_number id_hi;                   /* hi order id - for counting */
     big_number id_lo;                   /* low order id - for counting */
 
+    /* for multiple threads access */
+    bool is_safe_for_access;
+
     /* Define the type of graph */
     usr_graph_type type;      
     /* Number of vertices */
@@ -96,15 +99,20 @@ typedef struct Graph
 }Graph_t, *Graph_p;
  
 
-usr_ret_type addEdge(Graph_t*, big_number, big_number, void*);
+usr_ret_type addEdge(Graph_t*, const big_number, const big_number, void*);
 usr_ret_type addGraphElement(Graph_t*, void*); // payload cant be null
-usr_ret_type computeID(Graph_t*, big_number*, big_number*, bool b);
-Graph_p createGraph(usr_graph_type);
-void *createMemory(size_t);
+usr_ret_type computeID(Graph_t*, big_number*, big_number*, const bool b);
+Graph_p createGraph(const usr_graph_type);
+void *createMemory(const size_t);
 Node_p createNode(big_number, void*);
-usr_ret_type deleteGraphElement(Graph_t*, big_number); // only flag as deleted
+usr_ret_type deleteGraphElement(Graph_t*, const big_number); // only flag as deleted
 void destroyEdges(Node_p);
 void destroyGraph(Graph_p);
+
+List_p getElementPointerByID(const Graph_p, const big_number, const big_number);
+List_p getElementPointerByIndex(const Graph_p, const big_number);
+
+
 void *resizeMemory(void*, size_t);
 
 #endif

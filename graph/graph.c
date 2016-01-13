@@ -7,7 +7,7 @@
 
 
 /* Adds an edge to a graph*/
-usr_ret_type addEdge(Graph_t *graph, big_number src, big_number dest, void *payload){
+usr_ret_type addEdge(Graph_t *graph, const big_number src, const big_number dest, void *payload){
     // check that we can do this
     if(graph->arr_list[src].is_deleted){
         // use this to our advantage to fill the cache
@@ -122,7 +122,7 @@ usr_ret_type addGraphElement(Graph_t *graph, void *payload){
 }
 
 /* write the next ID of the node */
-usr_ret_type computeID(Graph_t *graph, big_number *hi, big_number *lo, bool do_update){
+usr_ret_type computeID(Graph_t *graph, big_number *hi, big_number *lo, const bool do_update){
     // Make sure that this part is extra paranoid!
     big_number tmp_hi = graph->id_hi;
     big_number tmp_lo = graph->id_lo;
@@ -147,7 +147,7 @@ usr_ret_type computeID(Graph_t *graph, big_number *hi, big_number *lo, bool do_u
 }
 
 /* Function to create a graph with n vertices; Creates both directed and undirected graphs*/
-Graph_p createGraph(usr_graph_type type){
+Graph_p createGraph(const usr_graph_type type){
     // graph will create a pointer
     Graph_p graph = (Graph_p)createMemory(sizeof(Graph_t));
     if(!graph)
@@ -160,6 +160,7 @@ Graph_p createGraph(usr_graph_type type){
         free(graph);
         return NULL;
     }
+    graph->type = type;
     graph->deleted_element = NULL;
     graph->total_deleted = 0;
     graph->next_available_id = 0;
@@ -189,7 +190,7 @@ usr_ret_type createGraphPage(Graph_t *graph){
     return OK;
 }
 
-void *createMemory(size_t size){
+void *createMemory(const size_t size){
     // Just in case we will one day override malloc
     return malloc(size);
 }
@@ -211,7 +212,7 @@ Node_p createNode(big_number vertex_id, void *p){
 }
 
 /* Leletes elements from the list */
-usr_ret_type deleteGraphElement(Graph_t *graph, big_number element_index){
+usr_ret_type deleteGraphElement(Graph_t *graph, const big_number element_index){
     if(element_index >= graph->num_vertices)
         return NO_INDEX;
     graph->arr_list[element_index].is_deleted = true;
@@ -250,6 +251,22 @@ void destroyGraph(Graph_p graph){
         /*Free the graph*/
         free(graph);
     }
+}
+
+/* get an element/node of the graph given its id offset and position */
+List_p getElementPointerByID(const Graph_p graph, const big_number hi, const big_number lo){
+    return NULL;
+}
+
+/* Return a pointer to an element/node of the graph */
+List_p getElementPointerByIndex(const Graph_p graph, const big_number index){
+    if(index < graph->num_vertices){
+        return &(graph->arr_list[index]);
+    }
+    else{
+        return NULL;
+    }
+    
 }
 
 /* function used to realloc memory - in case we decide to reqrite that one day */
