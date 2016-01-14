@@ -1,25 +1,18 @@
 /*graph.h*/
-#ifndef _PRIMITIVES_H_
-#include "primitives.h"
-#endif
+#ifndef _GRAPHUTILS_H_
+#define _GRAPHUTILS_H_
+
 #ifndef _GRAPH_H_
 #include "graph.h"
 #endif
-#include <stdio.h>
-#include <pthread.h>
-#include <vector>
 
-
-#ifndef _SERIALIZER_H_
-#define _SERIALIZER_H_
+#include <unistd.h>     /*!< For to be able to use access() THIS IS UNIX ONLY */
 
 /*! 
     Serializer class is responsible for reading and writing 
 */
 class CSerializer {
     public:
-        
-
         CSerializer();
         CSerializer(Graph_p g);
         ~CSerializer();

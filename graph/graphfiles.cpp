@@ -1,15 +1,5 @@
-/*serializer.cpp*/
-#ifndef _PRIMITIVES_H_
-#include "primitives.h"
-#endif
-#ifndef _GRAPH_H_
-#include "graph.h"
-#endif
-
-#include <pthread.h>
-#include <vector>
-#include <unistd.h> /* This is for file access() */
-#include "serializer.h"
+/*graphfiles.cpp*/
+#include "graphfiles.h"
 
 CSerializer::CSerializer(){
     the_graph = NULL;
@@ -65,7 +55,7 @@ void* CSerializer::createDb(){
     fwrite(&total_bytes, sizeof(Gdb_N_t), 1, p_db_file); // write the size even if its 0 so we can wnow it
 
     // write all vertexes now
-    for(int x=0; x < the_graph->num_vertices; x++){
+    for(Gdb_N_t x=0; x < the_graph->num_vertices; x++){
         List_p one_node =  &(the_graph->arr_list[x]);
         fwrite(&(one_node->id_hi), sizeof(Gdb_N_t), 1, p_db_file);
         fwrite(&(one_node->id_lo), sizeof(Gdb_N_t), 1, p_db_file);

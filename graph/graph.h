@@ -5,13 +5,11 @@
 #ifndef _PRIMITIVES_H_
 #include "primitives.h"
 #endif
+#include <cstdlib>          /*!<  malloc,calloc and free */
+#include <cstring>          /*!<  strlen, strcpy and memset */
+#include <cstdio>           /*!<  FILE stuff, printf and so much more */
+#include <pthread.h>        /*!<  For threadding (duh!) POSIX so we be compatible */
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-#include <pthread.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 
 /*! 
@@ -76,9 +74,7 @@ typedef struct Graph
 }Graph_t, *Graph_p;
  
 
-pthread_mutex_t edge_mutex;     /*!< A mutex for edges */
-pthread_mutex_t node_mutex;     /*!< Vertex mutex */
-pthread_mutex_t graph_mutex;    /*!< Mutex for ne daj baze */
+
 
 
 Gdb_ret_t addEdge(Graph_t*, const Gdb_N_t, const Gdb_N_t, Gdb_Payload_p);

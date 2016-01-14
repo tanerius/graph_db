@@ -1,28 +1,29 @@
 /*graph.c*/
-
 #ifndef _PRIMITIVES_H_
 #include "primitives.h"
 #endif
 
 #include "graph.h"
 
-
+pthread_mutex_t edge_mutex;     /*!< A mutex for edges */
+pthread_mutex_t node_mutex;     /*!< Vertex mutex */
+pthread_mutex_t graph_mutex;    /*!< Mutex for ne daj baze */
 
 /* Adds an edge to a graph*/
-Gdb_ret_t addEdge(Graph_t *graph, const Gdb_N_t src, const Gdb_N_t dest, Gdb_Payload_p payload){
+Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_Payload_p payload){
     // check that we can do this
-    if(graph->arr_list[src].is_deleted){
+    if(graph_p->arr_list[src].is_deleted){
         // use this to our advantage to fill the cache
-        graph->deleted_element = &(graph->arr_list[src]);
+        graph_p->deleted_element = &(graph_p->arr_list[src]);
         return SRC_GONE;
     }
-    if(graph->arr_list[src].payload == NULL)
+    if(graph_p->arr_list[src].payload == NULL)
         return SRC_GONE;
-    if(graph->arr_list[dest].is_deleted){
-        graph->deleted_element = &(graph->arr_list[dest]);
+    if(graph_p->arr_list[dest].is_deleted){
+        graph_p->deleted_element = &(graph_p->arr_list[dest]);
         return DST_GONE;
     }
-    if(graph->arr_list[dest].payload == NULL)
+    if(graph_p->arr_list[dest].payload == NULL)
         return DST_GONE;
 
     // LOCK
@@ -34,20 +35,20 @@ Gdb_ret_t addEdge(Graph_t *graph, const Gdb_N_t src, const Gdb_N_t dest, Gdb_Pay
         pthread_mutex_unlock(&edge_mutex);
         return NO_NODE;
     }
-    newNode->next = graph->arr_list[src].head;
-    graph->arr_list[src].head = newNode;
-    graph->arr_list[src].num_edges++;
+    newNode->next = graph_p->arr_list[src].head;
+    graph_p->arr_list[src].head = newNode;
+    graph_p->arr_list[src].num_edges++;
 
-    if(graph->type == UNDIRECTED){
+    if(graph_p->type == UNDIRECTED){
         /* Add an edge from dest to src also*/
         newNode = createNode(src,payload);
         if (!newNode){
             pthread_mutex_unlock(&edge_mutex);
             return NO_NODE;
         }
-        newNode->next = graph->arr_list[dest].head;
-        graph->arr_list[dest].head = newNode;
-        graph->arr_list[dest].num_edges++;
+        newNode->next = graph_p->arr_list[dest].head;
+        graph_p->arr_list[dest].head = newNode;
+        graph_p->arr_list[dest].num_edges++;
     }
     pthread_mutex_unlock(&edge_mutex);
     return OK;
@@ -334,7 +335,7 @@ Gdb_Nothing_t destroyEdges(Node_p n){
 Gdb_Nothing_t destroyGraph(Graph_p graph){
     if(graph){
         if(graph->arr_list){
-            int v;
+            Gdb_N_t v;
             /*Free up the nodes*/
             for (v = 0; v < graph->num_vertices; v++){
                 destroyEdges(graph->arr_list[v].head);

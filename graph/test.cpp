@@ -1,21 +1,18 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <assert.h>
-#include <string.h>
 #include "graph.h"
+#include "graphfiles.h"
 
 /* Function to print the adjacency list of graph*/
 void displayGraph(Graph_p graph)
 {
-    int i;
+    Gdb_N_t i;
     for (i = 0; i < graph->num_vertices; i++)
     {
         Node_p node_ptr = graph->arr_list[i].head;
-        printf("\n%d: ", i);
+        printf("\n%d: ", (int)i);
         while (node_ptr)
         {
-            printf("%d->", node_ptr->vertex);
+            printf("%d->", (int)node_ptr->vertex); // bad idea to cast but only for testing to prevent warnings
             node_ptr = node_ptr->next;
         }
         printf("NULL\n");
