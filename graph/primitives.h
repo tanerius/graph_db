@@ -11,6 +11,8 @@
 #define VERSION_MAJOR             1     /*!< Major version */
 #define VERSION_MINOR             0     /*!< Minor version */
 #define THEORETICAL_MAX     1000000     /*!< Maximums used in generating IDs for nodes */
+ 
+
 
 /*! 
     Formerly usr_graph_type
