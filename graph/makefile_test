@@ -4,27 +4,28 @@ CP=g++
 CPFLAGS=-g -Wall -std=c++11 
 
 CC=gcc
-CFLAGS=-g -Wall -std=c99
+CFLAGS=-g -Wall -std=c99 -pthread 
 
 OBJDIR=build
 
 default: graph_test
 
-graph_test: graph.o test.o graphutils.o
-	$(CP) $(CPFLAGS) -o $(OBJDIR)/graph_test $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphutils.o
+graph_test: graph.o serializer.o test.o
+	$(CP) $(CPFLAGS) -o $(OBJDIR)/graph_test $(OBJDIR)/test.o $(OBJDIR)/serializer.o $(OBJDIR)/graph.o 
 
-test.o: init test.c graph.h
+test.o: init primitives.h graphutils.h test.c graph.h
 	$(CC) $(CFLAGS) -c test.c -o $(OBJDIR)/test.o
 
-# Compile the utils
-graphutils.o: init graph.o graph.h graphutils.h
-	$(CP) $(CPFLAGS) -c graphutils.h -o $(OBJDIR)/graphutils.o
+serializer.o: init primitives.h graph.c serializer.h
+	$(CP) $(CPFLAGS) -c serializer.cpp -o $(OBJDIR)/serializer.o
 
-graph.o: init graph.c graph.h
+graph.o: init primitives.h graphutils.h graph.c graph.h
 	$(CC) $(CFLAGS) -c graph.c -o $(OBJDIR)/graph.o
+
 
 init: 
 	- mkdir -p $(OBJDIR)
+
 
 clean:
 	- rm -rf $(OBJDIR)

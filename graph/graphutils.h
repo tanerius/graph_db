@@ -1,33 +1,37 @@
 /*graphutils.h*/
-#ifndef _GRAPH_H_
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "graph.h"
+#ifndef _PRIMITIVES_H_
+#include "primitives.h"
 #endif
 
 #ifndef _GRAPHUTILS_H_
 #define _GRAPHUTILS_H_
 #include <iostream>
 #include <thread>
-#include <thread>
 #include <vector>
- /* Utility stuff which are needed especially for threadding */
+#include <mutex>
 
-// Our very own counter
+/**
+ * Utility stuff which are needed especially for threadding.
+ * 
+ */
+
+/*! 
+    Our very own counter
+*/
 struct Counter {
-    big_number value;
-    Counter() : value(0) {} // ctor
+    Gdb_N_t value;
+
+    Counter() : value(0) {} 
     void increment() { ++value; }
 
     void decrement(){
-        // dtor
         if(value > 0){ --value; }
     }
 };
 
-/* Our very own counter that is thread safe */
+/*! 
+    Our very own counter that is thread safe
+*/
 struct ConcurrentSafeCounter {
     std::mutex mutex;
     Counter counter;

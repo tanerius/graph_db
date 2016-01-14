@@ -1,97 +1,72 @@
 /*graph.h*/
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
- 
-/* 
-    Define useful stuff.
+
+#ifndef _PRIMITIVES_H_
+#include "primitives.h"
+#endif
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+
+/*! 
+    Adjacency list node representation
 */
-#define TRUE        1
-#define FALSE       0
-// MAX_PAGE_SIZE defines by how much should the adjacency list size grow once it reaches max size
-#define MAX_PAGE_SIZE            20
-#define VERSION_MAJOR             1
-#define VERSION_MINOR             0
-#define THEORETICAL_MAX     1000000 // theoretical maxumum for some stuff
-
-// Main typoes of graphs. THese cannot mix
-typedef enum {UNDIRECTED=0, DIRECTED} usr_graph_type;
-
-typedef enum {
-    HAS=0,
-    IS,
-    C1,
-    C2,
-    C3
-} usr_edge_type;
-
-/* all the return types ever */
-typedef enum {
-    OK=0,                   /* ok */
-    BAD_PAYLOAD,            /* illegal payload was provided */
-    PAGE_FULL,              /* the adjacency array is full realloc it */
-    SRC_GONE,               /* the source element has been deleted or isnt assigned */
-    DST_GONE,               /* the destination element has been deleted or isnt assigned */
-    MEM_FULL,               /* memory could not be allocated */
-    NO_INDEX,               /* invalid index when referencing something with an index */
-    NO_NODE,                /* cannot allocate memory for node */
-    MAX_NODES               /* maximum elements reached - you're NUTS! */
-} usr_ret_type;
-
-
-// define the apsolute maximum number container
-typedef unsigned long big_number,*big_number_p;
- 
-/* Adjacency list node */
 typedef struct Node
 {
     /*
         The id of the vertex that this edge is pointing to.
     */
-    big_number vertex;
-    usr_edge_type type;
-    /* 
-        WARNING:
-        payload MUST be destroyed by caller!!!!
-    */
-    void *payload;
-    /*Pointer to the next node*/
-    struct Node *next; 
+    Gdb_N_t vertex;         /*!<  index of the vertex being pointed at */
+    Gdb_edge_t type;        /*!< Type of edge */
+    Gdb_Payload_p payload;  /*!< Generic payload */
+    struct Node *next;      /*!< Pointer to the next node */
 }Node_t, *Node_p;
  
-/* Adjacency list */
+/*! 
+    Adjacency list - This is actually a representation of a vertex
+*/
 typedef struct List
 {
-    big_number id_hi;                   /* hi order id */
-    big_number id_lo;                   /* low order id */
-    big_number num_edges;             /* number of edges */
-    big_number list_id;                 /* unique id of list - incremental*/
-    void *payload;                      /* List payload */
+    Gdb_N_t id_hi;                   /* hi order id */
+    Gdb_N_t id_lo;                   /* low order id */
+    Gdb_N_t num_edges;             /* number of edges */
+    Gdb_N_t list_id;                 /* unique id of list - incremental*/
+    Gdb_Payload_p payload;           /* List payload */
     bool is_deleted;                     /* should be purged on garbage collection */
     Node_t *head;                       /*head of the adjacency linked list is the actual element */
 }List_t, *List_p;
  
-/* Graph structure. A graph is an array of adjacency lists.
-   Size of array will be number of vertices in graph*/
+/*! 
+    This is the main graph structure
+*/
 typedef struct Graph
 {
     /* last id assigned */
-    big_number id_hi;                   /* hi order id - for counting */
-    big_number id_lo;                   /* low order id - for counting */
+    Gdb_N_t id_hi;                   /* hi order id - for counting */
+    Gdb_N_t id_lo;                   /* low order id - for counting */
 
     /* for multiple threads access */
     bool is_safe_for_access;
+    bool is_all_locked;
+
 
     /* filename where graph is stored for persistence */
     char *db_filename;
 
     /* Define the type of graph */
-    usr_graph_type type;      
+    Gdb_graph_t type;      
     /* Number of vertices */
-    big_number num_vertices;
+    Gdb_N_t num_vertices;
     /* Total number of deleted elements */
-    big_number total_deleted;
+    Gdb_N_t total_deleted;
     // next free id to allocate with an element
-    big_number next_available_id;
+    Gdb_N_t next_available_id;
     /* Pointer to a deleted element in adjacency list (caching optimization) */
     List_p deleted_element;
     /* Array of adjacency lists */
@@ -101,19 +76,27 @@ typedef struct Graph
 }Graph_t, *Graph_p;
  
 
-usr_ret_type addEdge(Graph_t*, const big_number, const big_number, void*);
-usr_ret_type addGraphElement(Graph_t*, void*); // payload cant be null
-usr_ret_type computeID(Graph_t*, big_number*, big_number*, const bool b);
-Graph_p createGraph(const usr_graph_type, const char*);
+pthread_mutex_t edge_mutex;     /*!< A mutex for edges */
+pthread_mutex_t node_mutex;     /*!< Vertex mutex */
+pthread_mutex_t graph_mutex;    /*!< Mutex for ne daj baze */
+
+
+Gdb_ret_t addEdge(Graph_t*, const Gdb_N_t, const Gdb_N_t, Gdb_Payload_p);
+Gdb_ret_t addGraphElement(Graph_t*, Gdb_Payload_p); // payload cant be null
+Gdb_ret_t allMutexesLock();
+Gdb_ret_t allMutexesUnLock();
+Gdb_ret_t computeID(Graph_t*, Gdb_N_t*, Gdb_N_t*, const bool b);
+Graph_p createGraph(const Gdb_graph_t, const char*);
 void *createMemory(const size_t);
-Node_p createNode(big_number, void*);
-usr_ret_type deleteGraphElement(Graph_t*, const big_number); // only flag as deleted
-void destroyEdges(Node_p);
-void destroyGraph(Graph_p);
+Node_p createNode(Gdb_N_t, void*);
+Gdb_ret_t deleteGraphElement(Graph_t*, const Gdb_N_t); // only flag as deleted
+Gdb_Nothing_t destroyEdges(Node_p);
+Gdb_Nothing_t destroyGraph(Graph_p);
 
-List_p getElementPointerByID(const Graph_p, const big_number, const big_number);
-List_p getElementPointerByIndex(const Graph_p, const big_number);
+List_p getElementPointerByID(const Graph_p, const Gdb_N_t, const Gdb_N_t);
+List_p getElementPointerByIndex(const Graph_p, const Gdb_N_t);
 
+Gdb_ret_t initMutexes();
 
 void *resizeMemory(void*, size_t);
 

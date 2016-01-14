@@ -51,7 +51,7 @@ int main()
     c[4].b=true;
     c[4].c='a';
 
-    usr_ret_type result;
+    Gdb_ret_t result;
 
     Graph_p undir_graph = createGraph(UNDIRECTED,"./default_u_db.gdb");
     assert(undir_graph != NULL);
