@@ -6,7 +6,7 @@
 #include "graph.h"
 #endif
 
-#include <thread>
+#include <pthread.h>
 #include <vector>
 #include <unistd.h> /* This is for file access() */
 #include "serializer.h"
@@ -15,24 +15,42 @@ CSerializer::CSerializer(){
     the_graph = NULL;
     p_db_file = NULL;
     is_initialized = false;
+    is_mutex_ok = true;
+    create_status = PROC_IDLE;
 }
 
 CSerializer::CSerializer(Graph_p g){
     the_graph = g;
     p_db_file = NULL;
     is_initialized = false;
+    is_mutex_ok = true;
+    create_status = PROC_IDLE;
 }
 
-const Gdb_ret_t CSerializer::create_db(){
+CSerializer::~CSerializer(){
+    pthread_mutex_destroy(&mutex_db);
+    pthread_mutex_destroy(&mutex_edge);
+}
+
+void* CSerializer::createDb(){
+    if(create_status != PROC_IDLE) return NULL;
+    // paranoid
+    pthread_mutex_lock(&mutex_db);
+    create_status = PROC_RUNNING;
     // create and open a file for writing binary stream
     p_db_file = fopen(the_graph->db_filename, "wb");
     // calculate sizes here and send a bytestream to file
-    if (!p_db_file) return FILE_I_ERROR; // exit file operations something went wrong
+    if (!p_db_file) {
+        create_status = FILE_ERROR;
+        pthread_mutex_unlock(&mutex_db);
+        return NULL; // exit file operations something went wrong
+    }
     // write the current graph structure first - start by writing the total bytes required
     // We do this so we can later check if we read the file correctly
     Gdb_N_t total_bytes = 6 * sizeof(Gdb_N_t); /* for all natural numbers in graph struct + this */
     total_bytes = 6 * sizeof(Gdb_N_t); /* for all natural numbers in graph struct + this */
     total_bytes += sizeof(Gdb_graph_t); /* for the graph type */
+
     fwrite(&total_bytes, sizeof(Gdb_N_t), 1, p_db_file); 
     fwrite(&(the_graph->id_hi), sizeof(Gdb_N_t), 1, p_db_file); 
     fwrite(&(the_graph->id_lo), sizeof(Gdb_N_t), 1, p_db_file); 
@@ -45,6 +63,7 @@ const Gdb_ret_t CSerializer::create_db(){
     // always start with the size
     total_bytes = the_graph->num_vertices * ((5 * sizeof(Gdb_N_t)) + sizeof(bool)); // include this variable too
     fwrite(&total_bytes, sizeof(Gdb_N_t), 1, p_db_file); // write the size even if its 0 so we can wnow it
+
     // write all vertexes now
     for(int x=0; x < the_graph->num_vertices; x++){
         List_p one_node =  &(the_graph->arr_list[x]);
@@ -57,27 +76,51 @@ const Gdb_ret_t CSerializer::create_db(){
 
 
     fclose(p_db_file);
-    return OK;
+    create_status = PROC_OK;
+    pthread_mutex_unlock(&mutex_db);
+    return NULL;
 }
 
-const Gdb_ret_t CSerializer::initialize(){
+Gdb_ret_t CSerializer::initialize(){
+    int s;
     if(!is_valid()) return INVALID_SERIAL;
+    Gdb_ret_t ret = initializeMutexes();
+    if(!(ret == OK)) return ret;
+
     // go to paraniod mode with the mutex
-    std::lock_guard<std::mutex> guard(mutex);
     if( access( the_graph->db_filename, F_OK ) != -1 ) {
         // file exists - means we should read it
-        return read_db();
-    } else {
+        return OK;
+    } 
+    else {
         // file doesn't exist - means we should create it
-        return create_db();
+        // start the creation threads
+        s = pthread_create(&db_writer_t, 0, CSerializer::createDbThread, this);
+        if (s != 0)
+            return TH_C_ERROR;
+        pthread_join(db_writer_t, NULL);
+        return OK;
     } 
     
 }
 
-const Gdb_ret_t CSerializer::read_db(){
+Gdb_ret_t CSerializer::initializeMutexes(){
+    if (pthread_mutex_init(&mutex_db, NULL) != 0)
+    {
+        return LOCK_ERR;
+    }
+    if (pthread_mutex_init(&mutex_edge, NULL) != 0)
+    {
+        return LOCK_ERR;
+    }
+    
+    return OK;
+}
+
+Gdb_ret_t CSerializer::readDb(){
     return FILE_O_ERROR;
 }
 
 inline bool CSerializer::is_valid(){
-    return (the_graph != NULL);
+    return ((the_graph != NULL) && is_mutex_ok) ;
 }
