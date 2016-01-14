@@ -20,6 +20,7 @@ class CSerializer {
     public:
         std::mutex mutex; /*!< Mutex to make sure that only one thread at a time can have access to this */
 
+        CSerializer();
         CSerializer(Graph_p g);
         const Gdb_ret_t create_db();
         const Gdb_ret_t initialize();

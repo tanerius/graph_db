@@ -11,8 +11,13 @@
 #include <unistd.h> /* This is for file access() */
 #include "serializer.h"
 
+CSerializer::CSerializer(){
+    the_graph = NULL;
+    p_db_file = NULL;
+    is_initialized = false;
+}
 
-CSerializer::CSerializer(Graph_p g = NULL){
+CSerializer::CSerializer(Graph_p g){
     the_graph = g;
     p_db_file = NULL;
     is_initialized = false;
