@@ -1,7 +1,7 @@
 # Declare a variable for the compliler which we are going to use
 CP=g++
 # Declare another variable with the flags which we are going to use
-CPFLAGS=-g -Wall -std=c++11 
+CPFLAGS=-g -Wall -std=c++11 -pthread 
 
 CC=gcc
 CFLAGS=-g -Wall -std=c99 -pthread 

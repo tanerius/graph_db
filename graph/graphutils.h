@@ -6,9 +6,9 @@
 #ifndef _GRAPHUTILS_H_
 #define _GRAPHUTILS_H_
 #include <iostream>
-#include <thread>
+#include <pthread.h>
 #include <vector>
-#include <mutex>
+
 
 /**
  * Utility stuff which are needed especially for threadding.

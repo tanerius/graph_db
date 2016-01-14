@@ -48,7 +48,13 @@ typedef enum {
     INVALID_SERIAL,         /* The serializer is not in proper state */
     FILE_I_ERROR,           /* There was an error trying to write the file  */
     FILE_O_ERROR,           /* There was an error trying to read the file  */
-    LOCK_ERR                /* Mutexes failed!!! VERY VERY BAD  */
+    FILE_ERROR,             /* There was an error trying to open the file  */
+    LOCK_ERR,               /* Mutexes failed!!! VERY VERY BAD  */
+    PROC_IDLE,              /* Thread/process control. Process is idle.  */
+    PROC_OK,                /* Thread/process control. Process finished ok.  */
+    PROC_RUNNING,           /* Thread/process control. Process running.  */
+    TH_C_ERROR              /* Cannot create a thread.  */
+
 } Gdb_ret_t;
 
 /*! 
