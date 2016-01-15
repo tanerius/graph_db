@@ -21,6 +21,7 @@ typedef struct Node
     Gdb_N_t vertex;         /*!<  index of the vertex being pointed at */
     Gdb_hr_t type;          /*!< Type of edge */
     struct Node *next;      /*!< Pointer to the next node */
+    struct Node *prev;      /*!< Pointer to the prev node in order to enable B-Tree */    
 }Node_t, *Node_p;
  
 /*! 
@@ -56,6 +57,8 @@ typedef struct Graph
 
     /* Define the type of graph */
     Gdb_graph_t type;      
+    /* Define the type of sorting used for the edges */
+    Gdb_edge_sort_t edge_type;
     /* Number of vertices */
     Gdb_N_t num_vertices;
     /* Total number of deleted elements */
@@ -71,6 +74,7 @@ typedef struct Graph
 }Graph_t, *Graph_p;
  
 Gdb_ret_t addEdge(Graph_t*, const Gdb_N_t, const Gdb_N_t, Gdb_hr_t);
+void addEdgeInPosition(Node_t*,Gdb_N_t);
 Gdb_ret_t addGraphElement(Graph_t*, Gdb_hr_t); 
 Gdb_ret_t allMutexesLock();
 Gdb_ret_t allMutexesUnLock();

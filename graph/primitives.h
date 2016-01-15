@@ -23,13 +23,24 @@ typedef enum {
     DIRECTED
 } Gdb_graph_t;
 
-
+/*! 
+    This enum type is used to determine the status of a node
+*/
 typedef enum {
     NEW=0, 
     ALLOCATED,
     DELETED,
     RECLAIMED
 } Gdb_node_status_t;
+
+/*! 
+    This enum type is used to define the default edge type
+*/
+typedef enum {
+    ULL=0,                  /* Unsorted linked list - fastest insertion slow read */
+    SLL,                    /* Sorted linked list - probably useless but ok to have*/
+    BST                     /* Balanced search tree - default fastest read O(log n) insertion */
+} Gdb_edge_sort_t;
 
 /*! 
     Formerly usr_edge_type

@@ -21,6 +21,12 @@ void displayGraph(Graph_p graph)
     }
 }
 
+void displayEdgeInfo(Node_p node_ptr){
+    printf("\nNode(): ");
+    printf("\n   To Vertex: %d",(int)node_ptr->vertex);
+    printf("\n   Type: %d\n",(int)node_ptr->type);
+}
+
 typedef struct custom_payload {
         int x;
         bool b;
@@ -118,6 +124,13 @@ int main()
     test_addEdge(undir_graph, 10, 0, 5);
     test_addEdge(undir_graph, 11, 0, 5);
     test_addEdge(undir_graph, 12, 0, 5);
+
+    //get edges of Node(0)
+    Node_p n0 = undir_graph->arr_list[0].head;
+    displayEdgeInfo(n0);
+    // move forward 2 elements
+    n0 = n0+(2* sizeof(Node_t));
+    displayEdgeInfo(n0);
     
     
 /*
