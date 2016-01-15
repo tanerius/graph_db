@@ -289,7 +289,7 @@ Graph_p createGraph(const Gdb_graph_t type, const char *fn){
     graph->needs_page_increase = false;
     graph->id_hi = 0;
     graph->id_lo = 0;
-    graph->edhe_type = BST;
+    graph->edge_type = BST;
 
     pthread_mutex_lock(&node_mutex);
     for(int i = 0; i < MAX_PAGE_SIZE; i++){
