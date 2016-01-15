@@ -23,12 +23,20 @@ typedef enum {
     DIRECTED
 } Gdb_graph_t;
 
+
+typedef enum {
+    NEW=0, 
+    ALLOCATED,
+    DELETED,
+    RECLAIMED
+} Gdb_node_status_t;
+
 /*! 
     Formerly usr_edge_type
-    This enum type is used to determine the type of the graph.
+    This type is used to determine an index for the type of entity.
     Int will then be mapped to human readable stuff.
 */
-typedef int Gdb_edge_t;
+typedef int Gdb_hr_t;
 
 /*! 
     Formerly usr_ret_type

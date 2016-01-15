@@ -10,27 +10,23 @@ pthread_mutex_t node_mutex;     /*!< Vertex mutex */
 pthread_mutex_t graph_mutex;    /*!< Mutex for ne daj baze */
 
 /* Adds an edge to a graph*/
-Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_Payload_p payload){
+Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_hr_t el_type){
     // check that we can do this
-    if(graph_p->arr_list[src].is_deleted){
+    if(graph_p->arr_list[src].vertex_status != ALLOCATED){
         // use this to our advantage to fill the cache
         graph_p->deleted_element = &(graph_p->arr_list[src]);
         return SRC_GONE;
     }
-    if(graph_p->arr_list[src].payload == NULL)
-        return SRC_GONE;
-    if(graph_p->arr_list[dest].is_deleted){
+    if(graph_p->arr_list[dest].vertex_status != ALLOCATED){
         graph_p->deleted_element = &(graph_p->arr_list[dest]);
         return DST_GONE;
     }
-    if(graph_p->arr_list[dest].payload == NULL)
-        return DST_GONE;
 
     // LOCK
     pthread_mutex_lock(&edge_mutex);
 
     /* Add an edge from src to dst in the adjacency list*/
-    Node_p newNode = createNode(dest,payload);
+    Node_p newNode = createNode(dest,el_type);
     if (!newNode){
         pthread_mutex_unlock(&edge_mutex);
         return NO_NODE;
@@ -41,7 +37,7 @@ Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_P
 
     if(graph_p->type == UNDIRECTED){
         /* Add an edge from dest to src also*/
-        newNode = createNode(src,payload);
+        newNode = createNode(src,el_type);
         if (!newNode){
             pthread_mutex_unlock(&edge_mutex);
             return NO_NODE;
@@ -54,11 +50,7 @@ Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_P
     return OK;
 }
 
-Gdb_ret_t addGraphElement(Graph_t *graph, Gdb_Payload_p payload){
-    // here payload must be valid
-    if(payload == NULL){
-        return BAD_PAYLOAD;
-    }
+Gdb_ret_t addGraphElement(Graph_t *graph, Gdb_hr_t el_type){
     // This will hold the index of the referenced allocation space
     Gdb_N_t i;
     // check next available id
@@ -68,9 +60,9 @@ Gdb_ret_t addGraphElement(Graph_t *graph, Gdb_Payload_p payload){
         i = graph->next_available_id;
         graph->next_available_id = graph->next_available_id + 1;
         // first check to make sure element isnt deleted
-        if(graph->arr_list[i].is_deleted){
+        if(graph->arr_list[i].vertex_status == DELETED){
             // this is a deleted vertex - reclaim its space
-            graph->arr_list[i].is_deleted = false;
+            graph->arr_list[i].vertex_status = RECLAIMED;
             graph->total_deleted = graph->total_deleted - 1;
             if(&(graph->arr_list[i]) == graph->deleted_element){
                 // if this is the referenced deleted element then clear the reference
@@ -106,7 +98,8 @@ Gdb_ret_t addGraphElement(Graph_t *graph, Gdb_Payload_p payload){
     }
 
     // DO ACTUAL ALLOCATION
-    graph->arr_list[i].payload = payload;
+    graph->arr_list[i].vertex_status = ALLOCATED;
+    graph->arr_list[i].type = el_type; // assign it e generic type for indexing
     // clean memory for number of edges
     if(graph->arr_list[i].num_edges > 0){
         pthread_mutex_lock(&edge_mutex);
@@ -127,7 +120,7 @@ Gdb_ret_t addGraphElement(Graph_t *graph, Gdb_Payload_p payload){
         graph->arr_list[i].id_lo = id_lo;
     }
     else{
-        graph->arr_list[i].is_deleted = true;
+        graph->arr_list[i].vertex_status = DELETED;
         graph->total_deleted = graph->total_deleted + 1;
         graph->deleted_element = &(graph->arr_list[i]);
     }
@@ -226,7 +219,7 @@ Graph_p createGraph(const Gdb_graph_t type, const char *fn){
     graph->type = type;
     graph->arr_list = (List_p)createMemory(MAX_PAGE_SIZE * sizeof(List_t));
     if(!graph->arr_list){
-        free(graph);
+        releaseMemory(graph);
         pthread_mutex_unlock(&graph_mutex);
         return NULL;
     }
@@ -242,9 +235,8 @@ Graph_p createGraph(const Gdb_graph_t type, const char *fn){
     for(int i = 0; i < MAX_PAGE_SIZE; i++){
         // initialize the list
         graph->arr_list[i].num_edges = 0;
-        graph->arr_list[i].payload = NULL;        // We check this to see if we can allocate this element
         graph->arr_list[i].list_id = i;           // give it an id
-        graph->arr_list[i].is_deleted = false;    // active cell
+        graph->arr_list[i].vertex_status = NEW;   // active cell
         graph->arr_list[i].head = NULL;           // This means no edges
     }
     pthread_mutex_unlock(&node_mutex);
@@ -286,7 +278,7 @@ void *createMemory(const size_t size){
 
 /* Function to create an adjacency list node*/
 // NEVER CALL DIRECTLY OUTSIDE THIS FILE - IT IS NOT THREAD-SAFE ON ITS OWN!!!
-Node_p createNode(Gdb_N_t vertex_id, void *p){
+Node_p createNode(Gdb_N_t vertex_id, Gdb_hr_t el_type){
     // newNode is a pointer
     Node_p new_node = (Node_p)createMemory(sizeof(Node_t));
     if(!new_node){
@@ -295,8 +287,7 @@ Node_p createNode(Gdb_N_t vertex_id, void *p){
     // goes to which vertex (index)?
     new_node->vertex = vertex_id;
     new_node->next = NULL;
-    new_node->payload = p;
-    new_node->type = 0; // generic type
+    new_node->type = el_type; // generic type
 
     return new_node;
 }
@@ -306,7 +297,7 @@ Gdb_ret_t deleteGraphElement(Graph_t *graph, const Gdb_N_t element_index){
     if(element_index >= graph->num_vertices)
         return NO_INDEX;
     pthread_mutex_lock(&node_mutex);
-    graph->arr_list[element_index].is_deleted = true;
+    graph->arr_list[element_index].vertex_status = DELETED;
     if(graph->arr_list[element_index].num_edges > 0){
         pthread_mutex_lock(&edge_mutex);
         for(Gdb_N_t j = 0; j < graph->arr_list[element_index].num_edges; j++){
@@ -325,9 +316,7 @@ Gdb_Nothing_t destroyEdges(Node_p n){
     while (node_ptr){
         Node_p tmp = node_ptr;
         node_ptr = node_ptr->next;
-        // just to be safe - payload MUST be taken care of by caller!!!
-        tmp->payload = NULL;
-        free(tmp);
+        releaseMemory(tmp);
     }
 }
 
@@ -341,10 +330,10 @@ Gdb_Nothing_t destroyGraph(Graph_p graph){
                 destroyEdges(graph->arr_list[v].head);
             }
             /*Free the adjacency list array*/
-            free(graph->arr_list);
+            releaseMemory(graph->arr_list);
         }
         /*Free the graph*/
-        free(graph);
+        releaseMemory(graph);
     }
 }
 
@@ -378,6 +367,11 @@ Gdb_ret_t initMutexes(){
         return LOCK_ERR;
     }
     return OK;
+}
+
+/* free memory */
+void releaseMemory(void *ptr){
+    free(ptr);
 }
 
 /* function used to realloc memory - in case we decide to reqrite that one day */

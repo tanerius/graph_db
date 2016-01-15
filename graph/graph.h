@@ -10,8 +10,6 @@
 #include <cstdio>           /*!<  FILE stuff, printf and so much more */
 #include <pthread.h>        /*!<  For threadding (duh!) POSIX so we be compatible */
 
-
-
 /*! 
     Adjacency list node representation
 */
@@ -21,8 +19,7 @@ typedef struct Node
         The id of the vertex that this edge is pointing to.
     */
     Gdb_N_t vertex;         /*!<  index of the vertex being pointed at */
-    Gdb_edge_t type;        /*!< Type of edge */
-    Gdb_Payload_p payload;  /*!< Generic payload */
+    Gdb_hr_t type;          /*!< Type of edge */
     struct Node *next;      /*!< Pointer to the next node */
 }Node_t, *Node_p;
  
@@ -31,13 +28,13 @@ typedef struct Node
 */
 typedef struct List
 {
-    Gdb_N_t id_hi;                   /* hi order id */
-    Gdb_N_t id_lo;                   /* low order id */
-    Gdb_N_t num_edges;             /* number of edges */
-    Gdb_N_t list_id;                 /* unique id of list - incremental*/
-    Gdb_Payload_p payload;           /* List payload */
-    bool is_deleted;                     /* should be purged on garbage collection */
-    Node_t *head;                       /*head of the adjacency linked list is the actual element */
+    Gdb_N_t id_hi;                          /*!< hi order id */
+    Gdb_N_t id_lo;                          /*!< low order id */
+    Gdb_N_t num_edges;                      /*!< number of edges */
+    Gdb_N_t list_id;                        /*!< unique id of list - incremental*/
+    Gdb_node_status_t vertex_status;        /*!< status of the vertex  */
+    Gdb_hr_t type;                          /*!< Type of vertex */
+    Node_t *head;                           /*!< head of the adjacency linked list is the actual element */
 }List_t, *List_p;
  
 /*! 
@@ -73,18 +70,14 @@ typedef struct Graph
     bool needs_page_increase;
 }Graph_t, *Graph_p;
  
-
-
-
-
-Gdb_ret_t addEdge(Graph_t*, const Gdb_N_t, const Gdb_N_t, Gdb_Payload_p);
-Gdb_ret_t addGraphElement(Graph_t*, Gdb_Payload_p); // payload cant be null
+Gdb_ret_t addEdge(Graph_t*, const Gdb_N_t, const Gdb_N_t, Gdb_hr_t);
+Gdb_ret_t addGraphElement(Graph_t*, Gdb_hr_t); 
 Gdb_ret_t allMutexesLock();
 Gdb_ret_t allMutexesUnLock();
 Gdb_ret_t computeID(Graph_t*, Gdb_N_t*, Gdb_N_t*, const bool b);
 Graph_p createGraph(const Gdb_graph_t, const char*);
 void *createMemory(const size_t);
-Node_p createNode(Gdb_N_t, void*);
+Node_p createNode(Gdb_N_t, Gdb_hr_t);
 Gdb_ret_t deleteGraphElement(Graph_t*, const Gdb_N_t); // only flag as deleted
 Gdb_Nothing_t destroyEdges(Node_p);
 Gdb_Nothing_t destroyGraph(Graph_p);
@@ -94,6 +87,7 @@ List_p getElementPointerByIndex(const Graph_p, const Gdb_N_t);
 
 Gdb_ret_t initMutexes();
 
+void releaseMemory(void*);
 void *resizeMemory(void*, size_t);
 
 #endif

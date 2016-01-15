@@ -42,6 +42,7 @@ void* CSerializer::createDb(){
     total_bytes += sizeof(Gdb_graph_t); /* for the graph type */
 
     fwrite(&total_bytes, sizeof(Gdb_N_t), 1, p_db_file); 
+    
     fwrite(&(the_graph->id_hi), sizeof(Gdb_N_t), 1, p_db_file); 
     fwrite(&(the_graph->id_lo), sizeof(Gdb_N_t), 1, p_db_file); 
     fwrite(&(the_graph->num_vertices), sizeof(Gdb_N_t), 1, p_db_file); 
@@ -51,7 +52,7 @@ void* CSerializer::createDb(){
     // Done writing the initial structure of the graph 
     // now lets write the adjecency list (without the edges)
     // always start with the size
-    total_bytes = the_graph->num_vertices * ((5 * sizeof(Gdb_N_t)) + sizeof(bool)); // include this variable too
+    total_bytes = the_graph->num_vertices * ((5 * sizeof(Gdb_N_t)) + sizeof(Gdb_node_status_t) + sizeof(Gdb_hr_t)); // include this variable too
     fwrite(&total_bytes, sizeof(Gdb_N_t), 1, p_db_file); // write the size even if its 0 so we can wnow it
 
     // write all vertexes now
@@ -61,7 +62,8 @@ void* CSerializer::createDb(){
         fwrite(&(one_node->id_lo), sizeof(Gdb_N_t), 1, p_db_file);
         fwrite(&(one_node->num_edges), sizeof(Gdb_N_t), 1, p_db_file);
         fwrite(&(one_node->list_id), sizeof(Gdb_N_t), 1, p_db_file);
-        fwrite(&(one_node->is_deleted), sizeof(bool), 1, p_db_file);
+        fwrite(&(one_node->vertex_status), sizeof(Gdb_node_status_t), 1, p_db_file);
+        fwrite(&(one_node->type), sizeof(Gdb_hr_t), 1, p_db_file);
     }
 
 
