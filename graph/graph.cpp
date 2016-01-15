@@ -229,7 +229,7 @@ Graph_p createGraph(const Gdb_graph_t type, const char *fn){
     graph->next_available_id = 0;
     graph->needs_page_increase = false;
     graph->id_hi = 0;
-    graph->id_hi = 0;
+    graph->id_lo = 0;
 
     pthread_mutex_lock(&node_mutex);
     for(int i = 0; i < MAX_PAGE_SIZE; i++){
@@ -350,7 +350,6 @@ List_p getElementPointerByIndex(const Graph_p graph, const Gdb_N_t index){
     else{
         return NULL;
     }
-    
 }
 
 Gdb_ret_t initMutexes(){
