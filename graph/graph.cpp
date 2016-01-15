@@ -266,6 +266,7 @@ Gdb_ret_t createGraphPage(Graph_t *graph){
         return MEM_FULL;
     }
     graph->arr_list = new_block;
+    graph->num_vertices += MAX_PAGE_SIZE; // inclrease vertex count without needing to count - keep it O(1)
     pthread_mutex_unlock(&graph_mutex);
     pthread_mutex_unlock(&node_mutex);
     return OK;

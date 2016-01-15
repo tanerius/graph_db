@@ -9,13 +9,15 @@ void displayGraph(Graph_p graph)
     for (i = 0; i < graph->num_vertices; i++)
     {
         Node_p node_ptr = graph->arr_list[i].head;
-        printf("\n%d: ", (int)i);
+        printf("\nV(%d) [", (int)i);
         while (node_ptr)
         {
-            printf("%d->", (int)node_ptr->vertex); // bad idea to cast but only for testing to prevent warnings
+            printf("%d<%d>", (int)node_ptr->vertex,(int)node_ptr->type); // bad idea to cast but only for testing to prevent warnings
             node_ptr = node_ptr->next;
+            if(node_ptr) printf(", ");
         }
-        printf("NULL\n");
+        printf("]");
+
     }
 }
 
@@ -61,10 +63,15 @@ void test_addGraphElement(Graph_t *graph, Gdb_hr_t el_type, int how_many){
     printf("\nTesting addGraphElement() x %d: ",how_many);
     for(int i =0; i<how_many; i++){
         result = addGraphElement(graph, el_type);
-        assert(result == OK);
-        printf(".");
+        assert((result == OK) || (result==PAGE_FULL));
+        if(result == OK){
+            printf(".");
+        }
+        else{
+            printf("x");
+        }
     }
-    printf("PASS");
+    printf(": PASS");
 }
 
 void test_addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_hr_t el_type){
@@ -75,12 +82,22 @@ void test_addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_h
     printf("PASS");
 }
 
+// test for creating new pages
+void test_createGraphPage(Graph_t *graph){
+    printf("\nTesting createGraphPage(): ");
+    Gdb_ret_t result; 
+    result = createGraphPage(graph);
+    //assert(result == OK);
+    printf("PASS");
+}
+
+
 int main()
 {
     printf("Starting tests...\n");
     test_creatememory();
     Graph_p undir_graph = test_createGraph(UNDIRECTED);
-    test_addGraphElement(undir_graph, 0, 21);
+    test_addGraphElement(undir_graph, 0, 26); // 20 should pass 6 should require memory reallocation
     test_addEdge(undir_graph, 0, 1, 3);
     test_addEdge(undir_graph, 0, 4, 3);
     test_addEdge(undir_graph, 1, 2, 3);
@@ -88,6 +105,20 @@ int main()
     test_addEdge(undir_graph, 1, 4, 3);
     test_addEdge(undir_graph, 2, 3, 3);
     test_addEdge(undir_graph, 3, 4, 3);
+    test_createGraphPage(undir_graph);
+    test_addGraphElement(undir_graph, 1, 6); // Add 6 more - should pass now
+    test_addEdge(undir_graph, 4, 0, 5);
+    test_addEdge(undir_graph, 13, 0, 5);
+    test_addEdge(undir_graph, 13, 0, 5);
+    test_addEdge(undir_graph, 5, 0, 5);
+    test_addEdge(undir_graph, 6, 0, 5);
+    test_addEdge(undir_graph, 7, 0, 5);
+    test_addEdge(undir_graph, 8, 0, 5);
+    test_addEdge(undir_graph, 9, 0, 5);
+    test_addEdge(undir_graph, 10, 0, 5);
+    test_addEdge(undir_graph, 11, 0, 5);
+    test_addEdge(undir_graph, 12, 0, 5);
+    
     
 /*
     Graph_p dir_graph = createGraph(DIRECTED,"./default_d_db.gdb");

@@ -76,14 +76,15 @@ Gdb_ret_t allMutexesLock();
 Gdb_ret_t allMutexesUnLock();
 Gdb_ret_t computeID(Graph_t*, Gdb_N_t*, Gdb_N_t*, const bool b);
 Graph_p createGraph(const Gdb_graph_t, const char*);
+Gdb_ret_t createGraphPage(Graph_t*); /* Create a new page */
 void *createMemory(const size_t);
 Node_p createNode(Gdb_N_t, Gdb_hr_t);
 Gdb_ret_t deleteGraphElement(Graph_t*, const Gdb_N_t); // only flag as deleted
 Gdb_Nothing_t destroyEdges(Node_p);
 Gdb_Nothing_t destroyGraph(Graph_p);
 
-List_p getElementPointerByID(const Graph_p, const Gdb_N_t, const Gdb_N_t);
-List_p getElementPointerByIndex(const Graph_p, const Gdb_N_t);
+List_p getElementPointerByID(const Graph_p, const Gdb_N_t, const Gdb_N_t); 
+List_p getElementPointerByIndex(const Graph_p, const Gdb_N_t); /* Direct return by arry index O(1) complexity */
 
 Gdb_ret_t initMutexes();
 
