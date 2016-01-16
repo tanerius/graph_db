@@ -1,0 +1,260 @@
+\hypertarget{graph_8h}{}\section{graph/graph.h File Reference}
+\label{graph_8h}\index{graph/graph.\+h@{graph/graph.\+h}}
+{\ttfamily \#include \char`\"{}primitives.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$cstdlib$>$}\\*
+{\ttfamily \#include $<$cstring$>$}\\*
+{\ttfamily \#include $<$cstdio$>$}\\*
+{\ttfamily \#include $<$pthread.\+h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structNode}{Node}
+\item 
+struct \hyperlink{structList}{List}
+\item 
+struct \hyperlink{structGraph}{Graph}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structNode}{Node} \hyperlink{graph_8h_a15c592b9993713c4f45091fb9b8c9e27}{Node\+\_\+t}
+\item 
+typedef struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{graph_8h_ad281b59e598a794a2ff3fb0df98038fb}{Node\+\_\+p}
+\item 
+typedef struct \hyperlink{structList}{List} \hyperlink{graph_8h_ac3e72c4a0421a74346f6cfcbdfd2b431}{List\+\_\+t}
+\item 
+typedef struct \hyperlink{structList}{List} $\ast$ \hyperlink{graph_8h_aa777ed3c5a447d06c5b4a925f5557bd2}{List\+\_\+p}
+\item 
+typedef struct \hyperlink{structGraph}{Graph} \hyperlink{graph_8h_afceb6ecb708b53ff29a7e2e0858d444d}{Graph\+\_\+t}
+\item 
+typedef struct \hyperlink{structGraph}{Graph} $\ast$ \hyperlink{graph_8h_a5184901c75abcbef038506d943219d87}{Graph\+\_\+p}
+\item 
+typedef \hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t}($\ast$ \hyperlink{graph_8h_a57d3cce5234a3c744d0fffd842662493}{Gdb\+\_\+sort\+\_\+fn\+\_\+p}) (\hyperlink{graph_8h_ac3e72c4a0421a74346f6cfcbdfd2b431}{List\+\_\+t} $\ast$, \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t}, \hyperlink{graph_8h_a15c592b9993713c4f45091fb9b8c9e27}{Node\+\_\+t} $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_ae42209481aacec277eb315b5ef8174da}{add\+Edge} (\hyperlink{graph_8h_afceb6ecb708b53ff29a7e2e0858d444d}{Graph\+\_\+t} $\ast$, const \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t}, const \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t}, \hyperlink{primitives_8h_adc088f5af2bb04014551ec868bfe92cf}{Gdb\+\_\+hr\+\_\+t})
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_aa52f58f11d8094f33369ef449553e14d}{add\+Edge\+SL} (\hyperlink{graph_8h_ac3e72c4a0421a74346f6cfcbdfd2b431}{List\+\_\+t} $\ast$, \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t}, \hyperlink{graph_8h_a15c592b9993713c4f45091fb9b8c9e27}{Node\+\_\+t} $\ast$)
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_ac3aecf043aaf30a2e5ae5668679db2af}{add\+Edge\+UL} (\hyperlink{graph_8h_ac3e72c4a0421a74346f6cfcbdfd2b431}{List\+\_\+t} $\ast$, \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t}, \hyperlink{graph_8h_a15c592b9993713c4f45091fb9b8c9e27}{Node\+\_\+t} $\ast$)
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_acbb71c6de41d2845e1c94e099bc5233d}{add\+Graph\+Element} (\hyperlink{graph_8h_afceb6ecb708b53ff29a7e2e0858d444d}{Graph\+\_\+t} $\ast$, \hyperlink{primitives_8h_adc088f5af2bb04014551ec868bfe92cf}{Gdb\+\_\+hr\+\_\+t})
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_a037cb0000f067b1e312160f619a791f8}{all\+Mutexes\+Lock} ()
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_ae913a8a6e091626b70b182737c5f893f}{all\+Mutexes\+Un\+Lock} ()
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_aebb48501b3852965636aa20af91cd9d3}{compute\+ID} (\hyperlink{graph_8h_afceb6ecb708b53ff29a7e2e0858d444d}{Graph\+\_\+t} $\ast$, \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t} $\ast$, \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t} $\ast$, const bool b)
+\item 
+\hyperlink{graph_8h_a5184901c75abcbef038506d943219d87}{Graph\+\_\+p} \hyperlink{graph_8h_a68bd7c0f4129a5b0b57069ab2f02c3da}{create\+Graph} (const \hyperlink{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2}{Gdb\+\_\+graph\+\_\+t}, const char $\ast$)
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_a0a7a8884dd741507a694e2ce5be1f729}{create\+Graph\+Page} (\hyperlink{graph_8h_afceb6ecb708b53ff29a7e2e0858d444d}{Graph\+\_\+t} $\ast$)
+\item 
+void $\ast$ \hyperlink{graph_8h_a1947247ddea238e0558c508495150d7f}{create\+Memory} (const size\+\_\+t)
+\item 
+\hyperlink{graph_8h_ad281b59e598a794a2ff3fb0df98038fb}{Node\+\_\+p} \hyperlink{graph_8h_a9e2fb02063e01ad0485971e60235eeb3}{create\+Node} (\hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t}, \hyperlink{primitives_8h_adc088f5af2bb04014551ec868bfe92cf}{Gdb\+\_\+hr\+\_\+t})
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_a2b2a68ac7fd9a00e3afe44ee29a5b14d}{delete\+Graph\+Element} (\hyperlink{graph_8h_afceb6ecb708b53ff29a7e2e0858d444d}{Graph\+\_\+t} $\ast$, const \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t})
+\item 
+\hyperlink{primitives_8h_a69f961383145448cb17b636d15ebd345}{Gdb\+\_\+\+Nothing\+\_\+t} \hyperlink{graph_8h_a8494480ceb580c540006e7b747c44cbf}{destroy\+Edges} (\hyperlink{graph_8h_ad281b59e598a794a2ff3fb0df98038fb}{Node\+\_\+p})
+\item 
+\hyperlink{primitives_8h_a69f961383145448cb17b636d15ebd345}{Gdb\+\_\+\+Nothing\+\_\+t} \hyperlink{graph_8h_ac3745bc28182c536c7c1f425a5f28610}{destroy\+Graph} (\hyperlink{graph_8h_a5184901c75abcbef038506d943219d87}{Graph\+\_\+p})
+\item 
+\hyperlink{graph_8h_aa777ed3c5a447d06c5b4a925f5557bd2}{List\+\_\+p} \hyperlink{graph_8h_a6a64b87bd0057c8bf260c55c2a39a88f}{get\+Element\+Pointer\+By\+ID} (const \hyperlink{graph_8h_a5184901c75abcbef038506d943219d87}{Graph\+\_\+p}, const \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t}, const \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t})
+\item 
+\hyperlink{graph_8h_aa777ed3c5a447d06c5b4a925f5557bd2}{List\+\_\+p} \hyperlink{graph_8h_a2e7b741412c64590d980b9e57fada0aa}{get\+Element\+Pointer\+By\+Index} (const \hyperlink{graph_8h_a5184901c75abcbef038506d943219d87}{Graph\+\_\+p}, const \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t})
+\item 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \hyperlink{graph_8h_ac4135019c10e1bdaaf6a77c2dc9687a0}{init\+Mutexes} ()
+\item 
+void \hyperlink{graph_8h_ac3769f9254d80b6f7919838c925d168b}{release\+Memory} (void $\ast$)
+\item 
+void $\ast$ \hyperlink{graph_8h_a4285c5904a1242514edf88c541a81ec3}{resize\+Memory} (void $\ast$, size\+\_\+t)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{graph.\+h@{graph.\+h}!Gdb\+\_\+sort\+\_\+fn\+\_\+p@{Gdb\+\_\+sort\+\_\+fn\+\_\+p}}
+\index{Gdb\+\_\+sort\+\_\+fn\+\_\+p@{Gdb\+\_\+sort\+\_\+fn\+\_\+p}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+sort\+\_\+fn\+\_\+p}{Gdb_sort_fn_p}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Gdb\+\_\+ret\+\_\+t}($\ast$ Gdb\+\_\+sort\+\_\+fn\+\_\+p) ({\bf List\+\_\+t} $\ast$, {\bf Gdb\+\_\+\+N\+\_\+t}, {\bf Node\+\_\+t} $\ast$)}\hypertarget{graph_8h_a57d3cce5234a3c744d0fffd842662493}{}\label{graph_8h_a57d3cce5234a3c744d0fffd842662493}
+Type for edge sorting function pointer \index{graph.\+h@{graph.\+h}!Graph\+\_\+p@{Graph\+\_\+p}}
+\index{Graph\+\_\+p@{Graph\+\_\+p}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{Graph\+\_\+p}{Graph_p}}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Graph} $\ast$ {\bf Graph\+\_\+p}}\hypertarget{graph_8h_a5184901c75abcbef038506d943219d87}{}\label{graph_8h_a5184901c75abcbef038506d943219d87}
+\index{graph.\+h@{graph.\+h}!Graph\+\_\+t@{Graph\+\_\+t}}
+\index{Graph\+\_\+t@{Graph\+\_\+t}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{Graph\+\_\+t}{Graph_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Graph} {\bf Graph\+\_\+t}}\hypertarget{graph_8h_afceb6ecb708b53ff29a7e2e0858d444d}{}\label{graph_8h_afceb6ecb708b53ff29a7e2e0858d444d}
+This is the main graph structure \index{graph.\+h@{graph.\+h}!List\+\_\+p@{List\+\_\+p}}
+\index{List\+\_\+p@{List\+\_\+p}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{List\+\_\+p}{List_p}}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf List} $\ast$ {\bf List\+\_\+p}}\hypertarget{graph_8h_aa777ed3c5a447d06c5b4a925f5557bd2}{}\label{graph_8h_aa777ed3c5a447d06c5b4a925f5557bd2}
+\index{graph.\+h@{graph.\+h}!List\+\_\+t@{List\+\_\+t}}
+\index{List\+\_\+t@{List\+\_\+t}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{List\+\_\+t}{List_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf List} {\bf List\+\_\+t}}\hypertarget{graph_8h_ac3e72c4a0421a74346f6cfcbdfd2b431}{}\label{graph_8h_ac3e72c4a0421a74346f6cfcbdfd2b431}
+Adjacency list -\/ This is actually a representation of a vertex \index{graph.\+h@{graph.\+h}!Node\+\_\+p@{Node\+\_\+p}}
+\index{Node\+\_\+p@{Node\+\_\+p}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{Node\+\_\+p}{Node_p}}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Node} $\ast$ {\bf Node\+\_\+p}}\hypertarget{graph_8h_ad281b59e598a794a2ff3fb0df98038fb}{}\label{graph_8h_ad281b59e598a794a2ff3fb0df98038fb}
+\index{graph.\+h@{graph.\+h}!Node\+\_\+t@{Node\+\_\+t}}
+\index{Node\+\_\+t@{Node\+\_\+t}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{Node\+\_\+t}{Node_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Node} {\bf Node\+\_\+t}}\hypertarget{graph_8h_a15c592b9993713c4f45091fb9b8c9e27}{}\label{graph_8h_a15c592b9993713c4f45091fb9b8c9e27}
+$<$ malloc,calloc and free
+
+$<$ strlen, strcpy and memset
+
+$<$ F\+I\+LE stuff, printf and so much more
+
+$<$ For threadding (duh!) P\+O\+S\+IX so we be compatible
+
+Adjacency list node representation 
+
+\subsection{Function Documentation}
+\index{graph.\+h@{graph.\+h}!add\+Edge@{add\+Edge}}
+\index{add\+Edge@{add\+Edge}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{add\+Edge(\+Graph\+\_\+t $\ast$, const Gdb\+\_\+\+N\+\_\+t, const Gdb\+\_\+\+N\+\_\+t, Gdb\+\_\+hr\+\_\+t)}{addEdge(Graph_t *, const Gdb_N_t, const Gdb_N_t, Gdb_hr_t)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} add\+Edge (
+\begin{DoxyParamCaption}
+\item[{{\bf Graph\+\_\+t} $\ast$}]{, }
+\item[{const {\bf Gdb\+\_\+\+N\+\_\+t}}]{, }
+\item[{const {\bf Gdb\+\_\+\+N\+\_\+t}}]{, }
+\item[{{\bf Gdb\+\_\+hr\+\_\+t}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_ae42209481aacec277eb315b5ef8174da}{}\label{graph_8h_ae42209481aacec277eb315b5ef8174da}
+\index{graph.\+h@{graph.\+h}!add\+Edge\+SL@{add\+Edge\+SL}}
+\index{add\+Edge\+SL@{add\+Edge\+SL}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{add\+Edge\+S\+L(\+List\+\_\+t $\ast$, Gdb\+\_\+\+N\+\_\+t, Node\+\_\+t $\ast$)}{addEdgeSL(List_t *, Gdb_N_t, Node_t *)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} add\+Edge\+SL (
+\begin{DoxyParamCaption}
+\item[{{\bf List\+\_\+t} $\ast$}]{, }
+\item[{{\bf Gdb\+\_\+\+N\+\_\+t}}]{, }
+\item[{{\bf Node\+\_\+t} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_aa52f58f11d8094f33369ef449553e14d}{}\label{graph_8h_aa52f58f11d8094f33369ef449553e14d}
+\index{graph.\+h@{graph.\+h}!add\+Edge\+UL@{add\+Edge\+UL}}
+\index{add\+Edge\+UL@{add\+Edge\+UL}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{add\+Edge\+U\+L(\+List\+\_\+t $\ast$, Gdb\+\_\+\+N\+\_\+t, Node\+\_\+t $\ast$)}{addEdgeUL(List_t *, Gdb_N_t, Node_t *)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} add\+Edge\+UL (
+\begin{DoxyParamCaption}
+\item[{{\bf List\+\_\+t} $\ast$}]{, }
+\item[{{\bf Gdb\+\_\+\+N\+\_\+t}}]{, }
+\item[{{\bf Node\+\_\+t} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_ac3aecf043aaf30a2e5ae5668679db2af}{}\label{graph_8h_ac3aecf043aaf30a2e5ae5668679db2af}
+\index{graph.\+h@{graph.\+h}!add\+Graph\+Element@{add\+Graph\+Element}}
+\index{add\+Graph\+Element@{add\+Graph\+Element}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{add\+Graph\+Element(\+Graph\+\_\+t $\ast$, Gdb\+\_\+hr\+\_\+t)}{addGraphElement(Graph_t *, Gdb_hr_t)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} add\+Graph\+Element (
+\begin{DoxyParamCaption}
+\item[{{\bf Graph\+\_\+t} $\ast$}]{, }
+\item[{{\bf Gdb\+\_\+hr\+\_\+t}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_acbb71c6de41d2845e1c94e099bc5233d}{}\label{graph_8h_acbb71c6de41d2845e1c94e099bc5233d}
+\index{graph.\+h@{graph.\+h}!all\+Mutexes\+Lock@{all\+Mutexes\+Lock}}
+\index{all\+Mutexes\+Lock@{all\+Mutexes\+Lock}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{all\+Mutexes\+Lock()}{allMutexesLock()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} all\+Mutexes\+Lock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a037cb0000f067b1e312160f619a791f8}{}\label{graph_8h_a037cb0000f067b1e312160f619a791f8}
+\index{graph.\+h@{graph.\+h}!all\+Mutexes\+Un\+Lock@{all\+Mutexes\+Un\+Lock}}
+\index{all\+Mutexes\+Un\+Lock@{all\+Mutexes\+Un\+Lock}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{all\+Mutexes\+Un\+Lock()}{allMutexesUnLock()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} all\+Mutexes\+Un\+Lock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_ae913a8a6e091626b70b182737c5f893f}{}\label{graph_8h_ae913a8a6e091626b70b182737c5f893f}
+\index{graph.\+h@{graph.\+h}!compute\+ID@{compute\+ID}}
+\index{compute\+ID@{compute\+ID}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{compute\+I\+D(\+Graph\+\_\+t $\ast$, Gdb\+\_\+\+N\+\_\+t $\ast$, Gdb\+\_\+\+N\+\_\+t $\ast$, const bool b)}{computeID(Graph_t *, Gdb_N_t *, Gdb_N_t *, const bool b)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} compute\+ID (
+\begin{DoxyParamCaption}
+\item[{{\bf Graph\+\_\+t} $\ast$}]{, }
+\item[{{\bf Gdb\+\_\+\+N\+\_\+t} $\ast$}]{, }
+\item[{{\bf Gdb\+\_\+\+N\+\_\+t} $\ast$}]{, }
+\item[{const bool}]{b}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_aebb48501b3852965636aa20af91cd9d3}{}\label{graph_8h_aebb48501b3852965636aa20af91cd9d3}
+\index{graph.\+h@{graph.\+h}!create\+Graph@{create\+Graph}}
+\index{create\+Graph@{create\+Graph}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{create\+Graph(const Gdb\+\_\+graph\+\_\+t, const char $\ast$)}{createGraph(const Gdb_graph_t, const char *)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Graph\+\_\+p} create\+Graph (
+\begin{DoxyParamCaption}
+\item[{const {\bf Gdb\+\_\+graph\+\_\+t}}]{, }
+\item[{const char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a68bd7c0f4129a5b0b57069ab2f02c3da}{}\label{graph_8h_a68bd7c0f4129a5b0b57069ab2f02c3da}
+\index{graph.\+h@{graph.\+h}!create\+Graph\+Page@{create\+Graph\+Page}}
+\index{create\+Graph\+Page@{create\+Graph\+Page}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{create\+Graph\+Page(\+Graph\+\_\+t $\ast$)}{createGraphPage(Graph_t *)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} create\+Graph\+Page (
+\begin{DoxyParamCaption}
+\item[{{\bf Graph\+\_\+t} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a0a7a8884dd741507a694e2ce5be1f729}{}\label{graph_8h_a0a7a8884dd741507a694e2ce5be1f729}
+\index{graph.\+h@{graph.\+h}!create\+Memory@{create\+Memory}}
+\index{create\+Memory@{create\+Memory}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{create\+Memory(const size\+\_\+t)}{createMemory(const size_t)}}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ create\+Memory (
+\begin{DoxyParamCaption}
+\item[{const size\+\_\+t}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a1947247ddea238e0558c508495150d7f}{}\label{graph_8h_a1947247ddea238e0558c508495150d7f}
+\index{graph.\+h@{graph.\+h}!create\+Node@{create\+Node}}
+\index{create\+Node@{create\+Node}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{create\+Node(\+Gdb\+\_\+\+N\+\_\+t, Gdb\+\_\+hr\+\_\+t)}{createNode(Gdb_N_t, Gdb_hr_t)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Node\+\_\+p} create\+Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Gdb\+\_\+\+N\+\_\+t}}]{, }
+\item[{{\bf Gdb\+\_\+hr\+\_\+t}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a9e2fb02063e01ad0485971e60235eeb3}{}\label{graph_8h_a9e2fb02063e01ad0485971e60235eeb3}
+\index{graph.\+h@{graph.\+h}!delete\+Graph\+Element@{delete\+Graph\+Element}}
+\index{delete\+Graph\+Element@{delete\+Graph\+Element}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{delete\+Graph\+Element(\+Graph\+\_\+t $\ast$, const Gdb\+\_\+\+N\+\_\+t)}{deleteGraphElement(Graph_t *, const Gdb_N_t)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} delete\+Graph\+Element (
+\begin{DoxyParamCaption}
+\item[{{\bf Graph\+\_\+t} $\ast$}]{, }
+\item[{const {\bf Gdb\+\_\+\+N\+\_\+t}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a2b2a68ac7fd9a00e3afe44ee29a5b14d}{}\label{graph_8h_a2b2a68ac7fd9a00e3afe44ee29a5b14d}
+\index{graph.\+h@{graph.\+h}!destroy\+Edges@{destroy\+Edges}}
+\index{destroy\+Edges@{destroy\+Edges}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{destroy\+Edges(\+Node\+\_\+p)}{destroyEdges(Node_p)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+\+Nothing\+\_\+t} destroy\+Edges (
+\begin{DoxyParamCaption}
+\item[{{\bf Node\+\_\+p}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a8494480ceb580c540006e7b747c44cbf}{}\label{graph_8h_a8494480ceb580c540006e7b747c44cbf}
+\index{graph.\+h@{graph.\+h}!destroy\+Graph@{destroy\+Graph}}
+\index{destroy\+Graph@{destroy\+Graph}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{destroy\+Graph(\+Graph\+\_\+p)}{destroyGraph(Graph_p)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+\+Nothing\+\_\+t} destroy\+Graph (
+\begin{DoxyParamCaption}
+\item[{{\bf Graph\+\_\+p}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_ac3745bc28182c536c7c1f425a5f28610}{}\label{graph_8h_ac3745bc28182c536c7c1f425a5f28610}
+\index{graph.\+h@{graph.\+h}!get\+Element\+Pointer\+By\+ID@{get\+Element\+Pointer\+By\+ID}}
+\index{get\+Element\+Pointer\+By\+ID@{get\+Element\+Pointer\+By\+ID}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{get\+Element\+Pointer\+By\+I\+D(const Graph\+\_\+p, const Gdb\+\_\+\+N\+\_\+t, const Gdb\+\_\+\+N\+\_\+t)}{getElementPointerByID(const Graph_p, const Gdb_N_t, const Gdb_N_t)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf List\+\_\+p} get\+Element\+Pointer\+By\+ID (
+\begin{DoxyParamCaption}
+\item[{const {\bf Graph\+\_\+p}}]{, }
+\item[{const {\bf Gdb\+\_\+\+N\+\_\+t}}]{, }
+\item[{const {\bf Gdb\+\_\+\+N\+\_\+t}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a6a64b87bd0057c8bf260c55c2a39a88f}{}\label{graph_8h_a6a64b87bd0057c8bf260c55c2a39a88f}
+\index{graph.\+h@{graph.\+h}!get\+Element\+Pointer\+By\+Index@{get\+Element\+Pointer\+By\+Index}}
+\index{get\+Element\+Pointer\+By\+Index@{get\+Element\+Pointer\+By\+Index}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{get\+Element\+Pointer\+By\+Index(const Graph\+\_\+p, const Gdb\+\_\+\+N\+\_\+t)}{getElementPointerByIndex(const Graph_p, const Gdb_N_t)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf List\+\_\+p} get\+Element\+Pointer\+By\+Index (
+\begin{DoxyParamCaption}
+\item[{const {\bf Graph\+\_\+p}}]{, }
+\item[{const {\bf Gdb\+\_\+\+N\+\_\+t}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a2e7b741412c64590d980b9e57fada0aa}{}\label{graph_8h_a2e7b741412c64590d980b9e57fada0aa}
+\index{graph.\+h@{graph.\+h}!init\+Mutexes@{init\+Mutexes}}
+\index{init\+Mutexes@{init\+Mutexes}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{init\+Mutexes()}{initMutexes()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gdb\+\_\+ret\+\_\+t} init\+Mutexes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_ac4135019c10e1bdaaf6a77c2dc9687a0}{}\label{graph_8h_ac4135019c10e1bdaaf6a77c2dc9687a0}
+\index{graph.\+h@{graph.\+h}!release\+Memory@{release\+Memory}}
+\index{release\+Memory@{release\+Memory}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{release\+Memory(void $\ast$)}{releaseMemory(void *)}}]{\setlength{\rightskip}{0pt plus 5cm}void release\+Memory (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_ac3769f9254d80b6f7919838c925d168b}{}\label{graph_8h_ac3769f9254d80b6f7919838c925d168b}
+\index{graph.\+h@{graph.\+h}!resize\+Memory@{resize\+Memory}}
+\index{resize\+Memory@{resize\+Memory}!graph.\+h@{graph.\+h}}
+\subsubsection[{\texorpdfstring{resize\+Memory(void $\ast$, size\+\_\+t)}{resizeMemory(void *, size_t)}}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ resize\+Memory (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{, }
+\item[{size\+\_\+t}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{graph_8h_a4285c5904a1242514edf88c541a81ec3}{}\label{graph_8h_a4285c5904a1242514edf88c541a81ec3}

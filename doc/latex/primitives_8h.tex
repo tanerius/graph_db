@@ -1,0 +1,219 @@
+\hypertarget{primitives_8h}{}\section{graph/primitives.h File Reference}
+\label{primitives_8h}\index{graph/primitives.\+h@{graph/primitives.\+h}}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{primitives_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{T\+R\+UE}~1
+\item 
+\#define \hyperlink{primitives_8h_aa93f0eb578d23995850d61f7d61c55c1}{F\+A\+L\+SE}~0
+\item 
+\#define \hyperlink{primitives_8h_a7c4410712a9f7874ae814e10ebbc3f5b}{M\+A\+X\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+ZE}~20
+\item 
+\#define \hyperlink{primitives_8h_a1a53b724b6de666faa8a9e0d06d1055f}{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR}~1
+\item 
+\#define \hyperlink{primitives_8h_ae0cb52afb79b185b1bf82c7e235f682b}{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR}~0
+\item 
+\#define \hyperlink{primitives_8h_a85f491ad4fbb4268004d0e4ca98b7699}{T\+H\+E\+O\+R\+E\+T\+I\+C\+A\+L\+\_\+\+M\+AX}~1000000
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef int \hyperlink{primitives_8h_adc088f5af2bb04014551ec868bfe92cf}{Gdb\+\_\+hr\+\_\+t}
+\item 
+typedef void \hyperlink{primitives_8h_a69f961383145448cb17b636d15ebd345}{Gdb\+\_\+\+Nothing\+\_\+t}
+\item 
+typedef void $\ast$ \hyperlink{primitives_8h_afee112f0a5805ca4f5898671911b6fcf}{Gdb\+\_\+\+Payload\+\_\+p}
+\item 
+typedef unsigned long \hyperlink{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{Gdb\+\_\+\+N\+\_\+t}
+\item 
+typedef unsigned long $\ast$ \hyperlink{primitives_8h_aab7d3a4979513b300dfd9f2c15158575}{Gdb\+\_\+n\+\_\+p}
+\item 
+typedef long \hyperlink{primitives_8h_a7a66f9c072ce449ed97ffc161dd25812}{Gdb\+\_\+\+Z\+\_\+t}
+\item 
+typedef long $\ast$ \hyperlink{primitives_8h_a1a7e387871efcae93dca9112ac0147f0}{Gdb\+\_\+z\+\_\+p}
+\item 
+typedef unsigned char \hyperlink{primitives_8h_aeb06fa4cd578821739091e12455e5964}{Gdb\+\_\+byte\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2}{Gdb\+\_\+graph\+\_\+t} \{ \hyperlink{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2a814399045afe50d214d2607be2f27677}{U\+N\+D\+I\+R\+E\+C\+T\+ED} =0, 
+\hyperlink{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2a2a58242d50c7fcc4067abd9c4db01be5}{D\+I\+R\+E\+C\+T\+ED}
+ \}
+\item 
+enum \hyperlink{primitives_8h_acb48953e54c79cf63bf3e38632347ffb}{Gdb\+\_\+node\+\_\+status\+\_\+t} \{ \hyperlink{primitives_8h_acb48953e54c79cf63bf3e38632347ffbaec34b0b90541576a22697631105dc847}{N\+EW} =0, 
+\hyperlink{primitives_8h_acb48953e54c79cf63bf3e38632347ffba6a8a5583659fbcdf64186aacaf55cece}{A\+L\+L\+O\+C\+A\+T\+ED}, 
+\hyperlink{primitives_8h_acb48953e54c79cf63bf3e38632347ffbaae88752b9379248f07e2c3fdc064d998}{D\+E\+L\+E\+T\+ED}, 
+\hyperlink{primitives_8h_acb48953e54c79cf63bf3e38632347ffbabb7d49dde557a396d59bd1bd6da59787}{R\+E\+C\+L\+A\+I\+M\+ED}
+ \}
+\item 
+enum \hyperlink{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4}{Gdb\+\_\+edge\+\_\+sort\+\_\+t} \{ \hyperlink{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4ababb100846993c1f4d3f60bf1fd4e3ff}{U\+LL} =0, 
+\hyperlink{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4ac5497b80cebf0d58c6fb5896d8a16e81}{S\+LL}, 
+\hyperlink{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4acb0e30e506b7b8ccced34b81f309be8f}{B\+ST}
+ \}
+\item 
+enum \hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{Gdb\+\_\+ret\+\_\+t} \{ \\*
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a2bc49ec37d6a5715dd23e85f1ff5bb59}{OK} =0, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ae0789cd14aab92b08036aa52b0f6cadf}{B\+A\+D\+\_\+\+P\+A\+Y\+L\+O\+AD}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a0722458a2abcd4055cc96b5530ba54eb}{P\+A\+G\+E\+\_\+\+F\+U\+LL}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a3ba79469c4219ad03d5d32799a3c3112}{S\+R\+C\+\_\+\+G\+O\+NE}, 
+\\*
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a0039cdce3325f6c181a4e712c5e2075f}{D\+S\+T\+\_\+\+G\+O\+NE}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a7258f1235fce2d44a1b0df0b09966163}{M\+E\+M\+\_\+\+F\+U\+LL}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a2e2f687d881b36b4aa71b67804c17ea3}{N\+O\+\_\+\+I\+N\+D\+EX}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ab2e28eb150ec907f32bdb7bb81bb460e}{N\+O\+\_\+\+N\+O\+DE}, 
+\\*
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a57a754a5647a458f2c81f183af02c17a}{M\+A\+X\+\_\+\+N\+O\+D\+ES}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382add01e6be1aa55341227354458908adda}{I\+N\+V\+A\+L\+I\+D\+\_\+\+S\+E\+R\+I\+AL}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a554ebd1f9e4226ffebf8892b438da05d}{F\+I\+L\+E\+\_\+\+I\+\_\+\+E\+R\+R\+OR}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382aa59a8cc2502138c456d47e17b70e40fc}{F\+I\+L\+E\+\_\+\+O\+\_\+\+E\+R\+R\+OR}, 
+\\*
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a452756e9e2581797c12ff67bab8e8bd4}{F\+I\+L\+E\+\_\+\+E\+R\+R\+OR}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a54f3eb302c9efed3e88579c5c7e2aa31}{L\+O\+C\+K\+\_\+\+E\+RR}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a6b461cf08706e8456cfd0c5e46c88f5c}{P\+R\+O\+C\+\_\+\+I\+D\+LE}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ac1243be0ce348e4df65e247ab5c3c55b}{P\+R\+O\+C\+\_\+\+OK}, 
+\\*
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a4f8e3722918567a5d152312e9afab857}{P\+R\+O\+C\+\_\+\+R\+U\+N\+N\+I\+NG}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a49db1a6c703c87cefbb0d052469640eb}{T\+H\+\_\+\+C\+\_\+\+E\+R\+R\+OR}, 
+\hyperlink{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a943cf740a9db86e5456cb19e854d9c37}{E\+D\+G\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+TE}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{primitives.\+h@{primitives.\+h}!F\+A\+L\+SE@{F\+A\+L\+SE}}
+\index{F\+A\+L\+SE@{F\+A\+L\+SE}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{F\+A\+L\+SE}{FALSE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+A\+L\+SE~0}\hypertarget{primitives_8h_aa93f0eb578d23995850d61f7d61c55c1}{}\label{primitives_8h_aa93f0eb578d23995850d61f7d61c55c1}
+Custom false \index{primitives.\+h@{primitives.\+h}!M\+A\+X\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+ZE@{M\+A\+X\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+ZE}}
+\index{M\+A\+X\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+ZE@{M\+A\+X\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+ZE}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{M\+A\+X\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+ZE}{MAX_PAGE_SIZE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+ZE~20}\hypertarget{primitives_8h_a7c4410712a9f7874ae814e10ebbc3f5b}{}\label{primitives_8h_a7c4410712a9f7874ae814e10ebbc3f5b}
+M\+A\+X\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+ZE defines how much should the adjacency list size grow/page \index{primitives.\+h@{primitives.\+h}!T\+H\+E\+O\+R\+E\+T\+I\+C\+A\+L\+\_\+\+M\+AX@{T\+H\+E\+O\+R\+E\+T\+I\+C\+A\+L\+\_\+\+M\+AX}}
+\index{T\+H\+E\+O\+R\+E\+T\+I\+C\+A\+L\+\_\+\+M\+AX@{T\+H\+E\+O\+R\+E\+T\+I\+C\+A\+L\+\_\+\+M\+AX}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{T\+H\+E\+O\+R\+E\+T\+I\+C\+A\+L\+\_\+\+M\+AX}{THEORETICAL_MAX}}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+H\+E\+O\+R\+E\+T\+I\+C\+A\+L\+\_\+\+M\+AX~1000000}\hypertarget{primitives_8h_a85f491ad4fbb4268004d0e4ca98b7699}{}\label{primitives_8h_a85f491ad4fbb4268004d0e4ca98b7699}
+Maximums used in generating I\+Ds for nodes \index{primitives.\+h@{primitives.\+h}!T\+R\+UE@{T\+R\+UE}}
+\index{T\+R\+UE@{T\+R\+UE}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{T\+R\+UE}{TRUE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+UE~1}\hypertarget{primitives_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{}\label{primitives_8h_aa8cecfc5c5c054d2875c03e77b7be15d}
+Universal stuff used almost everywhere. All explicit graphdb variables will be prefixed with Gdb\+\_\+\+Custom true \index{primitives.\+h@{primitives.\+h}!V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR@{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR}}
+\index{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR@{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR}{VERSION_MAJOR}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR~1}\hypertarget{primitives_8h_a1a53b724b6de666faa8a9e0d06d1055f}{}\label{primitives_8h_a1a53b724b6de666faa8a9e0d06d1055f}
+Major version \index{primitives.\+h@{primitives.\+h}!V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR@{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR}}
+\index{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR@{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR}{VERSION_MINOR}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR~0}\hypertarget{primitives_8h_ae0cb52afb79b185b1bf82c7e235f682b}{}\label{primitives_8h_ae0cb52afb79b185b1bf82c7e235f682b}
+Minor version 
+
+\subsection{Typedef Documentation}
+\index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+byte\+\_\+t@{Gdb\+\_\+byte\+\_\+t}}
+\index{Gdb\+\_\+byte\+\_\+t@{Gdb\+\_\+byte\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+byte\+\_\+t}{Gdb_byte_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned char {\bf Gdb\+\_\+byte\+\_\+t}}\hypertarget{primitives_8h_aeb06fa4cd578821739091e12455e5964}{}\label{primitives_8h_aeb06fa4cd578821739091e12455e5964}
+1 Byte representation. Cross your fingers and hope its 8bits or wont work. T\+O\+DO\+: check out different representations too. \index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+hr\+\_\+t@{Gdb\+\_\+hr\+\_\+t}}
+\index{Gdb\+\_\+hr\+\_\+t@{Gdb\+\_\+hr\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+hr\+\_\+t}{Gdb_hr_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef int {\bf Gdb\+\_\+hr\+\_\+t}}\hypertarget{primitives_8h_adc088f5af2bb04014551ec868bfe92cf}{}\label{primitives_8h_adc088f5af2bb04014551ec868bfe92cf}
+Formerly usr\+\_\+edge\+\_\+type This type is used to determine an index for the type of entity. Int will then be mapped to human readable stuff. \index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+n\+\_\+p@{Gdb\+\_\+n\+\_\+p}}
+\index{Gdb\+\_\+n\+\_\+p@{Gdb\+\_\+n\+\_\+p}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+n\+\_\+p}{Gdb_n_p}}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long $\ast$ {\bf Gdb\+\_\+n\+\_\+p}}\hypertarget{primitives_8h_aab7d3a4979513b300dfd9f2c15158575}{}\label{primitives_8h_aab7d3a4979513b300dfd9f2c15158575}
+\index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+\+N\+\_\+t@{Gdb\+\_\+\+N\+\_\+t}}
+\index{Gdb\+\_\+\+N\+\_\+t@{Gdb\+\_\+\+N\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+\+N\+\_\+t}{Gdb_N_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf Gdb\+\_\+\+N\+\_\+t}}\hypertarget{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}{}\label{primitives_8h_a859f3e5b0c42fd108b94dfb804f70440}
+Formerly big\+\_\+number and $\ast$big\+\_\+number\+\_\+p Natural (N) numbers representation \index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+\+Nothing\+\_\+t@{Gdb\+\_\+\+Nothing\+\_\+t}}
+\index{Gdb\+\_\+\+Nothing\+\_\+t@{Gdb\+\_\+\+Nothing\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+\+Nothing\+\_\+t}{Gdb_Nothing_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef void {\bf Gdb\+\_\+\+Nothing\+\_\+t}}\hypertarget{primitives_8h_a69f961383145448cb17b636d15ebd345}{}\label{primitives_8h_a69f961383145448cb17b636d15ebd345}
+Generic representation of a pointer to payload \index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+\+Payload\+\_\+p@{Gdb\+\_\+\+Payload\+\_\+p}}
+\index{Gdb\+\_\+\+Payload\+\_\+p@{Gdb\+\_\+\+Payload\+\_\+p}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+\+Payload\+\_\+p}{Gdb_Payload_p}}]{\setlength{\rightskip}{0pt plus 5cm}typedef void $\ast$ {\bf Gdb\+\_\+\+Payload\+\_\+p}}\hypertarget{primitives_8h_afee112f0a5805ca4f5898671911b6fcf}{}\label{primitives_8h_afee112f0a5805ca4f5898671911b6fcf}
+\index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+z\+\_\+p@{Gdb\+\_\+z\+\_\+p}}
+\index{Gdb\+\_\+z\+\_\+p@{Gdb\+\_\+z\+\_\+p}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+z\+\_\+p}{Gdb_z_p}}]{\setlength{\rightskip}{0pt plus 5cm}typedef long $\ast$ {\bf Gdb\+\_\+z\+\_\+p}}\hypertarget{primitives_8h_a1a7e387871efcae93dca9112ac0147f0}{}\label{primitives_8h_a1a7e387871efcae93dca9112ac0147f0}
+\index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+\+Z\+\_\+t@{Gdb\+\_\+\+Z\+\_\+t}}
+\index{Gdb\+\_\+\+Z\+\_\+t@{Gdb\+\_\+\+Z\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+\+Z\+\_\+t}{Gdb_Z_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef long {\bf Gdb\+\_\+\+Z\+\_\+t}}\hypertarget{primitives_8h_a7a66f9c072ce449ed97ffc161dd25812}{}\label{primitives_8h_a7a66f9c072ce449ed97ffc161dd25812}
+Full (Z) numbers representation 
+
+\subsection{Enumeration Type Documentation}
+\index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+edge\+\_\+sort\+\_\+t@{Gdb\+\_\+edge\+\_\+sort\+\_\+t}}
+\index{Gdb\+\_\+edge\+\_\+sort\+\_\+t@{Gdb\+\_\+edge\+\_\+sort\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+edge\+\_\+sort\+\_\+t}{Gdb_edge_sort_t}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Gdb\+\_\+edge\+\_\+sort\+\_\+t}}\hypertarget{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4}{}\label{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4}
+This enum type is used to define the default edge type \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{U\+LL@{U\+LL}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!U\+LL@{U\+LL}}\item[{\em 
+U\+LL\hypertarget{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4ababb100846993c1f4d3f60bf1fd4e3ff}{}\label{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4ababb100846993c1f4d3f60bf1fd4e3ff}
+}]\index{S\+LL@{S\+LL}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!S\+LL@{S\+LL}}\item[{\em 
+S\+LL\hypertarget{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4ac5497b80cebf0d58c6fb5896d8a16e81}{}\label{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4ac5497b80cebf0d58c6fb5896d8a16e81}
+}]\index{B\+ST@{B\+ST}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!B\+ST@{B\+ST}}\item[{\em 
+B\+ST\hypertarget{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4acb0e30e506b7b8ccced34b81f309be8f}{}\label{primitives_8h_aeaab1f0713a17e61d27d02e31f327be4acb0e30e506b7b8ccced34b81f309be8f}
+}]\end{description}
+\end{Desc}
+\index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+graph\+\_\+t@{Gdb\+\_\+graph\+\_\+t}}
+\index{Gdb\+\_\+graph\+\_\+t@{Gdb\+\_\+graph\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+graph\+\_\+t}{Gdb_graph_t}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Gdb\+\_\+graph\+\_\+t}}\hypertarget{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2}{}\label{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2}
+Formerly usr\+\_\+graph\+\_\+type This enum type is used to determine the type of the graph \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{U\+N\+D\+I\+R\+E\+C\+T\+ED@{U\+N\+D\+I\+R\+E\+C\+T\+ED}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!U\+N\+D\+I\+R\+E\+C\+T\+ED@{U\+N\+D\+I\+R\+E\+C\+T\+ED}}\item[{\em 
+U\+N\+D\+I\+R\+E\+C\+T\+ED\hypertarget{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2a814399045afe50d214d2607be2f27677}{}\label{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2a814399045afe50d214d2607be2f27677}
+}]\index{D\+I\+R\+E\+C\+T\+ED@{D\+I\+R\+E\+C\+T\+ED}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!D\+I\+R\+E\+C\+T\+ED@{D\+I\+R\+E\+C\+T\+ED}}\item[{\em 
+D\+I\+R\+E\+C\+T\+ED\hypertarget{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2a2a58242d50c7fcc4067abd9c4db01be5}{}\label{primitives_8h_af1845dd201a1704a20a33f5b6c6e0fd2a2a58242d50c7fcc4067abd9c4db01be5}
+}]\end{description}
+\end{Desc}
+\index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+node\+\_\+status\+\_\+t@{Gdb\+\_\+node\+\_\+status\+\_\+t}}
+\index{Gdb\+\_\+node\+\_\+status\+\_\+t@{Gdb\+\_\+node\+\_\+status\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+node\+\_\+status\+\_\+t}{Gdb_node_status_t}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Gdb\+\_\+node\+\_\+status\+\_\+t}}\hypertarget{primitives_8h_acb48953e54c79cf63bf3e38632347ffb}{}\label{primitives_8h_acb48953e54c79cf63bf3e38632347ffb}
+This enum type is used to determine the status of a node \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{N\+EW@{N\+EW}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!N\+EW@{N\+EW}}\item[{\em 
+N\+EW\hypertarget{primitives_8h_acb48953e54c79cf63bf3e38632347ffbaec34b0b90541576a22697631105dc847}{}\label{primitives_8h_acb48953e54c79cf63bf3e38632347ffbaec34b0b90541576a22697631105dc847}
+}]\index{A\+L\+L\+O\+C\+A\+T\+ED@{A\+L\+L\+O\+C\+A\+T\+ED}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!A\+L\+L\+O\+C\+A\+T\+ED@{A\+L\+L\+O\+C\+A\+T\+ED}}\item[{\em 
+A\+L\+L\+O\+C\+A\+T\+ED\hypertarget{primitives_8h_acb48953e54c79cf63bf3e38632347ffba6a8a5583659fbcdf64186aacaf55cece}{}\label{primitives_8h_acb48953e54c79cf63bf3e38632347ffba6a8a5583659fbcdf64186aacaf55cece}
+}]\index{D\+E\+L\+E\+T\+ED@{D\+E\+L\+E\+T\+ED}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!D\+E\+L\+E\+T\+ED@{D\+E\+L\+E\+T\+ED}}\item[{\em 
+D\+E\+L\+E\+T\+ED\hypertarget{primitives_8h_acb48953e54c79cf63bf3e38632347ffbaae88752b9379248f07e2c3fdc064d998}{}\label{primitives_8h_acb48953e54c79cf63bf3e38632347ffbaae88752b9379248f07e2c3fdc064d998}
+}]\index{R\+E\+C\+L\+A\+I\+M\+ED@{R\+E\+C\+L\+A\+I\+M\+ED}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!R\+E\+C\+L\+A\+I\+M\+ED@{R\+E\+C\+L\+A\+I\+M\+ED}}\item[{\em 
+R\+E\+C\+L\+A\+I\+M\+ED\hypertarget{primitives_8h_acb48953e54c79cf63bf3e38632347ffbabb7d49dde557a396d59bd1bd6da59787}{}\label{primitives_8h_acb48953e54c79cf63bf3e38632347ffbabb7d49dde557a396d59bd1bd6da59787}
+}]\end{description}
+\end{Desc}
+\index{primitives.\+h@{primitives.\+h}!Gdb\+\_\+ret\+\_\+t@{Gdb\+\_\+ret\+\_\+t}}
+\index{Gdb\+\_\+ret\+\_\+t@{Gdb\+\_\+ret\+\_\+t}!primitives.\+h@{primitives.\+h}}
+\subsubsection[{\texorpdfstring{Gdb\+\_\+ret\+\_\+t}{Gdb_ret_t}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Gdb\+\_\+ret\+\_\+t}}\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382}
+Formerly usr\+\_\+ret\+\_\+type This enum type is used to define all the possible return types for anything. At some point we should map these to meaningful human readable messages. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{OK@{OK}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!OK@{OK}}\item[{\em 
+OK\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a2bc49ec37d6a5715dd23e85f1ff5bb59}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a2bc49ec37d6a5715dd23e85f1ff5bb59}
+}]\index{B\+A\+D\+\_\+\+P\+A\+Y\+L\+O\+AD@{B\+A\+D\+\_\+\+P\+A\+Y\+L\+O\+AD}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!B\+A\+D\+\_\+\+P\+A\+Y\+L\+O\+AD@{B\+A\+D\+\_\+\+P\+A\+Y\+L\+O\+AD}}\item[{\em 
+B\+A\+D\+\_\+\+P\+A\+Y\+L\+O\+AD\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ae0789cd14aab92b08036aa52b0f6cadf}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ae0789cd14aab92b08036aa52b0f6cadf}
+}]\index{P\+A\+G\+E\+\_\+\+F\+U\+LL@{P\+A\+G\+E\+\_\+\+F\+U\+LL}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!P\+A\+G\+E\+\_\+\+F\+U\+LL@{P\+A\+G\+E\+\_\+\+F\+U\+LL}}\item[{\em 
+P\+A\+G\+E\+\_\+\+F\+U\+LL\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a0722458a2abcd4055cc96b5530ba54eb}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a0722458a2abcd4055cc96b5530ba54eb}
+}]\index{S\+R\+C\+\_\+\+G\+O\+NE@{S\+R\+C\+\_\+\+G\+O\+NE}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!S\+R\+C\+\_\+\+G\+O\+NE@{S\+R\+C\+\_\+\+G\+O\+NE}}\item[{\em 
+S\+R\+C\+\_\+\+G\+O\+NE\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a3ba79469c4219ad03d5d32799a3c3112}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a3ba79469c4219ad03d5d32799a3c3112}
+}]\index{D\+S\+T\+\_\+\+G\+O\+NE@{D\+S\+T\+\_\+\+G\+O\+NE}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!D\+S\+T\+\_\+\+G\+O\+NE@{D\+S\+T\+\_\+\+G\+O\+NE}}\item[{\em 
+D\+S\+T\+\_\+\+G\+O\+NE\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a0039cdce3325f6c181a4e712c5e2075f}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a0039cdce3325f6c181a4e712c5e2075f}
+}]\index{M\+E\+M\+\_\+\+F\+U\+LL@{M\+E\+M\+\_\+\+F\+U\+LL}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!M\+E\+M\+\_\+\+F\+U\+LL@{M\+E\+M\+\_\+\+F\+U\+LL}}\item[{\em 
+M\+E\+M\+\_\+\+F\+U\+LL\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a7258f1235fce2d44a1b0df0b09966163}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a7258f1235fce2d44a1b0df0b09966163}
+}]\index{N\+O\+\_\+\+I\+N\+D\+EX@{N\+O\+\_\+\+I\+N\+D\+EX}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!N\+O\+\_\+\+I\+N\+D\+EX@{N\+O\+\_\+\+I\+N\+D\+EX}}\item[{\em 
+N\+O\+\_\+\+I\+N\+D\+EX\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a2e2f687d881b36b4aa71b67804c17ea3}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a2e2f687d881b36b4aa71b67804c17ea3}
+}]\index{N\+O\+\_\+\+N\+O\+DE@{N\+O\+\_\+\+N\+O\+DE}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!N\+O\+\_\+\+N\+O\+DE@{N\+O\+\_\+\+N\+O\+DE}}\item[{\em 
+N\+O\+\_\+\+N\+O\+DE\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ab2e28eb150ec907f32bdb7bb81bb460e}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ab2e28eb150ec907f32bdb7bb81bb460e}
+}]\index{M\+A\+X\+\_\+\+N\+O\+D\+ES@{M\+A\+X\+\_\+\+N\+O\+D\+ES}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!M\+A\+X\+\_\+\+N\+O\+D\+ES@{M\+A\+X\+\_\+\+N\+O\+D\+ES}}\item[{\em 
+M\+A\+X\+\_\+\+N\+O\+D\+ES\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a57a754a5647a458f2c81f183af02c17a}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a57a754a5647a458f2c81f183af02c17a}
+}]\index{I\+N\+V\+A\+L\+I\+D\+\_\+\+S\+E\+R\+I\+AL@{I\+N\+V\+A\+L\+I\+D\+\_\+\+S\+E\+R\+I\+AL}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!I\+N\+V\+A\+L\+I\+D\+\_\+\+S\+E\+R\+I\+AL@{I\+N\+V\+A\+L\+I\+D\+\_\+\+S\+E\+R\+I\+AL}}\item[{\em 
+I\+N\+V\+A\+L\+I\+D\+\_\+\+S\+E\+R\+I\+AL\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382add01e6be1aa55341227354458908adda}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382add01e6be1aa55341227354458908adda}
+}]\index{F\+I\+L\+E\+\_\+\+I\+\_\+\+E\+R\+R\+OR@{F\+I\+L\+E\+\_\+\+I\+\_\+\+E\+R\+R\+OR}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!F\+I\+L\+E\+\_\+\+I\+\_\+\+E\+R\+R\+OR@{F\+I\+L\+E\+\_\+\+I\+\_\+\+E\+R\+R\+OR}}\item[{\em 
+F\+I\+L\+E\+\_\+\+I\+\_\+\+E\+R\+R\+OR\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a554ebd1f9e4226ffebf8892b438da05d}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a554ebd1f9e4226ffebf8892b438da05d}
+}]\index{F\+I\+L\+E\+\_\+\+O\+\_\+\+E\+R\+R\+OR@{F\+I\+L\+E\+\_\+\+O\+\_\+\+E\+R\+R\+OR}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!F\+I\+L\+E\+\_\+\+O\+\_\+\+E\+R\+R\+OR@{F\+I\+L\+E\+\_\+\+O\+\_\+\+E\+R\+R\+OR}}\item[{\em 
+F\+I\+L\+E\+\_\+\+O\+\_\+\+E\+R\+R\+OR\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382aa59a8cc2502138c456d47e17b70e40fc}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382aa59a8cc2502138c456d47e17b70e40fc}
+}]\index{F\+I\+L\+E\+\_\+\+E\+R\+R\+OR@{F\+I\+L\+E\+\_\+\+E\+R\+R\+OR}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!F\+I\+L\+E\+\_\+\+E\+R\+R\+OR@{F\+I\+L\+E\+\_\+\+E\+R\+R\+OR}}\item[{\em 
+F\+I\+L\+E\+\_\+\+E\+R\+R\+OR\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a452756e9e2581797c12ff67bab8e8bd4}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a452756e9e2581797c12ff67bab8e8bd4}
+}]\index{L\+O\+C\+K\+\_\+\+E\+RR@{L\+O\+C\+K\+\_\+\+E\+RR}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!L\+O\+C\+K\+\_\+\+E\+RR@{L\+O\+C\+K\+\_\+\+E\+RR}}\item[{\em 
+L\+O\+C\+K\+\_\+\+E\+RR\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a54f3eb302c9efed3e88579c5c7e2aa31}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a54f3eb302c9efed3e88579c5c7e2aa31}
+}]\index{P\+R\+O\+C\+\_\+\+I\+D\+LE@{P\+R\+O\+C\+\_\+\+I\+D\+LE}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!P\+R\+O\+C\+\_\+\+I\+D\+LE@{P\+R\+O\+C\+\_\+\+I\+D\+LE}}\item[{\em 
+P\+R\+O\+C\+\_\+\+I\+D\+LE\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a6b461cf08706e8456cfd0c5e46c88f5c}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a6b461cf08706e8456cfd0c5e46c88f5c}
+}]\index{P\+R\+O\+C\+\_\+\+OK@{P\+R\+O\+C\+\_\+\+OK}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!P\+R\+O\+C\+\_\+\+OK@{P\+R\+O\+C\+\_\+\+OK}}\item[{\em 
+P\+R\+O\+C\+\_\+\+OK\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ac1243be0ce348e4df65e247ab5c3c55b}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382ac1243be0ce348e4df65e247ab5c3c55b}
+}]\index{P\+R\+O\+C\+\_\+\+R\+U\+N\+N\+I\+NG@{P\+R\+O\+C\+\_\+\+R\+U\+N\+N\+I\+NG}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!P\+R\+O\+C\+\_\+\+R\+U\+N\+N\+I\+NG@{P\+R\+O\+C\+\_\+\+R\+U\+N\+N\+I\+NG}}\item[{\em 
+P\+R\+O\+C\+\_\+\+R\+U\+N\+N\+I\+NG\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a4f8e3722918567a5d152312e9afab857}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a4f8e3722918567a5d152312e9afab857}
+}]\index{T\+H\+\_\+\+C\+\_\+\+E\+R\+R\+OR@{T\+H\+\_\+\+C\+\_\+\+E\+R\+R\+OR}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!T\+H\+\_\+\+C\+\_\+\+E\+R\+R\+OR@{T\+H\+\_\+\+C\+\_\+\+E\+R\+R\+OR}}\item[{\em 
+T\+H\+\_\+\+C\+\_\+\+E\+R\+R\+OR\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a49db1a6c703c87cefbb0d052469640eb}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a49db1a6c703c87cefbb0d052469640eb}
+}]\index{E\+D\+G\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+TE@{E\+D\+G\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+TE}!primitives.\+h@{primitives.\+h}}\index{primitives.\+h@{primitives.\+h}!E\+D\+G\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+TE@{E\+D\+G\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+TE}}\item[{\em 
+E\+D\+G\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+TE\hypertarget{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a943cf740a9db86e5456cb19e854d9c37}{}\label{primitives_8h_a070061b26b3ec1c031b4ef2977e52382a943cf740a9db86e5456cb19e854d9c37}
+}]\end{description}
+\end{Desc}
