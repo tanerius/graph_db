@@ -93,7 +93,7 @@ void test_createGraphPage(Graph_t *graph){
     printf("\nTesting createGraphPage(): ");
     Gdb_ret_t result; 
     result = createGraphPage(graph);
-    //assert(result == OK);
+    assert(result == OK);
     printf("PASS");
 }
 
@@ -104,33 +104,32 @@ int main()
     test_creatememory();
     Graph_p undir_graph = test_createGraph(UNDIRECTED);
     test_addGraphElement(undir_graph, 0, 26); // 20 should pass 6 should require memory reallocation
-    test_addEdge(undir_graph, 0, 1, 3);
-    test_addEdge(undir_graph, 0, 4, 3);
+    test_addEdge(undir_graph, 0, 1, 1);
+    test_addEdge(undir_graph, 0, 4, 2);
     test_addEdge(undir_graph, 1, 2, 3);
-    test_addEdge(undir_graph, 1, 3, 3);
-    test_addEdge(undir_graph, 1, 4, 3);
-    test_addEdge(undir_graph, 2, 3, 3);
-    test_addEdge(undir_graph, 3, 4, 3);
+    test_addEdge(undir_graph, 1, 3, 4);
+    test_addEdge(undir_graph, 1, 4, 5);
+    test_addEdge(undir_graph, 2, 3, 6);
+    test_addEdge(undir_graph, 3, 4, 7);
     test_createGraphPage(undir_graph);
     test_addGraphElement(undir_graph, 1, 6); // Add 6 more - should pass now
-    test_addEdge(undir_graph, 4, 0, 5);
-    test_addEdge(undir_graph, 13, 0, 5);
-    test_addEdge(undir_graph, 13, 0, 5);
-    test_addEdge(undir_graph, 5, 0, 5);
-    test_addEdge(undir_graph, 6, 0, 5);
-    test_addEdge(undir_graph, 7, 0, 5);
-    test_addEdge(undir_graph, 8, 0, 5);
-    test_addEdge(undir_graph, 9, 0, 5);
-    test_addEdge(undir_graph, 10, 0, 5);
-    test_addEdge(undir_graph, 11, 0, 5);
-    test_addEdge(undir_graph, 12, 0, 5);
+    test_addEdge(undir_graph, 4, 0, 8);
+    test_addEdge(undir_graph, 13, 0, 9);
+    test_addEdge(undir_graph, 13, 0, 10);
+    test_addEdge(undir_graph, 5, 0, 11);
+    test_addEdge(undir_graph, 6, 0, 12);
+    test_addEdge(undir_graph, 7, 0, 13);
+    test_addEdge(undir_graph, 8, 0, 14);
+    test_addEdge(undir_graph, 9, 0, 15);
+    test_addEdge(undir_graph, 13, 0, 9); // duplicate
+    test_addEdge(undir_graph, 10, 0, 16);
+    test_addEdge(undir_graph, 11, 0, 17);
+    test_addEdge(undir_graph, 13, 0, 9); // duplicate
+    test_addEdge(undir_graph, 12, 0, 18);
 
     //get edges of Node(0)
-    Node_p n0 = undir_graph->arr_list[0].head;
-    displayEdgeInfo(n0);
-    // move forward 2 elements
-    n0 = n0+(2* sizeof(Node_t));
-    displayEdgeInfo(n0);
+    
+
     
     
 /*

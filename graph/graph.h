@@ -72,9 +72,15 @@ typedef struct Graph
     /* Becomes true when graph needs to grow its element page */
     bool needs_page_increase;
 }Graph_t, *Graph_p;
- 
+
+/*! 
+    Type for edge sorting function pointer
+*/
+typedef Gdb_ret_t (*Gdb_sort_fn_p)(List_t*, Gdb_N_t, Node_t*);
+
 Gdb_ret_t addEdge(Graph_t*, const Gdb_N_t, const Gdb_N_t, Gdb_hr_t);
-void addEdgeInPosition(Node_t*,Gdb_N_t);
+Gdb_ret_t addEdgeSL(List_t*, Gdb_N_t, Node_t*);
+Gdb_ret_t addEdgeUL(List_t*, Gdb_N_t, Node_t*);
 Gdb_ret_t addGraphElement(Graph_t*, Gdb_hr_t); 
 Gdb_ret_t allMutexesLock();
 Gdb_ret_t allMutexesUnLock();

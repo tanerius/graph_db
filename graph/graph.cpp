@@ -21,6 +21,16 @@ Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_h
         graph_p->deleted_element = &(graph_p->arr_list[dest]);
         return DST_GONE;
     }
+    // assign the proper function for adding edges
+    Gdb_sort_fn_p edgeAddSortingFunction;
+    switch(graph_p->edge_type){
+        case ULL:
+            edgeAddSortingFunction = &addEdgeUL; // unsorted list
+            break;
+        default:
+            edgeAddSortingFunction = &addEdgeSL; // sorted list
+            break;
+    }
 
     // LOCK
     pthread_mutex_lock(&edge_mutex);
@@ -32,10 +42,12 @@ Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_h
         return NO_NODE;
     }
 
-    //addEdgeInPosition(graph_p->arr_list[dest].head,graph_p->arr_list[src].num_edges,new_node);
-    new_node->next = graph_p->arr_list[src].head;
-    graph_p->arr_list[src].head = new_node;
-    graph_p->arr_list[src].num_edges++;
+    Gdb_ret_t ret;
+    ret = edgeAddSortingFunction(&(graph_p->arr_list[src]), graph_p->arr_list[src].num_edges,new_node);
+
+    if(ret == OK){
+        graph_p->arr_list[src].num_edges++;
+    }
 
     if(graph_p->type == UNDIRECTED){
         /* Add an edge from dest to src also*/
@@ -44,69 +56,68 @@ Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_h
             pthread_mutex_unlock(&edge_mutex);
             return NO_NODE;
         }
-        // find the correct place
-        //addEdgeInPosition(graph_p->arr_list[dest].head,graph_p->arr_list[dest].num_edges,new_node);
-        
-        new_node->next =graph_p->arr_list[dest].head;
-        graph_p->arr_list[dest].head = new_node;
-        graph_p->arr_list[dest].num_edges++;
+
+        ret = edgeAddSortingFunction(&(graph_p->arr_list[dest]), graph_p->arr_list[dest].num_edges,new_node);
+               
+        if(ret == OK){
+            graph_p->arr_list[dest].num_edges++;
+        }
     }
     pthread_mutex_unlock(&edge_mutex);
     return OK;
 }
 
-// Add vertices in ordered position
-Gdb_ret_t addEdgeInPosition(Node_t *head_node,Gdb_N_t total_edges,Node_t *new_node){
-    Node_p tmp_node = head_node;
-
+// Add an edge using sorted linear list - highest to lowest 
+// NOT THREAD SAFE ON ITS OWN
+Gdb_ret_t addEdgeSL(List_t *source_list,Gdb_N_t total_edges,Node_t *new_node){
+    Node_p tmp_node = source_list->head;
     if(total_edges == 0){
-        head_node = new_node;
+        source_list->head = new_node;
     }
     else{
-        Node_p last_checked;
-        bool found = false
-        while((!found) && tmp_node){
-            if(new_node->vertex <= tmp_node->vertex){
-
-            }
-
-            //3 -> 1 2 3 4 5 
-        }
-    }
-
-    
-
-    if(head_node == last_node){
-        // single edge here add the new one
-        if(new_node->vertex <= head_node->vertex){
-            new_node->next = head_node;
-            head_node = new_node;
-        }
-        else{
-            head_node->next = new_node;
-        }
-    }
-    else{
-        Gdb_N_t current = total_edges / 2 ;
-        bool found = false;
-        while(!found){
-            // split in half
-            tmp_node = first_node + current;
-            if(new_node->vertex < tmp_node->vertex){
-                last_node = tmp_node;
-                // check first == last
-                if (first_node == last_node){
-                    if(head_node == first_node){
-                        // this means new node should be first
-                        new_node->next = first_node;
-                        head_node = new_node;
-                        found = true;
+        Node_p last_checked = NULL;
+        while(tmp_node){
+            if(new_node->vertex >= tmp_node->vertex){
+                if(tmp_node == source_list->head){
+                    new_node->next = tmp_node;
+                    source_list->head = new_node;
+                    return OK;
+                }
+                else{
+                    if(last_checked != NULL){
+                        new_node->next = tmp_node;
+                        last_checked->next = new_node;
+                        return OK;
                     }
+                }
+            }
+            else{
+                if(tmp_node->next == NULL){
+                    tmp_node->next = new_node;
+                    return OK;
+                }
+                else{
+                    last_checked = tmp_node;
+                    tmp_node = tmp_node->next;
                 }
             }
         }
     }
+    return OK;
+}
 
+// Add an edge using unsorted linear list - fast inserts
+// NOT THREAD SAFE ON ITS OWN
+Gdb_ret_t addEdgeUL(List_t *source_list,Gdb_N_t total_edges,Node_t *new_node){
+    Node_p tmp_node = source_list->head;
+    if(total_edges == 0){
+        source_list->head = new_node;
+    }
+    else{
+        new_node->next = tmp_node;
+        source_list->head = new_node;
+    }
+    return OK;
 }
 
 Gdb_ret_t addGraphElement(Graph_t *graph, Gdb_hr_t el_type){
