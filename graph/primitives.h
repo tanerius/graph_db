@@ -5,12 +5,13 @@
  * Universal stuff used almost everywhere.
  * All explicit graphdb variables will be prefixed with Gdb_
  */
-#define TRUE        1                   /*!< Custom true */
-#define FALSE       0                   /*!< Custom false */
-#define MAX_PAGE_SIZE            20     /*!< MAX_PAGE_SIZE defines how much should the adjacency list size grow/page */
-#define VERSION_MAJOR             1     /*!< Major version */
-#define VERSION_MINOR             0     /*!< Minor version */
-#define THEORETICAL_MAX     1000000     /*!< Maximums used in generating IDs for nodes */
+#define TRUE        1                   /* Custom true */
+#define FALSE       0                   /* Custom false */
+#define MAX_PAGE_SIZE            20     /* MAX_PAGE_SIZE defines how much should the adjacency list size grow/page */
+#define VERSION_MAJOR             1     /* Major version */
+#define VERSION_MINOR             0     /* Minor version */
+#define THEORETICAL_MAX     1000000     /* Maximums used in generating IDs for nodes */
+#define GDB_ENGINE_MEMORY         0     /* Memory engine type */
  
 
 
@@ -22,6 +23,11 @@ typedef enum {
     UNDIRECTED=0, 
     DIRECTED
 } Gdb_graph_t;
+
+/*! 
+    Type definition for the engine type
+*/
+typedef int Gdb_engine_t;
 
 /*! 
     This enum type is used to determine the status of a node

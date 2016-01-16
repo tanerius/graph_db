@@ -5,9 +5,9 @@
 
 #include "graph.h"
 
-pthread_mutex_t edge_mutex;     /*!< A mutex for edges */
-pthread_mutex_t node_mutex;     /*!< Vertex mutex */
-pthread_mutex_t graph_mutex;    /*!< Mutex for ne daj baze */
+pthread_mutex_t edge_mutex;     /* A mutex for edges */
+pthread_mutex_t node_mutex;     /* Vertex mutex */
+pthread_mutex_t graph_mutex;    /* Mutex for ne daj baze */
 
 /* Adds an edge to a graph*/
 Gdb_ret_t addEdge(Graph_t *graph_p, const Gdb_N_t src, const Gdb_N_t dest, Gdb_hr_t el_type){
@@ -294,6 +294,7 @@ Graph_p createGraph(const Gdb_graph_t type, const char *fn){
         return NULL;
     }
     graph->type = type;
+    graph->engine = GDB_ENGINE_MEMORY; 
     graph->deleted_element = NULL;
     graph->total_deleted = 0;
     graph->next_available_id = 0;

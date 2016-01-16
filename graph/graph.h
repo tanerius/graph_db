@@ -55,22 +55,16 @@ typedef struct Graph
     /* filename where graph is stored for persistence */
     char *db_filename;
 
-    /* Define the type of graph */
-    Gdb_graph_t type;      
-    /* Define the type of sorting used for the edges */
-    Gdb_edge_sort_t edge_type;
-    /* Number of vertices */
-    Gdb_N_t num_vertices;
-    /* Total number of deleted elements */
-    Gdb_N_t total_deleted;
-    // next free id to allocate with an element
-    Gdb_N_t next_available_id;
-    /* Pointer to a deleted element in adjacency list (caching optimization) */
-    List_p deleted_element;
-    /* Array of adjacency lists */
-    List_p arr_list;
-    /* Becomes true when graph needs to grow its element page */
-    bool needs_page_increase;
+    Gdb_engine_t engine                 /* Define the engine type */
+    Gdb_graph_t type;                   /* Define the type of graph */
+    bool duplicates_ok;                 /* Can nodes have duplicates */
+    Gdb_edge_sort_t edge_type;          /* Define the type of sorting used for the edges */
+    Gdb_N_t num_vertices;               /* Number of vertices */
+    Gdb_N_t total_deleted;              /* Total number of deleted elements */
+    Gdb_N_t next_available_id;          /* next free id to allocate with an element */
+    List_p deleted_element;             /* Pointer to a deleted element in adjacency list (caching optimization) */
+    List_p arr_list;                    /* Array of adjacency lists */
+    bool needs_page_increase;           /* When true, grow the ghraph page */
 }Graph_t, *Graph_p;
 
 /*! 
