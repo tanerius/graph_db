@@ -9,7 +9,16 @@
 #include <cstring>          /* for strlen, strcpy and memset */
 #include <iostream>
 #include <pthread.h>
+#include <assert.h>
 #include <vector>
+
+/* Helper macros */
+#define minElement(a,b)            ((a)<(b)?(a):(b))
+#define maxElement(a,b)            ((a)>(b)?(a):(b))
+#define safeFree(_x)        { if (_x) { free (_x); (_x) = NULL; } }
+#define safeDelete(_x)      { if (_x) { delete (_x); (_x) = NULL; } }
+#define safeDeleteArray(_x) { if (_x) { delete [] (_x); (_x) = NULL; } }
+#define safeRelease(_x)     { if (_x) { (_x)->Release(); (_x) = NULL; } }
 
 /*! 
     Our very own counter
@@ -40,10 +49,16 @@ struct Counter {
     char const *const constant_pointer_to_constant_char;
 */
 class GdbString {
-    private:
+    protected:
         char *m_string = NULL;              /* This is the actual string */
         Gdb_N_t m_length = 0;               /* The strings length including the terminator */
-        
+    private:
+        /* Introduce a 4 byte gap which wont affect strlen. Needed for multibyte chars */
+        static const int    BYTE_GAP  = 4;
+
+        //methods
+        char* allocateMemory(Gdb_N_t); 
+
     public: // Methods
         bool reallocate(Gdb_N_t nSize);
         const char * cstr () const {return m_string; }
@@ -54,6 +69,19 @@ class GdbString {
         GdbString() {m_string = NULL, m_length = 0;}; /* Defult constructor */
         GdbString(const char *_string){m_string = NULL; m_length = 0; operator=(_string); };
         ~GdbString(){ if (m_string) free(m_string); m_length = 0;};
+
+        GdbString subString ( int i_start, int i_count ) const
+        {
+            assert ( i_start>=0 );
+            assert ( i_count>0 );
+            assert ( (i_start+i_count)>=0  );
+
+            GdbString new_str;
+            new_str.m_string = (char*)malloc(m_length*sizeof(char) + BYTE_GAP);
+            strncpy ( new_str.m_string, m_string+i_start, i_count );
+            memset ( new_str.m_string+i_count, 0, 1+BYTE_GAP );
+            return new_str;
+        }
 
         // Operators for assignment
         GdbString& operator=(const GdbString& rhs) { return operator=(rhs.m_string); }; /* Assigning a GdbString */
@@ -72,8 +100,14 @@ class GdbString {
         bool operator>(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) > 0; }
         bool operator>=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res > 0 || res == 0; }
 
-        bool operator==(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) == 0; }
-        bool operator!=(GdbString& _string) { return !operator==(_string); }
+        inline bool operator==(const char* _string) {
+            if ( !_string || !m_string )
+                return ( !_string && !m_string );
+            return strcmp ( m_string, _string )==0;
+        }
+        inline bool operator==(GdbString& _string) { return operator==(_string.cstr()); }
+        inline bool operator!=(const char* _string) { return !operator==(_string); }
+        inline bool operator!=(GdbString& _string) { return !operator==(_string.cstr()); }
 
 
 
