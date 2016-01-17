@@ -18,8 +18,6 @@ int main(){
     GdbString z = x+y;
     printf("z=%s\n",z.cstr());
 
-
-
     GdbString a1 = "test";
     GdbString a2 = "test";
     GdbString a3 = "test2";
@@ -36,6 +34,9 @@ int main(){
     else{
         printf("a1 != a3\n");
     }
+
+    GdbString a4 = z.subString(3,5);
+    printf("a4 is a subString: %s\n",a4.cstr());
  
-    return 0;
+    return 0; 
 }
