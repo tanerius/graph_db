@@ -66,11 +66,11 @@ class GdbString {
         GdbString operator+(GdbString& rhs) { return operator+(rhs.get()); }
 
         // Operators for comparison
-        bool operator<(GdbString _string) { return strcmp(operator const char*(), (const char*)_string) < 0; }
-        bool operator<=(GdbString _string) { int res = strcmp(operator const char*(), (const char*)_string); return res < 0 || res == 0; }
+        bool operator<(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.get()) < 0; }
+        bool operator<=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.get()); return res < 0 || res == 0; }
 
-        bool operator>(GdbString _string) { return strcmp(operator const char*(), (const char*)_string) > 0; }
-        bool operator>=(GdbString _string) { int res = strcmp(operator const char*(), (const char*)_string); return res > 0 || res == 0; }
+        bool operator>(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.get()) > 0; }
+        bool operator>=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.get()); return res > 0 || res == 0; }
 
         bool operator==(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.get()) == 0; }
         bool operator!=(GdbString& _string) { return !operator==(_string); }
