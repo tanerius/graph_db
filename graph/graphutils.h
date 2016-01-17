@@ -46,7 +46,7 @@ class GdbString {
         
     public: // Methods
         bool reallocate(Gdb_N_t nSize);
-        char* get() {return m_string;}
+        const char * cstr () const {return m_string; }
         Gdb_N_t length() { return m_string?strlen(m_string):0; } 
         Gdb_N_t length_serialized() { return m_string?strlen(m_string)+sizeof(char):0; } 
 
@@ -63,16 +63,16 @@ class GdbString {
         GdbString& operator+=(const char*);
         GdbString& operator+=(GdbString& rhs) { return operator+=(rhs.m_string); }
         GdbString operator+(const char*);
-        GdbString operator+(GdbString& rhs) { return operator+(rhs.get()); }
+        GdbString operator+(GdbString& rhs) { return operator+(rhs.cstr()); }
 
         // Operators for comparison
-        bool operator<(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.get()) < 0; }
-        bool operator<=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.get()); return res < 0 || res == 0; }
+        bool operator<(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) < 0; }
+        bool operator<=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res < 0 || res == 0; }
 
-        bool operator>(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.get()) > 0; }
-        bool operator>=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.get()); return res > 0 || res == 0; }
+        bool operator>(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) > 0; }
+        bool operator>=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res > 0 || res == 0; }
 
-        bool operator==(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.get()) == 0; }
+        bool operator==(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) == 0; }
         bool operator!=(GdbString& _string) { return !operator==(_string); }
 
 

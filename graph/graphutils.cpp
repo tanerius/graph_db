@@ -48,8 +48,8 @@ GdbString& GdbString::operator=(const char *_string)
     else
     {
         if (m_string)
-        {
-            free(m_string);
+        
+{            free(m_string);
             m_string = NULL;
         }
 
@@ -80,7 +80,7 @@ GdbString& GdbString::operator+=(const char *_string)
 
 GdbString GdbString::operator+(const char* _string)
 {
-    GdbString new_string = get();
+    GdbString new_string = cstr();
     new_string += _string;
     return new_string;
 }

@@ -7,16 +7,16 @@ int main(){
 
 
     GdbString x = "Taner";
-    printf("x=%s\n",x.get());
+    printf("x=%s\n",x.cstr());
     x = "Taner Selim";
-    printf("x=%s\n",x.get());
+    printf("x=%s\n",x.cstr());
     GdbString y = x + " Inci";
-    printf("y=%s\n",y.get());
+    printf("y=%s\n",y.cstr());
     y = y + " Erin";
-    printf("y=%s\n",y.get());
-    printf("x=%s\n",x.get());
+    printf("y=%s\n",y.cstr());
+    printf("x=%s\n",x.cstr());
     GdbString z = x+y;
-    printf("z=%s\n",z.get());
+    printf("z=%s\n",z.cstr());
 
 
 
