@@ -319,7 +319,7 @@ Graph_p createGraph(const Gdb_graph_t type, const char *fn){
     // allocate a filename 
     graph->db_filename = (char*)createMemory(strlen(fn) + 1);
     // add the terminator
-    memset(graph->db_filename, '\0', strlen(fn));
+    memset(graph->db_filename, '\0', strlen(fn)+1);
     strcpy(graph->db_filename,fn);
     pthread_mutex_unlock(&graph_mutex);
 
