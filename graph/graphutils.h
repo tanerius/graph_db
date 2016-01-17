@@ -48,6 +48,7 @@ class GdbString {
         bool reallocate(Gdb_N_t nSize);
         char* get() {return m_string;}
         Gdb_N_t length() { return m_string?strlen(m_string):0; } 
+        Gdb_N_t length_serialized() { return m_string?strlen(m_string)+sizeof(char):0; } 
 
         // Construction and destruction
         GdbString() {m_string = NULL, m_length = 0;}; /* Defult constructor */
@@ -71,8 +72,10 @@ class GdbString {
         bool operator>(GdbString _string) { return strcmp(operator const char*(), (const char*)_string) > 0; }
         bool operator>=(GdbString _string) { int res = strcmp(operator const char*(), (const char*)_string); return res > 0 || res == 0; }
 
-        bool operator==(GdbString _string) { return strcmp(operator const char*(), (const char*)_string) == 0; }
-        bool operator!=(GdbString _string) { return !operator==(_string); }
+        bool operator==(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.get()) == 0; }
+        bool operator!=(GdbString& _string) { return !operator==(_string); }
+
+
 
         // Cast operator
         operator const char*() { return m_string ? m_string: ""; }
