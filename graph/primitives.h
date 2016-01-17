@@ -94,6 +94,11 @@ typedef void Gdb_Nothing_t, *Gdb_Payload_p;
 typedef unsigned long Gdb_N_t,*Gdb_n_p;
 
 /*! 
+    Natural (N) numbers representation that take up less space than Gdb_N_t
+*/
+typedef unsigned char Gdb_Ntiny_t, *Gdb_Ntiny_p;
+
+/*! 
     Full (Z) numbers representation
 */
 typedef long Gdb_Z_t,*Gdb_z_p;

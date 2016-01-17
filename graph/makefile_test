@@ -8,16 +8,25 @@ CFLAGS=-g -Wall -std=c99 -pthread
 
 OBJDIR=build
 
-default: graph_test
+default: test_graph test_server test_utils
 
-graph_test: test.o
-	$(CP) $(CPFLAGS) -o $(OBJDIR)/graph_test $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphfiles.o 
+test_server: init graphutils.o
+	$(CP) $(CPFLAGS) test_server.cpp -o $(OBJDIR)/test_server
+
+test_graph: test.o
+	$(CP) $(CPFLAGS) -o $(OBJDIR)/test_graph $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphfiles.o 
+
+test_utils: init graphutils.o
+	$(CP) $(CPFLAGS) test_utils.cpp -o $(OBJDIR)/test_utils 
 
 test.o: graphfiles.o
 	$(CP) $(CPFLAGS) -c test.cpp -o $(OBJDIR)/test.o
 
 graphfiles.o: graph.o graphfiles.h
 	$(CP) $(CPFLAGS) -c graphfiles.cpp -o $(OBJDIR)/graphfiles.o
+
+graphutils.o: primitives.h graphutils.h
+	$(CP) $(CPFLAGS) -c graphutils.cpp -o $(OBJDIR)/graphutils.o
 
 graph.o: init primitives.h graph.h
 	$(CP) $(CPFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o

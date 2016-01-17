@@ -29,22 +29,26 @@ struct Counter {
     }
 };
 
-/*! 
-    Our very own counter that is thread safe
+/*!
+    This is the GdbString class. It should be the only reporesentation of text that 
+    should be used for this server. It has everything needed.
+    These strings are thread safe and ready to travel across sockets.
 */
-struct ConcurrentSafeCounter {
-    std::mutex mutex;
-    Counter counter;
+class GdbString{
+    private: // Members
+        char *s;                /* This is the actual string */
+        Gdb_N_t s_length;       /* The strings length not including the terminator */
+        
 
-    void increment(){
-        std::lock_guard<std::mutex> guard(mutex);
-        counter.increment();
-    }
 
-    void decrement(){
-        std::lock_guard<std::mutex> guard(mutex);
-        counter.decrement();
-    }
+    public: // Methods
+        GdbString(); /* Defult constructor */
+        GdbString(const char*);
+
+        GdbString& operator=(const GdbString &rhs);
+
+        const Gdb_N_t length() { return s_length; }
+        const Gdb_N_t length_raw() { return s_length; }
 };
 
 #endif

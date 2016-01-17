@@ -55,7 +55,7 @@ typedef struct Graph
     /* filename where graph is stored for persistence */
     char *db_filename;
 
-    Gdb_engine_t engine                 /* Define the engine type */
+    Gdb_engine_t engine;                /* Define the engine type */
     Gdb_graph_t type;                   /* Define the type of graph */
     bool duplicates_ok;                 /* Can nodes have duplicates */
     Gdb_edge_sort_t edge_type;          /* Define the type of sorting used for the edges */
