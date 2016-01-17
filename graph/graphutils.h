@@ -60,8 +60,31 @@ class GdbString {
         char* allocateMemory(Gdb_N_t); 
 
     public: // Methods
+        
+        bool beginsWith ( const char * _string ) const
+        {
+            if ( !m_string || !_string )
+                return false;
+            return strncmp ( m_string, _string, strlen(_string) )==0;
+        }
+
+        bool endsWith ( const char * _string ) const
+        {
+            if ( !m_string || !_string )
+                return false;
+
+            int i_val = strlen ( m_string );
+            int i_prefix = strlen ( _string );
+            if ( i_val<i_prefix )
+                return false;
+            return strncmp ( m_string+i_val-i_prefix, _string, i_prefix )==0;
+        }
+
         bool reallocate(Gdb_N_t nSize);
+
+        /* Return a cstr immutable representation of the stored string */
         const char * cstr () const {return m_string; }
+        
         Gdb_N_t length() { return m_string?strlen(m_string):0; } 
         Gdb_N_t length_serialized() { return m_string?strlen(m_string)+sizeof(char):0; } 
 
