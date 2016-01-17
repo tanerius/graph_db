@@ -62,6 +62,7 @@ class GdbString {
         GdbString& operator+=(const char*);
         GdbString& operator+=(GdbString& rhs) { return operator+=(rhs.m_string); }
         GdbString operator+(const char*);
+        GdbString operator+(GdbString& rhs) { return operator+(rhs.get()); }
 
         // Operators for comparison
         bool operator<(GdbString _string) { return strcmp(operator const char*(), (const char*)_string) < 0; }
