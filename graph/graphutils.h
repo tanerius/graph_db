@@ -7,10 +7,12 @@
 #endif
 
 #include <cstring>          /* for strlen, strcpy and memset */
+#include <cstdlib>          /* for itoa */
 #include <iostream>
 #include <pthread.h>
 #include <assert.h>
 #include <vector>
+
 
 /* Helper macros */
 #define minElement(a,b)            ((a)<(b)?(a):(b))
@@ -153,6 +155,63 @@ class GdbString {
 
 };
 
+
+/*!
+    This is the GdbNumeric class derived from the GdbString class. 
+    It represents easily printable immutable numbers
+*/
+class GdbNumeric : public GdbString
+{
+    protected:
+        int             m_int;
+        float           m_float;
+    public:
+        /* default */
+        GdbNumeric () : GdbString ()
+            , m_int ( 0 )
+            , m_float ( 0.0f )
+        {}
+
+        /* ctor for char* as param */
+        GdbNumeric ( const char * _string ) : GdbString ( _string )
+            , m_int ( m_string ? atoi ( m_string ) : 0 )
+            , m_float ( m_string ? (float)atof ( m_string ) : 0.0f )
+        {}
+
+        /* ctor for int as param  */
+        GdbNumeric ( int _int ) : GdbString ( std::to_string(_int).c_str() )
+            , m_int ( _int )
+            , m_float ( (float)_int )
+        {}
+
+        /* ctor for float as param  */
+        GdbNumeric ( float _float ) : GdbString ( std::to_string(_float).c_str() )
+            , m_int ( (int)_float )
+            , m_float ( _float )
+        {}
+
+        /* copy ctor */
+        GdbNumeric ( const GdbNumeric & rhs ) : GdbString ()
+            , m_int ( 0 )
+            , m_float ( 0.0f )
+        {
+            *this = rhs;
+        }
+
+        /* Get the int value */
+        int int_val () const {return m_int;}
+
+        /* Get the float value */
+        float float_val () const { return m_float; }
+
+        /* Assignment operator */
+        const GdbNumeric & operator = ( const GdbNumeric & rhs ) {
+            GdbString::operator = ( rhs );
+            m_int = rhs.m_int;
+            m_float = rhs.m_float;
+            return *this;
+        }
+};
 
 
 #endif
