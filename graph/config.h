@@ -8,6 +8,7 @@
 #define GDB_LIST_ADDR   "0.0.0.0"               /* 0.0.0.0 means listen to all interfaces */
 #define GDB_CTO_MS          3000                /* Timeout and close idle connections in 3 seconds */
 #define GDB_BUFFER_SIZE     8192                /* 8KB IO buffer default - play around to get optimal value */
+#define GDB_ADDRESS_SIZE    sizeof("000.000.000.000")
 #endif
 
 #endif

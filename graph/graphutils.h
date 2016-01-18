@@ -20,6 +20,10 @@
 #define safeDeleteArray(_x) { if (_x) { delete [] (_x); (_x) = NULL; } }
 #define safeRelease(_x)     { if (_x) { (_x)->Release(); (_x) = NULL; } }
 
+/* so windows ppl can be more familiar */
+typedef unsigned char BYTE;
+typedef unsigned int DWORD;
+
 /*! 
     Our very own counter
 */
@@ -78,6 +82,14 @@ class GdbString {
             if ( i_val<i_prefix )
                 return false;
             return strncmp ( m_string+i_val-i_prefix, _string, i_prefix )==0;
+        }
+
+        /* Checks to see if string is empty */
+        bool isEmpty () const
+        {
+            if ( !m_string )
+                return true;
+            return ( (*m_string)=='\0' );
         }
 
         bool reallocate(Gdb_N_t nSize);
@@ -140,5 +152,7 @@ class GdbString {
         void clear();
 
 };
+
+
 
 #endif

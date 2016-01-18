@@ -5,13 +5,21 @@
 #ifndef _CONFIG_H_
 #include "config.h"
 #endif
+#ifndef _GRAPHUTILS_H_
+#include "graphutils.h"
+#endif
+
+/
+int gdbCreateUnixSocket ( const char* );
+int gdbCreateInetSocket ( DWORD, int );
 
 /*
-    This is the basic message class to pass stuff back and fourth 
-    between file descriptors.
+    Format an IP address received in BIG endian to char*
 */
-class GdbMessaging{
-    
-};
-
+char * gdbFormatIP ( char * str_ip, int i_buff_size, DWORD u_address )
+{
+    const BYTE *a = (const BYTE *)&u_address;
+    snprintf ( str_ip, i_buff_size, "%u.%u.%u.%u", a[0], a[1], a[2], a[3] );
+    return str_ip;
+}
 #endif
