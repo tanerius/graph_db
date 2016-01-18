@@ -16,6 +16,9 @@ test_server: init graphutils.o
 test_graph: test.o
 	$(CP) $(CPFLAGS) -o $(OBJDIR)/test_graph $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphfiles.o 
 
+test_vector: init graphutils.o graphutils.h
+	$(CP) $(CPFLAGS) test_vector.cpp -o $(OBJDIR)/test_vector $(OBJDIR)/graphutils.o
+
 test_utils: init graphutils.o graphutils.h
 	$(CP) $(CPFLAGS) test_utils.cpp -o $(OBJDIR)/test_utils $(OBJDIR)/graphutils.o 
 

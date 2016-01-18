@@ -214,4 +214,17 @@ class GdbNumeric : public GdbString
 };
 
 
+/*!
+    This is a representation of vector qhich we will need a lot so it eneds to be minimal and fast. 
+    Elements should be immutable (i think!!!) but not exactly sure
+*/
+template <typename T> 
+class GdbVector {
+private:
+    <T> *m_arr_elements; 
+    Gdb_N_t m_length;
+    Gdb_N_t m_max_length;
+};
+
+
 #endif
