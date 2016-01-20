@@ -227,7 +227,7 @@ class GdbVector {
 
         /* Member fn used to grow the size of the vector as needed */
         bool resize_vector(Gdb_N_t _max_length){
-            printf("Growing to %ul ... ",_max_length);
+            printf("Growing to %lu ... ",_max_length);
             assert(_max_length > m_length);
             T *_arr_resized = (T*)malloc(sizeof(T) * _max_length);
             if(_arr_resized){
@@ -272,18 +272,31 @@ class GdbVector {
             if(m_length<m_max_length){
                 // ok to add
                 m_arr_elements[m_length] = _element;
-                
+                printf("Len  %lu ... \n",m_length);
+                printf("max  %lu ... \n",m_max_length);
             }
             else{
+                printf("Call resize %lu ... \n",m_max_length);
                 assert(resize_vector(m_max_length*2));
                 m_arr_elements[m_length] = _element;
+                printf("Len  %lu ... \n",m_length);
+                printf("max  %lu ... \n",m_max_length);
             }
-            m_length =+ 1;
+            m_length = m_length+1;
             return true;
         }
 
-        const Gdb_N_t size() const {return m_length;}
+        /* Debug print use ONLY with int types */
+        void display(){
+            printf("V( ");
+            for(Gdb_N_t i = 0; i<m_length;i++){
+                printf("%d ",m_arr_elements[i]);
+            }
+            printf(") \n");
+        }
         const Gdb_N_t max_size() const {return m_max_length;}
+        const Gdb_N_t size() const {return m_length;}
+        
 
         
 
