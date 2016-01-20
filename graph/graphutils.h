@@ -226,7 +226,23 @@ class GdbVector {
         Gdb_N_t m_max_length;
 
         /* Member fn used to grow the size of the vector as needed */
-        bool grow_vector(Gdb_N_t m_max_length);
+        bool resize_vector(Gdb_N_t _max_length){
+            printf("Growing to %ul ... ",_max_length);
+            assert(_max_length > m_length);
+            T *_arr_resized = (T*)malloc(sizeof(T) * _max_length);
+            if(_arr_resized){
+                m_max_length = _max_length;
+                for(Gdb_N_t i=0;i<m_length;i++){
+                    _arr_resized[i]=m_arr_elements[i];
+                }
+                safeFree(m_arr_elements);
+                m_arr_elements = _arr_resized;
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
 
     public:
         /* default */
@@ -245,7 +261,7 @@ class GdbVector {
         GdbVector (const T *_arr, const Gdb_N_t _size) :
             m_length (_size)
             ,m_max_length (_size+1) //adding +1 for safety
-        {
+        {;
             m_arr_elements = (T*)malloc(sizeof(T) * (_size+1));
             for(Gdb_N_t i=0;i<_size;i++){
                 m_arr_elements[i] = _arr[i];
@@ -255,23 +271,25 @@ class GdbVector {
         bool add(T _element){
             if(m_length<m_max_length){
                 // ok to add
-                return true;
+                m_arr_elements[m_length] = _element;
+                
             }
             else{
-                /*
-                    1. try to grow
-                    2. if grew ok then add 
-                    3. in not grew assert an error
-                */
-                    return true;
+                assert(resize_vector(m_max_length*2));
+                m_arr_elements[m_length] = _element;
             }
+            m_length =+ 1;
+            return true;
         }
+
+        const Gdb_N_t size() const {return m_length;}
+        const Gdb_N_t max_size() const {return m_max_length;}
 
         
 
         // operators
-        T& operator[](Gdb_N_t _index) { 
-            assert(_index < m_length);
+        T& operator[](const Gdb_N_t _index) { 
+            assert(_index < m_max_length);
             return m_arr_elements[_index]; 
         }
 
