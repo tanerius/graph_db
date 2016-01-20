@@ -220,10 +220,64 @@ class GdbNumeric : public GdbString
 */
 template <typename T> 
 class GdbVector {
-private:
-    <T> *m_arr_elements; 
-    Gdb_N_t m_length;
-    Gdb_N_t m_max_length;
+    private:
+        T *m_arr_elements; 
+        Gdb_N_t m_length;
+        Gdb_N_t m_max_length;
+
+        /* Member fn used to grow the size of the vector as needed */
+        bool grow_vector(Gdb_N_t m_max_length);
+
+    public:
+        /* default */
+        GdbVector () :
+            m_arr_elements (NULL)
+            ,m_length (0)
+            ,m_max_length (0)
+        {}
+        GdbVector (const Gdb_N_t _max_length) :
+            m_length (0)
+            ,m_max_length (_max_length)
+        {
+            m_arr_elements = (T*)malloc(sizeof(T) * m_max_length);
+        }
+
+        GdbVector (const T *_arr, const Gdb_N_t _size) :
+            m_length (_size)
+            ,m_max_length (_size+1) //adding +1 for safety
+        {
+            m_arr_elements = (T*)malloc(sizeof(T) * (_size+1));
+            for(Gdb_N_t i=0;i<_size;i++){
+                m_arr_elements[i] = _arr[i];
+            }
+        }
+
+        bool add(T _element){
+            if(m_length<m_max_length){
+                // ok to add
+                return true;
+            }
+            else{
+                /*
+                    1. try to grow
+                    2. if grew ok then add 
+                    3. in not grew assert an error
+                */
+                    return true;
+            }
+        }
+
+        
+
+        // operators
+        T& operator[](Gdb_N_t _index) { 
+            assert(_index < m_length);
+            return m_arr_elements[_index]; 
+        }
+
+        bool fast_remove(Gdb_N_t _i);
+
+
 };
 
 
