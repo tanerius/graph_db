@@ -5,12 +5,12 @@ int main(){
     GdbVector<int>v(4);
     printf("vector size = %lu\n",v.size());
     v.display();
-    v.add(1);
-    v.add(2);
-    v.add(3);
-    v.add(4);
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    v.push_back(4);
     v.display();
-    v.add(5); // fire a resize here 
+    v.push_back(5); // fire a resize here 
     v.display();
     printf("vector size = %lu\n",v.size());
     
