@@ -1,44 +1,42 @@
 # Declare a variable for the compliler which we are going to use
-CP=g++
+CXX=g++
 # Declare another variable with the flags which we are going to use
-CPFLAGS=-g -Wall -std=c++11 -pthread 
+CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
 
-CC=gcc
-CFLAGS=-g -Wall -std=c99 -pthread 
 
 OBJDIR=build
 
-default: test_graph test_server test_vector
+default: test_vector
 
 test_server: init graphutils.o
-	$(CP) $(CPFLAGS) test_server.cpp -o $(OBJDIR)/test_server
+	$(CXX) $(CXXFLAGS) test_server.cpp -o $(OBJDIR)/test_server
 
 test_graph: test.o
-	$(CP) $(CPFLAGS) -o $(OBJDIR)/test_graph $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphfiles.o 
+	$(CXX) $(CXXFLAGS) -o $(OBJDIR)/test_graph $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphfiles.o 
 
-test_vector: test_vector.o graphutils.h
-	$(CP) $(CPFLAGS) -o $(OBJDIR)/test_vector $(OBJDIR)/graphutils.o
+test_vector: test_vector.o 
+	$(CXX) $(CXXFLAGS) -o $(OBJDIR)/test_vector $(OBJDIR)/test_vector.o $(OBJDIR)/graphutils.o
 
-#test_utils: init test_utils.o
-#	$(CP) $(CPFLAGS) -o $(OBJDIR)/test_utils $(OBJDIR)/graphutils.o 
+test_utils: init test_utils.o
+	$(CXX) $(CXXFLAGS) -o $(OBJDIR)/test_utils $(OBJDIR)/test_utils.o $(OBJDIR)/graphutils.o
 
 test_vector.o: init graphutils.o 
-	$(CP) $(CPFLAGS) -c test_vector.cpp -o $(OBJDIR)/test_vector.o
+	$(CXX) $(CXXFLAGS) -c test_vector.cpp -o $(OBJDIR)/test_vector.o
 
-#test_utils.o: init graphutils.o 
-#	$(CP) $(CPFLAGS) -c test_utils.cpp -o $(OBJDIR)/test_utils.o
+test_utils.o: init graphutils.o 
+	$(CXX) $(CXXFLAGS) -c test_utils.cpp -o $(OBJDIR)/test_utils.o
 
 test.o: graphfiles.o
-	$(CP) $(CPFLAGS) -c test.cpp -o $(OBJDIR)/test.o
+	$(CXX) $(CXXFLAGS) -c test.cpp -o $(OBJDIR)/test.o
 
 graphfiles.o: graph.o graphfiles.h
-	$(CP) $(CPFLAGS) -c graphfiles.cpp -o $(OBJDIR)/graphfiles.o
+	$(CXX) $(CXXFLAGS) -c graphfiles.cpp -o $(OBJDIR)/graphfiles.o
 
 graphutils.o: primitives.h graphutils.h
-	$(CP) $(CPFLAGS) -c graphutils.cpp -o $(OBJDIR)/graphutils.o
+	$(CXX) $(CXXFLAGS) -c graphutils.cpp -o $(OBJDIR)/graphutils.o
 
 graph.o: init primitives.h graph.h
-	$(CP) $(CPFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o
+	$(CXX) $(CXXFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o
 
 
 init: 
@@ -47,4 +45,3 @@ init:
 
 clean:
 	- rm -rf $(OBJDIR)
-

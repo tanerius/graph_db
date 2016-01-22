@@ -2,7 +2,9 @@
 
 int main(){
     printf("Testing Utils -> GdbVector...\n");
-    GdbVector<int>v(4);
+
+    GdbVector<int>v((int)4);
+    
     printf("vector size = %lu\n",v.size());
     v.display();
     v.push_back(1);

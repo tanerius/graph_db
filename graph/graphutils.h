@@ -214,6 +214,7 @@ class GdbNumeric : public GdbString
 };
 
 
+
 /*!
     This is a representation of vector qhich we will need a lot so it eneds to be minimal and fast. 
     Elements should be immutable (i think!!!) but not exactly sure
@@ -226,21 +227,97 @@ class GdbVector {
         Gdb_N_t m_max_length;
 
         /* Member fn used to grow the size of the vector as needed by Gdb_N_t */
-        Gdb_N_t resize_vector(const Gdb_N_t);
+        Gdb_N_t resize_vector(const Gdb_N_t _new_max_length){
+            assert(_new_max_length > m_length);
+            T *_arr_resized = (T*)malloc(sizeof(T) * _new_max_length);
+            if(_arr_resized){
+                m_max_length = _new_max_length;
+                for(Gdb_N_t i=0;i<m_length;i++){
+                    _arr_resized[i]=m_arr_elements[i];
+                }
+                safeFree(m_arr_elements);
+                m_arr_elements = _arr_resized;
+                return _new_max_length;
+            }
+            else{
+                return 0;
+            }
+        }
 
     public:
-        /* default */
-        GdbVector ();
-        GdbVector (const Gdb_N_t);
-        GdbVector (const T*, const Gdb_N_t);
+        /*
+            Implementation of default constructor for vector
+        */
+        GdbVector(){
+            m_arr_elements = NULL;
+            m_length=0;
+            m_max_length=0;
+        }
+        /*
+            Implementation of copy constructor for vector initialized with 
+            const Gdb_N_t
+        */
+        GdbVector(const Gdb_N_t _max_length){
+            assert(_max_length>0);
+            m_length=0;
+            m_max_length=_max_length;
+            m_arr_elements = (T*)malloc(sizeof(T) * m_max_length);
+        }
+        /*
+            Implementation of copy constructor for vector initialized with 
+            const const T *_arr, const Gdb_N_t _size
+        */
+        GdbVector(const T *_arr, const Gdb_N_t _size){
+            assert(_size>0);
+            m_length=_size;
+            m_max_length=_size+1; //adding +1 for safety
+            m_arr_elements = (T*)malloc(sizeof(T) * (_size+1));
+            for(Gdb_N_t i=0;i<_size;i++){
+                m_arr_elements[i] = _arr[i];
+            }
+        }
+
+#ifdef DEBUG
+        void display(){
+            printf("V( ");
+            for(Gdb_N_t i = 0; i<m_length;i++){
+                printf("%d ",m_arr_elements[i]);
+            }
+            printf(") \n");
+        }
+#endif
 
         bool fast_remove(Gdb_N_t _i);
-        /* Member fn used to push new elements to the back of the vector */
-        void push_back(const T&);
-        void push_front(T&);
 
-        /* Debug print use ONLY with int types */
-        void display();
+        /* 
+            Member fn used to insert an element to the vector at position _position
+            Complexity: O(n) from _index (if not resized)
+        */
+        void insert(const Gdb_N_t _position, const T &_element){
+            assert(_position)
+            for(GDB_N_t c=m_length;c>_position;c++){
+                m_arr_elements[c] = m_arr_elements[c-1];
+            }
+            m_arr_elements[_position] = _element;
+        }
+
+        /* 
+            Member fn used to push new elements to the back of the vector 
+            Complexity: O(1) (if not resized)
+        */
+        void push_back(const T &_element){
+            if(m_length<m_max_length){
+                // ok to add
+                m_arr_elements[m_length] = _element;
+            }
+            else{
+                printf("Call resize %lu ... \n",m_max_length);
+                assert(resize_vector(m_max_length*2));
+                m_arr_elements[m_length] = _element;
+            }
+            m_length = m_length+1;
+        }
+        
 
         inline const Gdb_N_t max_size() const {return m_max_length;}
         inline const Gdb_N_t size() const {return m_length;}
@@ -251,6 +328,8 @@ class GdbVector {
             return m_arr_elements[_index]; 
         }
 };
+
+
 
 
 #endif
