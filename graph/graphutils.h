@@ -217,7 +217,8 @@ class GdbNumeric : public GdbString
 
 /*!
     This is a representation of vector qhich we will need a lot so it eneds to be minimal and fast. 
-    Elements should be immutable (i think!!!) but not exactly sure
+    Elements should have their own operators implemented for = and for desctuction.
+
 */
 template <typename T> 
 class GdbVector {
@@ -227,7 +228,7 @@ class GdbVector {
         Gdb_N_t m_max_length;
 
         /* Member fn used to grow the size of the vector as needed by Gdb_N_t */
-        Gdb_N_t resize_vector(const Gdb_N_t _new_max_length){
+        Gdb_N_t resizeVector(const Gdb_N_t _new_max_length){
             assert(_new_max_length > m_length);
             T *_arr_resized = (T*)malloc(sizeof(T) * _new_max_length);
             if(_arr_resized){
@@ -277,6 +278,11 @@ class GdbVector {
             }
         }
 
+        /*
+            Alias for maxSize()
+        */
+        inline const Gdb_N_t capacity() const {return maxSize();}
+
 #ifdef DEBUG
         void display(){
             printf("V( ");
@@ -287,46 +293,139 @@ class GdbVector {
         }
 #endif
 
-        bool fast_remove(Gdb_N_t _i);
+        inline const bool empty() const {return !(size() && true);}
+        
+        /* 
+            Erase a range of elements from the vector
+            Complexity: O(n) from _position+offset onwards (move)
+        */
+        Gdb_N_t erase(const Gdb_N_t _position, const Gdb_N_t _offset){
+            assert(_position>0); // cant have invalid positions
+            assert(_offset>=0); // cant have negative offsets
+            assert(_position+_offset<m_length); // cant go beyond vector size
+            Gdb_N_t ret = _position;
+            if((_position+_offset) == (m_length-1)){ ret = (_position+_offset)-1;}
+            for(Gdb_N_t c=_position;(c+_offset)<m_length;c++){
+                m_arr_elements[c]=m_arr_elements[c+_offset+1];
+            }
+            m_length=m_length-(_offset+1);
+            return ret;
+        }
+
+        /* 
+            Erase an element from the vector
+            Complexity: O(n) from _position onwards (move)
+        */
+        Gdb_N_t erase(const Gdb_N_t _position){
+            assert(_position>0);
+            assert(_position<m_length);
+            return erase(_position, 0);
+        }
+
+        /* 
+            Member fn used to insert an element to the vector at position _position
+            Complexity: O(1) constantly. This is because it
+            moves the _posion element to the end of the list.
+        */
+        void fastInsert(const Gdb_N_t _position, const T &_element){
+            assert(_position>0);
+            assert(_position<m_max_length);
+            if(m_length==m_max_length){
+                // doule the vectors max size
+                assert(resizeVector(m_max_length*2));
+            }
+            m_arr_elements[m_length] = m_arr_elements[_position];
+            m_arr_elements[_position] = _element;
+            m_length++;
+        }
 
         /* 
             Member fn used to insert an element to the vector at position _position
             Complexity: O(n) from _index (if not resized)
         */
         void insert(const Gdb_N_t _position, const T &_element){
-            assert(_position)
-            for(GDB_N_t c=m_length;c>_position;c++){
+            assert(_position>0);
+            assert(_position<m_max_length);
+            if(!(m_length<m_max_length)){
+                // doule the vectors max size
+                assert(resizeVector(m_max_length*2));
+            }
+            for(Gdb_N_t c=m_length;c>_position;c--){
                 m_arr_elements[c] = m_arr_elements[c-1];
             }
             m_arr_elements[_position] = _element;
+            m_length++;
+        }
+
+        void popBack(){
+            // pops the last element
+            m_length--;
         }
 
         /* 
             Member fn used to push new elements to the back of the vector 
             Complexity: O(1) (if not resized)
         */
-        void push_back(const T &_element){
-            if(m_length<m_max_length){
-                // ok to add
-                m_arr_elements[m_length] = _element;
+        void pushBack(const T &_element){
+            if(!(m_length<m_max_length)){
+                assert(resizeVector(m_max_length*2));
             }
-            else{
-                printf("Call resize %lu ... \n",m_max_length);
-                assert(resize_vector(m_max_length*2));
-                m_arr_elements[m_length] = _element;
-            }
-            m_length = m_length+1;
+            m_arr_elements[m_length] = _element;
+            m_length++;
         }
         
+        /* 
+            toEnd is a function that returns the number of elements until the end of the vector
+            starting from _position.
+        */
+        const Gdb_N_t toEnd(const Gdb_N_t _position) const {
+            return m_length-_position-1;
+        }
 
-        inline const Gdb_N_t max_size() const {return m_max_length;}
+        inline const Gdb_N_t maxSize() const {return m_max_length;}
+        
+        /* 
+            The actual size of the vector (NOT its capacity). 
+            size <= capacity
+        */
         inline const Gdb_N_t size() const {return m_length;}
+
+        /* 
+            Swaps two elements in the vector given their index.
+        */
+        void swap(const Gdb_N_t _index1, const Gdb_N_t _index2){
+            assert(_index1<m_length);
+            assert(_index2<m_length);
+            assert(_index1>=0);
+            assert(_index2>=0);
+            T tmp = m_arr_elements[_index1];
+            m_arr_elements[_index1] = m_arr_elements[_index2];
+            m_arr_elements[_index2] = tmp;
+        }
         
         // operators
         inline T& operator[](const Gdb_N_t _index) { 
             assert(_index < m_max_length);
+            assert(_index >= 0);
             return m_arr_elements[_index]; 
         }
+
+        /*
+            == and != comparison operators for vector
+
+            V1 == V2 iff for every element x of V1 there is an element y ov V2 such that x==y
+        */
+        bool operator==(GdbVector& _vector) { 
+            if(_vector.m_length != m_length){
+                return false;
+            }
+            for(Gdb_N_t c=0;c<m_length;c++){
+                if(m_arr_elements[c]!=_vector.m_arr_elements[c])
+                    return false;
+            }
+            return true;
+        }
+        bool operator!=(GdbVector& _vector) { return !operator==(_vector); }
 };
 
 
