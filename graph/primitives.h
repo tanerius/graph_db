@@ -75,11 +75,16 @@ typedef enum {
     FILE_O_ERROR,           /* There was an error trying to read the file  */
     FILE_ERROR,             /* There was an error trying to open the file  */
     LOCK_ERR,               /* Mutexes failed!!! VERY VERY BAD  */
+    MUTEX_ERR,              /* Cant initialize a mutex!  */
+    MUTEX_IDLE,             /* A mutex is idle!  */
+    MUTEX_LOCKED,           /* A mutex is locked!  */
     PROC_IDLE,              /* Thread/process control. Process is idle.  */
     PROC_OK,                /* Thread/process control. Process finished ok.  */
     PROC_RUNNING,           /* Thread/process control. Process running.  */
     TH_C_ERROR,             /* Cannot create a thread.  */
-    EDGE_DUPLICATE          /* Did not add edge since it exists.  */
+    EDGE_DUPLICATE,         /* Did not add edge since it exists.  */
+
+    MAX_RETURN_TYPES        /* just to keep track of max */
 } Gdb_ret_t;
 
 /*! 

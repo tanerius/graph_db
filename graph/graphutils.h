@@ -428,6 +428,51 @@ class GdbVector {
         bool operator!=(GdbVector& _vector) { return !operator==(_vector); }
 };
 
+/*
+    Create an implementation for a mutex for threads
+*/
+typedef struct Gdb_mutex_s{
+    private:
+        Gdb_ret_t m_state;
+        pthread_mutex_t m_mutex_generic;
+    public:
+        
+        /* 
+            Grabs the mutex and locks it. Others will block!
+        */
+        void lock(){
+            pthread_mutex_lock(&m_mutex_generic);
+            m_state=MUTEX_LOCKED;
+        }
+
+        /* 
+            State of the mutex! It is best to always check that == MUTEX_IDLE after initialization 
+            of the class. Lock and unlock do this implicitly so no need!
+        */
+        inline const Gdb_ret_t state() const{return m_state;}
+
+        /* 
+            Release the mutex!
+        */
+        void unlock(){
+            pthread_mutex_unlock(&m_mutex_generic);
+            m_state=MUTEX_IDLE;
+        }
+
+        Gdb_mutex_s(){
+            if (pthread_mutex_init(&m_mutex_generic, NULL) != 0){
+                m_state=MUTEX_ERR;
+            }
+            else{
+                m_state=MUTEX_IDLE;
+            }
+        }
+
+        ~Gdb_mutex_s(){
+            pthread_mutex_destroy(&m_mutex_generic);
+        }
+} Gdb_mutex;
+
 
 
 
