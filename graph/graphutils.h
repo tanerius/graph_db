@@ -105,7 +105,7 @@ class GdbString {
         // Construction and destruction
         GdbString() {m_string = NULL, m_length = 0;}; /* Defult constructor */
         GdbString(const char *_string){m_string = NULL; m_length = 0; operator=(_string); };
-        ~GdbString(){ if (m_string) free(m_string); m_length = 0;};
+        ~GdbString(){ safeFree(m_string); m_length = 0;};
 
         GdbString subString ( int i_start, int i_count ) const
         {
@@ -289,13 +289,15 @@ class GdbVector {
         /* Member fn used to grow the size of the vector as needed by Gdb_N_t */
         Gdb_N_t allocate(const Gdb_N_t _size){
             assert(_size > 0);
-            T *m_arr_elements = (T*)malloc(sizeof(T) * _size);
+            assert(m_arr_elements==NULL);
+            m_arr_elements = (T*)malloc(sizeof(T) * _size);
             if(m_arr_elements){
                 m_length=0;
                 m_max_length=_size; 
                 return m_max_length;
             }
             else{
+                m_arr_elements = NULL;
                 return 0;
             }
         }
@@ -503,12 +505,15 @@ class Gdb_logger{
         // Standard ctor will create m_messages vector and output to stdout
         Gdb_logger();
         // error message 
-        void error(const Gdb_ret_t, const char*);
+        inline void log(const Gdb_ret_t _code, const char* _msg){writeLog(_code,_msg,0);};
+        inline void log(const char* _msg){writeLog(GENERIC_ERR,_msg,0);} 
+
         // info message 
-        void info(const Gdb_ret_t, const char*);
+        inline void info(const char* _msg){writeLog(OK,_msg,1);}
     private:
         GdbVector<GdbString> m_messages;
         GdbString m_filename;
+        void writeLog(const Gdb_ret_t, const char*,int);
 
         void init();
 };

@@ -83,6 +83,7 @@ typedef enum {
     PROC_RUNNING,           /* Thread/process control. Process running.  */
     TH_C_ERROR,             /* Cannot create a thread.  */
     EDGE_DUPLICATE,         /* Did not add edge since it exists.  */
+    GENERIC_ERR,            /* A generic error occured */
 
     MAX_RETURN_TYPES        /* just to keep track of max */
 } Gdb_ret_t;

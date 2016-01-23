@@ -107,28 +107,44 @@ Gdb_logger::Gdb_logger(){
 }
 
 void Gdb_logger::init(){
-    m_messages.allocate(MAX_RETURN_TYPES);
-    m_messages[OK] = "Success";
-    m_messages[BAD_PAYLOAD] = "Illegal payload was provided";
-    m_messages[PAGE_FULL] = "The adjacency array is full";
-    m_messages[SRC_GONE] = "Source element has been deleted or isnt assigned";
-    m_messages[DST_GONE] = "Destination element has been deleted or isnt assigned";
-    m_messages[MEM_FULL] = "Memory could not be allocated";
-    m_messages[NO_INDEX] = "Index out of bounds";
-    m_messages[MAX_NODES] = "Maximum elements reached";
-    m_messages[INVALID_SERIAL] = "The serializer is not in a proper state";
-    m_messages[FILE_I_ERROR] = "There was an error trying to write the file";
-    m_messages[FILE_O_ERROR] = "There was an error trying to read the file";
-    m_messages[FILE_ERROR] = "There was an error trying to open the file";
-    m_messages[LOCK_ERR] = "Locking mutex failed!";
-    m_messages[MUTEX_ERR] = "Mutex init error";
-    m_messages[MUTEX_IDLE] = "A mutex is idle";
-    m_messages[MUTEX_LOCKED] = "A mutex is locked";
-    m_messages[PROC_IDLE] = "Thread/process is idle";
-    m_messages[PROC_OK] = "Thread/process is finished";
-    m_messages[PROC_RUNNING] = "Thread/process running";
-    m_messages[TH_C_ERROR] = "Cannot create a thread";
-    m_messages[EDGE_DUPLICATE] = "Did not add edge since it exists";
+    m_messages.allocate((int)MAX_RETURN_TYPES);
+    m_messages.pushBack("Success. ");
+    m_messages.pushBack("Illegal payload was provided. ");
+    m_messages.pushBack("The adjacency array is full. ");
+    m_messages.pushBack("Source element has been deleted or isnt assigned. ");
+    m_messages.pushBack("Destination element has been deleted or isnt assigned. ");
+    m_messages.pushBack("Memory could not be allocated. ");
+    m_messages.pushBack("Index out of bounds. ");
+    m_messages.pushBack("Maximum elements reached. ");
+    m_messages.pushBack("The serializer is not in a proper state. ");
+    m_messages.pushBack("There was an error trying to write the file. ");
+    m_messages.pushBack("There was an error trying to read the file. ");
+    m_messages.pushBack("There was an error trying to open the file. ");
+    m_messages.pushBack("Locking mutex failed. ");
+    m_messages.pushBack("Mutex init error. ");
+    m_messages.pushBack("A mutex is idle. ");
+    m_messages.pushBack("A mutex is locked. ");
+    m_messages.pushBack("Thread/process is idle. ");
+    m_messages.pushBack("Thread/process is finished. ");
+    m_messages.pushBack("Thread/process running. ");
+    m_messages.pushBack("Cannot create a thread. ");
+    m_messages.pushBack("Did not add edge since it exists. ");
+    m_messages.pushBack("Generic error. ");
+    printf("exitting init\n");
+}
 
-
+void Gdb_logger::writeLog(const Gdb_ret_t _code, const char* _msg,int f){
+    //for now just print
+    if (f==1){
+        //info
+        printf("[INFO]: %s\n",_msg);
+    } 
+    else if (f==0){
+        if(_code != OK){
+            printf("[ERROR]: %s\n",(m_messages[_code]+_msg).cstr());
+        }
+        else{
+            printf("[SUCCESS]: %s\n",_msg);
+        }
+    }
 }

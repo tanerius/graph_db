@@ -76,7 +76,12 @@ int main(){
     printf("vector2 size = %lu\n",v2.size());
     printf("vector2 maxSize = %lu\n",v2.maxSize());
 
-    
+    printf("\nTesting Logger ...\n");
+    Gdb_logger log;
+    log.log("This is a generic error");
+    log.log(MAX_NODES,"Allocating graphs");
+    log.log(OK,"All os ok log entry");
+    log.info("This is general information.");
     
     return 0;
 }
