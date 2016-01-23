@@ -22,4 +22,15 @@ char * gdbFormatIP ( char * str_ip, int i_buff_size, DWORD u_address )
     snprintf ( str_ip, i_buff_size, "%u.%u.%u.%u", a[0], a[1], a[2], a[3] );
     return str_ip;
 }
+
+/*
+    This is the class definition of the server
+*/
+class GdbServer{
+    public:
+
+    private:
+        GdbLogger m_logger;
+};
+
 #endif

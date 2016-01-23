@@ -495,15 +495,38 @@ typedef struct Gdb_mutex_s{
         ~Gdb_mutex_s(){
             pthread_mutex_destroy(&m_mutex_generic);
         }
-} Gdb_mutex;
+} GdbMutex;
+
+/*
+    A singleton tempplate for thoseobjects that really need it like the primary logger 
+*/
+template <class T>
+    class Singleton
+    {
+    public:
+      static T* Instance() {
+          if(!m_pInstance) m_pInstance = new T;
+          assert(m_pInstance != NULL);
+          return m_pInstance;
+      }
+    protected:
+      Singleton();
+      ~Singleton();
+    private:
+      Singleton(Singleton const&);
+      Singleton& operator=(Singleton const&);
+      static T* m_pInstance;
+    };
+    
+    template <class T> T* Singleton<T>::m_pInstance=NULL;
 
 /*
     A custom class for logging messages 
 */
-class Gdb_logger{
+class GdbLogger{
     public:
         // Standard ctor will create m_messages vector and output to stdout
-        Gdb_logger();
+        GdbLogger();
         // error message 
         inline void log(const Gdb_ret_t _code, const char* _msg){writeLog(_code,_msg,0);};
         inline void log(const char* _msg){writeLog(GENERIC_ERR,_msg,0);} 
@@ -517,5 +540,9 @@ class Gdb_logger{
 
         void init();
 };
+
+
+typedef Singleton<GdbLogger> GdbLoggerMain;
+
 
 #endif

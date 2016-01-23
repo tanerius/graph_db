@@ -36,6 +36,7 @@ int gdbCreateInetSocket ( DWORD u_addr, int i_port )
 
         printf ( "bind() failed on %s, retrying...", s_address );
         // TODO: SLEEP A BIT - several seconds
+        sleep(2000); // 2 seconds
     } while ( --iTries>0 );
     if ( iRes )
         printf ( "bind() failed on %s", s_address );

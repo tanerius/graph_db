@@ -102,11 +102,11 @@ void GdbString::clear()
 
 
 
-Gdb_logger::Gdb_logger(){
+GdbLogger::GdbLogger(){
     init();
 }
 
-void Gdb_logger::init(){
+void GdbLogger::init(){
     m_messages.allocate((int)MAX_RETURN_TYPES);
     m_messages.pushBack("Success. ");
     m_messages.pushBack("Illegal payload was provided. ");
@@ -132,7 +132,7 @@ void Gdb_logger::init(){
     m_messages.pushBack("Generic error. ");
 }
 
-void Gdb_logger::writeLog(const Gdb_ret_t _code, const char* _msg,int f){
+void GdbLogger::writeLog(const Gdb_ret_t _code, const char* _msg,int f){
     //for now just print
     if (f==1){
         //info

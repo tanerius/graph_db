@@ -3,10 +3,9 @@ CXX=g++
 # Declare another variable with the flags which we are going to use
 CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
 
-
 OBJDIR=build
 
-default: test_vector
+default: test_vector test_server test_utils test_graph
 
 test_server: init graphutils.o
 	$(CXX) $(CXXFLAGS) test_server.cpp -o $(OBJDIR)/test_server
@@ -38,10 +37,8 @@ graphutils.o: primitives.h graphutils.h
 graph.o: init primitives.h graph.h
 	$(CXX) $(CXXFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o
 
-
 init: 
 	- mkdir -p $(OBJDIR)
-
 
 clean:
 	- rm -rf $(OBJDIR)
