@@ -102,3 +102,33 @@ void GdbString::clear()
 
 
 
+Gdb_logger::Gdb_logger(){
+    init();
+}
+
+void Gdb_logger::init(){
+    m_messages.allocate(MAX_RETURN_TYPES);
+    m_messages[OK] = "Success";
+    m_messages[BAD_PAYLOAD] = "Illegal payload was provided";
+    m_messages[PAGE_FULL] = "The adjacency array is full";
+    m_messages[SRC_GONE] = "Source element has been deleted or isnt assigned";
+    m_messages[DST_GONE] = "Destination element has been deleted or isnt assigned";
+    m_messages[MEM_FULL] = "Memory could not be allocated";
+    m_messages[NO_INDEX] = "Index out of bounds";
+    m_messages[MAX_NODES] = "Maximum elements reached";
+    m_messages[INVALID_SERIAL] = "The serializer is not in a proper state";
+    m_messages[FILE_I_ERROR] = "There was an error trying to write the file";
+    m_messages[FILE_O_ERROR] = "There was an error trying to read the file";
+    m_messages[FILE_ERROR] = "There was an error trying to open the file";
+    m_messages[LOCK_ERR] = "Locking mutex failed!";
+    m_messages[MUTEX_ERR] = "Mutex init error";
+    m_messages[MUTEX_IDLE] = "A mutex is idle";
+    m_messages[MUTEX_LOCKED] = "A mutex is locked";
+    m_messages[PROC_IDLE] = "Thread/process is idle";
+    m_messages[PROC_OK] = "Thread/process is finished";
+    m_messages[PROC_RUNNING] = "Thread/process running";
+    m_messages[TH_C_ERROR] = "Cannot create a thread";
+    m_messages[EDGE_DUPLICATE] = "Did not add edge since it exists";
+
+
+}

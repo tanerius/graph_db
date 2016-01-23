@@ -27,7 +27,7 @@ typedef enum {
 /*! 
     Type definition for the engine type
 */
-typedef int Gdb_engine_t;
+typedef unsigned char Gdb_engine_t;
 
 /*! 
     This enum type is used to determine the status of a node

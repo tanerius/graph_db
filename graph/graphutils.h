@@ -278,6 +278,28 @@ class GdbVector {
             }
         }
 
+        ~GdbVector(){
+            if(m_arr_elements!=NULL){
+                m_max_length=0;
+                m_length=0;
+                safeFree(m_arr_elements);
+            }
+        }
+
+        /* Member fn used to grow the size of the vector as needed by Gdb_N_t */
+        Gdb_N_t allocate(const Gdb_N_t _size){
+            assert(_size > 0);
+            T *m_arr_elements = (T*)malloc(sizeof(T) * _size);
+            if(m_arr_elements){
+                m_length=0;
+                m_max_length=_size; 
+                return m_max_length;
+            }
+            else{
+                return 0;
+            }
+        }
+
         /*
             Alias for maxSize()
         */
@@ -473,7 +495,22 @@ typedef struct Gdb_mutex_s{
         }
 } Gdb_mutex;
 
+/*
+    A custom class for logging messages 
+*/
+class Gdb_logger{
+    public:
+        // Standard ctor will create m_messages vector and output to stdout
+        Gdb_logger();
+        // error message 
+        void error(const Gdb_ret_t, const char*);
+        // info message 
+        void info(const Gdb_ret_t, const char*);
+    private:
+        GdbVector<GdbString> m_messages;
+        GdbString m_filename;
 
-
+        void init();
+};
 
 #endif
