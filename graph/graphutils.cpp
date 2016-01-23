@@ -130,7 +130,6 @@ void Gdb_logger::init(){
     m_messages.pushBack("Cannot create a thread. ");
     m_messages.pushBack("Did not add edge since it exists. ");
     m_messages.pushBack("Generic error. ");
-    printf("exitting init\n");
 }
 
 void Gdb_logger::writeLog(const Gdb_ret_t _code, const char* _msg,int f){
