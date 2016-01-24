@@ -541,8 +541,13 @@ class GdbLogger{
         void init();
 };
 
-
+/*
+    The singleton instance of the primary logger
+    Thinking about whether to lock a mutex within the logger or let the calling classes handle it
+*/
 typedef Singleton<GdbLogger> GdbLoggerMain;
+
+
 
 
 #endif

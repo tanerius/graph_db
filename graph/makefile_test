@@ -5,7 +5,10 @@ CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
 
 OBJDIR=build
 
-default: test_vector test_server test_utils test_graph
+default: test_vector test_server test_utils test_graph graphmap
+
+graphmap: init
+	$(CXX) $(CXXFLAGS) graphmap.cpp -o $(OBJDIR)/graphmap
 
 test_server: init graphutils.o
 	$(CXX) $(CXXFLAGS) test_server.cpp -o $(OBJDIR)/test_server
@@ -18,6 +21,7 @@ test_vector: test_vector.o
 
 test_utils: init test_utils.o
 	$(CXX) $(CXXFLAGS) -o $(OBJDIR)/test_utils $(OBJDIR)/test_utils.o $(OBJDIR)/graphutils.o
+
 
 test_vector.o: init graphutils.o 
 	$(CXX) $(CXXFLAGS) -c test_vector.cpp -o $(OBJDIR)/test_vector.o
