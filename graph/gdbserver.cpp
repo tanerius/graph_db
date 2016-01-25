@@ -22,6 +22,7 @@ int gdbCreateInetSocket ( DWORD u_addr, int i_port )
     if ( i_sock==-1 )
         printf ( "failed to create TCP socket" );
 
+    //set master socket to allow multiple connections , this is just a good habit, it will work without this
     int i_on = 1;
     if ( setsockopt ( i_sock, SOL_SOCKET, SO_REUSEADDR, (char*)&i_on, sizeof(i_on) ) )
         printf ( "setsockopt() failed" );

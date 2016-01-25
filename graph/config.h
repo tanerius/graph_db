@@ -9,6 +9,7 @@
 #define GDB_CTO_MS          3000                /* Timeout and close idle connections in 3 seconds */
 #define GDB_BUFFER_SIZE     8192                /* 8KB IO buffer default - play around to get optimal value */
 #define GDB_ADDRESS_SIZE    sizeof("000.000.000.000")
+#define GDB_MAX_CLIENTS      100                // maximum number of clients
 #endif
 
 #endif

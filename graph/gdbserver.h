@@ -31,6 +31,8 @@ class GdbServer{
 
     private:
         GdbLogger m_logger;
+        // Array of client sockets
+        int client_socket[GDB_MAX_CLIENTS];
 };
 
 #endif
