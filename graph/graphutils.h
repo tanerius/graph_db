@@ -527,6 +527,7 @@ class GdbLogger{
     public:
         // Standard ctor will create m_messages vector and output to stdout
         GdbLogger();
+        
         // error message 
         inline void log(const Gdb_ret_t _code, const char* _msg){writeLog(_code,_msg,0);};
         inline void log(const char* _msg){writeLog(GENERIC_ERR,_msg,0);} 

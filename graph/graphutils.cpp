@@ -62,10 +62,13 @@ GdbString& GdbString::operator=(const char *_string)
         m_string = allocateMemory(m_length);
         memset ( m_string+m_length, 0, BYTE_GAP ); // introduce a safety gap
 
-        if (!m_string)   //Couldn't allocate
+        if (!m_string){   //Couldn't allocate
+            assert(false); // cant continue like this ever! wooden PC?!
             m_length = 0;
-        else
+        }
+        else{
             strcpy(m_string, _string);
+        }
     }
 
     return *this;
@@ -129,6 +132,7 @@ void GdbLogger::init(){
     m_messages.pushBack("Thread/process running. ");
     m_messages.pushBack("Cannot create a thread. ");
     m_messages.pushBack("Did not add edge since it exists. ");
+    m_messages.pushBack("Server initialization error. ");
     m_messages.pushBack("Generic error. ");
 }
 

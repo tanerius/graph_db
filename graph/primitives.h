@@ -84,6 +84,7 @@ typedef enum {
     TH_C_ERROR,             /* Cannot create a thread.  */
     EDGE_DUPLICATE,         /* Did not add edge since it exists.  */
     GENERIC_ERR,            /* A generic error occured */
+    SERVER_INIT_ERR,        /*SERVER_INIT_ERR */
 
     MAX_RETURN_TYPES        /* just to keep track of max */
 } Gdb_ret_t;
