@@ -58,7 +58,8 @@ class GdbServer{
         Gdb_socket_desc_t m_master_socket; // this is the master socket on which incomming connections will be handles
         Gdb_socket_desc_t m_max_sd; // maximum (highest) socket descriptor
         bool m_server_init_ok; // did init succeed?
-
+        //set of socket descriptors
+        fd_set readfds;
         struct sockaddr_in address; // address for incomming traffic
         GdbString m_client_greeting;
         GdbString m_message; // a variable for messages 
@@ -73,7 +74,9 @@ class GdbClientHandler{
     private:
         char m_buffer[GDB_BUFFER_SIZE];  //data buffer
         Gdb_socket_desc_t client_socket;
+        GdbString m_current_command;
     public:
+        void parseCommand();
 };
 
 #endif
