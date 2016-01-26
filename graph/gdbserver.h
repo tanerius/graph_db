@@ -47,7 +47,7 @@ class GdbServer{
 #ifdef DEBUG
         int startDebug(); // return != 0 is bad
 #endif
-
+        int serverLoop();
 
     private:
         GdbLogger m_logger;
@@ -66,6 +66,14 @@ class GdbServer{
     private: // methods
         void initClientSockets();
 
+};
+
+
+class GdbClientHandler{
+    private:
+        char m_buffer[GDB_BUFFER_SIZE];  //data buffer
+        Gdb_socket_desc_t client_socket;
+    public:
 };
 
 #endif

@@ -9,6 +9,7 @@ int main(){
 
 
     GdbString x = "Taner";
+    
     printf("x=%s\n",x.cstr());
     x = "Taner Selim";
     printf("x=%s\n",x.cstr());

@@ -117,6 +117,106 @@ void GdbServer::initClientSockets(){
     }
 }
 
+int GdbServer::serverLoop(){
+    //clear the socket set
+    FD_ZERO(&readfds);
+
+    //add master socket to set
+    FD_SET(m_master_socket, &readfds);
+    m_max_sd = m_master_socket;
+     
+    //add child sockets to set
+    for (i=0; i<GDB_MAX_CLIENTS ; i++) 
+    {
+        //socket descriptor
+        sd = m_client_sockets[i];
+         
+        //if valid socket descriptor then add to read list
+        if(sd > 0)
+            FD_SET( sd , &readfds);
+         
+        //highest file descriptor number, need it for the select function
+        if(sd > m_max_sd)
+            m_max_sd = sd;
+    }
+
+    activity = select( m_max_sd + 1 , &readfds , NULL , NULL , NULL);
+
+    if ((activity < 0) && (errno!=EINTR)) 
+    {
+        GdbLoggerMain::Instance()->log("GraphServer: select() error");
+    }
+      
+    //If something happened on the master socket , then its an incoming connection
+    if (FD_ISSET(m_master_socket, &readfds)) 
+    {
+        GdbLoggerMain::Instance()->info("GraphServer: New connection via master socket.");
+        if ((new_socket = accept(m_master_socket, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
+        {
+            GdbLoggerMain::Instance()->log("GraphServer: accept() error");
+            return 3;
+        }
+      
+        //inform user of socket number - used in send and receive commands
+        printf("New connection , socket fd is %d , ip is : %s , port : %d \n" , new_socket , inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
+    
+        //send new connection greeting message
+        if( send(new_socket, m_client_greeting.cstr(), m_client_greeting.length(), 0) != m_client_greeting.length() ) 
+        {
+            GdbLoggerMain::Instance()->log("GraphServer: send() error");
+        }
+          
+        GdbLoggerMain::Instance()->info("GraphServer: Welcome message sent.");
+          
+        //add new socket to array of sockets
+        for (i = 0; i < GDB_MAX_CLIENTS; i++) 
+        {
+            //if position is empty
+            if( m_client_sockets[i] == 0 )
+            {
+                m_client_sockets[i] = new_socket;
+                printf("Adding to list of sockets as %d\n" , i);
+                 
+                break;
+            }
+        }
+    }
+    
+    // also check for IO operation on some other socket :)
+    for (i = 0; i < GDB_MAX_CLIENTS; i++) 
+    {
+        
+        sd = m_client_sockets[i];
+          
+        if (FD_ISSET( sd , &readfds)) 
+        {
+            //Check if it was for closing , and also read the incoming message
+            if ((ret = read( sd , m_buffer, GDB_BUFFER_SIZE)) == 0)
+            {
+                //Somebody disconnected , get his details and print
+                getpeername(sd , (struct sockaddr*)&address , (socklen_t*)&addrlen);
+                printf("Host disconnected , ip %s , port %d \n" , inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
+                  
+                //Close the socket and mark as 0 in list for reuse
+                close( sd );
+                m_client_sockets[i] = 0;
+            }
+              
+            //Echo back the message that came in
+            else
+            {
+                GdbLoggerMain::Instance()->info("GraphServer: send an echo.");
+                //set the string terminating NULL byte on the end of the data read
+                m_buffer[ret] = '\0';
+                printf("The client sent: %s\n",m_buffer);
+                //echo
+                send(sd , m_buffer , strlen(m_buffer) , 0 );
+            }
+        }
+    }
+    return 0; // all is good
+}
+
 #ifdef DEBUG
 int GdbServer::startDebug(){
     //set of socket descriptors
@@ -156,102 +256,8 @@ int GdbServer::startDebug(){
     int i,activity,ret; // declare common vars outside loop so they created only once
 
     while(TRUE){
-        //clear the socket set
-        FD_ZERO(&readfds);
-  
-        //add master socket to set
-        FD_SET(m_master_socket, &readfds);
-        m_max_sd = m_master_socket;
-         
-        //add child sockets to set
-        for (i=0; i<GDB_MAX_CLIENTS ; i++) 
-        {
-            //socket descriptor
-            sd = m_client_sockets[i];
-             
-            //if valid socket descriptor then add to read list
-            if(sd > 0)
-                FD_SET( sd , &readfds);
-             
-            //highest file descriptor number, need it for the select function
-            if(sd > m_max_sd)
-                m_max_sd = sd;
-        }
-  
-        activity = select( m_max_sd + 1 , &readfds , NULL , NULL , NULL);
-    
-        if ((activity < 0) && (errno!=EINTR)) 
-        {
-            GdbLoggerMain::Instance()->log("GraphServer: select() error");
-        }
-          
-        //If something happened on the master socket , then its an incoming connection
-        if (FD_ISSET(m_master_socket, &readfds)) 
-        {
-            GdbLoggerMain::Instance()->info("GraphServer: New connection via master socket.");
-            if ((new_socket = accept(m_master_socket, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
-            {
-                GdbLoggerMain::Instance()->log("GraphServer: accept() error");
-                return 3;
-            }
-          
-            //inform user of socket number - used in send and receive commands
-            printf("New connection , socket fd is %d , ip is : %s , port : %d \n" , new_socket , inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
+        int r = serverLoop()
         
-            //send new connection greeting message
-            if( send(new_socket, m_client_greeting.cstr(), m_client_greeting.length(), 0) != m_client_greeting.length() ) 
-            {
-                GdbLoggerMain::Instance()->log("GraphServer: send() error");
-            }
-              
-            GdbLoggerMain::Instance()->info("GraphServer: Welcome message sent.");
-              
-            //add new socket to array of sockets
-            for (i = 0; i < GDB_MAX_CLIENTS; i++) 
-            {
-                //if position is empty
-                if( m_client_sockets[i] == 0 )
-                {
-                    m_client_sockets[i] = new_socket;
-                    printf("Adding to list of sockets as %d\n" , i);
-                     
-                    break;
-                }
-            }
-        }
-        
-
-        //else its some IO operation on some other socket :)
-        for (i = 0; i < GDB_MAX_CLIENTS; i++) 
-        {
-            
-            sd = m_client_sockets[i];
-              
-            if (FD_ISSET( sd , &readfds)) 
-            {
-                //Check if it was for closing , and also read the incoming message
-                if ((ret = read( sd , m_buffer, GDB_BUFFER_SIZE)) == 0)
-                {
-                    //Somebody disconnected , get his details and print
-                    getpeername(sd , (struct sockaddr*)&address , (socklen_t*)&addrlen);
-                    printf("Host disconnected , ip %s , port %d \n" , inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
-                      
-                    //Close the socket and mark as 0 in list for reuse
-                    close( sd );
-                    m_client_sockets[i] = 0;
-                }
-                  
-                //Echo back the message that came in
-                else
-                {
-                    GdbLoggerMain::Instance()->info("GraphServer: send an echo.");
-                    //set the string terminating NULL byte on the end of the data read
-                    m_buffer[ret] = '\0';
-                    //echo
-                    send(sd , m_buffer , strlen(m_buffer) , 0 );
-                }
-            }
-        }
     }
 
 

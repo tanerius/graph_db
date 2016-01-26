@@ -131,9 +131,11 @@ class GdbString {
         GdbString operator+(GdbString& rhs) { return operator+(rhs.cstr()); }
 
         // Operators for comparison
+        bool operator<(const char*_string) { return operator==(_string); }
         bool operator<(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) < 0; }
         bool operator<=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res < 0 || res == 0; }
-
+        
+        bool operator>(const char*_string) { return operator==(_string); }
         bool operator>(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) > 0; }
         bool operator>=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res > 0 || res == 0; }
 
@@ -216,7 +218,7 @@ class GdbNumeric : public GdbString
 
 
 /*!
-    This is a representation of vector qhich we will need a lot so it eneds to be minimal and fast. 
+    This is a representation of vector which we will need a lot so it needs to be minimal and fast. 
     Elements should have their own operators implemented for = and for desctuction.
 
 */
