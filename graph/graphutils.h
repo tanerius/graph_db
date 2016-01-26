@@ -523,8 +523,17 @@ template <class T>
     template <class T> T* Singleton<T>::m_pInstance=NULL;
 
 /*
-    A custom class for logging messages 
+    A custom mchanizm for logging. The base class is abstract for safety. 
 */
+class GdbLoggerBase{
+private:
+    GdbMutex m_write_mutex;
+public:
+    void Log(const char*) = 0;
+};
+
+
+
 class GdbLogger{
     public:
         // Standard ctor will create m_messages vector and output to stdout
@@ -548,6 +557,10 @@ class GdbLogger{
     The singleton instance of the primary logger
     Thinking about whether to lock a mutex within the logger or let the calling classes handle it
 */
+
+#ifdef LOGGING
+
+#endif
 typedef Singleton<GdbLogger> GdbLoggerMain;
 
 

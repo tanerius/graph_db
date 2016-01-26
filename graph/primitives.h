@@ -40,6 +40,17 @@ typedef enum {
 } Gdb_node_status_t;
 
 /*! 
+    Enum to create a type used for categorizing the Logger
+*/
+typedef enum {
+    LOGGER_FILE=0, 
+    LOGGER_DB,
+    LOGGER_SYSTEM,
+    LOGGER_EVENT
+} Gdb_logger_t;
+
+
+/*! 
     This enum type is used to define the default edge type
 */
 typedef enum {

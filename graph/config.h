@@ -3,7 +3,6 @@
 #define _CONFIG_H_
 
 #ifndef GDB_NETWORK
-
 #ifndef GDB_SOCKET
 #define GDB_SOCKET             0                /* 0 - Unix socket, 1 - TCP */
 #endif

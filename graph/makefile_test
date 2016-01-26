@@ -5,7 +5,10 @@ CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
 
 OBJDIR=build
 
-default: test_vector test_server test_utils test_graph 
+default: test_vector test_server test_utils test_graph gdbd
+
+gdbd: init graphutils.o gdbserver.o gdbserver.h config.h
+	$(CXX) $(CXXFLAGS) gdbdaemon.cpp -o $(OBJDIR)/gdbd $(OBJDIR)/graphutils.o $(OBJDIR)/gdbserver.o
 
 test_server: init graphutils.o gdbserver.o gdbserver.h config.h
 	$(CXX) $(CXXFLAGS) test_server.cpp -o $(OBJDIR)/test_server $(OBJDIR)/graphutils.o $(OBJDIR)/gdbserver.o
