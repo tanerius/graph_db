@@ -30,10 +30,18 @@ void testjson(){
 
 int main(int argc, char *argv[]){
 /*
-    std::map<GdbString,int> first;
+    std::map<std::string,int> first;
 
     // first insert function version (single parameter):
-    first.insert ( std::pair<GdbString,int>("Taner",100) );
+    std::string t= "taner";
+    first.insert ( std::pair<std::string,int>(t,100) );
+
+
+    printf("k= %s ; v=%d",(char*)first.cbegin()->first, first.cbegin()->second);
+
+    return 0;
+
+
     first.insert ( std::pair<GdbString,int>("Bertan",200) );
     first.insert ( std::pair<GdbString,int>("Erin",100) );
     first.insert ( std::pair<GdbString,int>("Can",200) );
@@ -112,7 +120,7 @@ int main(int argc, char *argv[]){
         GdbLoggerMain::Instance()->Log("[OK] In main loop.");
         
         continue_cycle = false;
-        sleep(30); /* wait 30 seconds */
+        sleep(10); /* wait 10 --- 30's too long seconds */
     }
     GdbLoggerMain::Instance()->Log("[OK] Shutting down gdbd.");
     removePID();

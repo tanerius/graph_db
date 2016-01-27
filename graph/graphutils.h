@@ -142,14 +142,27 @@ class GdbString {
         GdbString operator+(const char*);
         GdbString operator+(GdbString& rhs) { return operator+(rhs.cstr()); }
 
-        // Operators for comparison
-        bool operator<(const char*_string)  { return strcmp(operator const char*(), _string) < 0;  }
-        bool operator<(GdbString& _string)  { return operator<(_string.cstr()); }
-        bool operator<=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res < 0 || res == 0; }
+        // Operators for comparison - Make sure that they output constant objects so we can use them in 
+        // maps as keys. Planning to hash here too...i.e. have a hash function 
+        bool operator<(const char*_string) const { return strcmp(operator const char*(), _string) < 0;  }
+        bool operator<=(const char*_string) const {
+            int res = operator<(_string);
+            return res < 0 || res == 0;
+        }
+
+        bool operator<(GdbString& _string) const { return operator<(_string.cstr()); }
+        bool operator<=(GdbString& _string) const { 
+            return operator<=(_string.cstr());
+        }
         
-        bool operator>(const char*_string) { return strcmp(operator const char*(), _string) > 0; }
-        bool operator>(GdbString& _string) { return operator>(_string.cstr()); }
-        bool operator>=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res > 0 || res == 0; }
+        bool operator>(const char*_string) const { return strcmp(operator const char*(), _string) > 0; }
+        bool operator>=(const char*_string) const { 
+            int res = strcmp(operator const char*(), _string);
+            return res > 0 || res == 0;
+        }
+
+        bool operator>(GdbString& _string) const { return operator>(_string.cstr()); }
+        bool operator>=(GdbString& _string) const { return operator>=(_string.cstr());} 
 
         inline bool operator==(const char* _string) const {
             if ( !_string || !m_string )
@@ -160,10 +173,9 @@ class GdbString {
         inline bool operator!=(const char* _string) const { return !operator==(_string); }
         inline bool operator!=(GdbString& _string) const { return !operator==(_string.cstr()); }
 
-
-
-        // Cast operator
-        operator const char*() { return m_string ? m_string: ""; }
+        // Cast operator ... 
+        // TODO: check performance of this
+        operator const char*() const { return m_string ? m_string: ""; }
 
         void clear();
 
