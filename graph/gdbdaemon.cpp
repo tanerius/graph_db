@@ -26,7 +26,19 @@ void testjson(){
     }
 }
 
+
+
 int main(int argc, char *argv[]){
+/*
+    std::map<GdbString,int> first;
+
+    // first insert function version (single parameter):
+    first.insert ( std::pair<GdbString,int>("Taner",100) );
+    first.insert ( std::pair<GdbString,int>("Bertan",200) );
+    first.insert ( std::pair<GdbString,int>("Erin",100) );
+    first.insert ( std::pair<GdbString,int>("Can",200) );
+    first.insert ( std::pair<GdbString,int>("Inci",100) );
+*/
     // Check to make sure args were not requested
     if(argc > 1){
         if((strcmp(argv[1],"-v") == 0)||(strcmp(argv[1],"--version") == 0)){

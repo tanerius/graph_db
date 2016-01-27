@@ -138,26 +138,27 @@ class GdbString {
         // Operators for concatenating
         GdbString& operator+=(const char*);
         GdbString& operator+=(GdbString& rhs) { return operator+=(rhs.m_string); }
+        
         GdbString operator+(const char*);
         GdbString operator+(GdbString& rhs) { return operator+(rhs.cstr()); }
 
         // Operators for comparison
-        bool operator<(const char*_string) { return operator==(_string); }
-        bool operator<(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) < 0; }
+        bool operator<(const char*_string)  { return strcmp(operator const char*(), _string) < 0;  }
+        bool operator<(GdbString& _string)  { return operator<(_string.cstr()); }
         bool operator<=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res < 0 || res == 0; }
         
-        bool operator>(const char*_string) { return operator==(_string); }
-        bool operator>(GdbString& _string) { return strcmp(operator const char*(), (const char*)_string.cstr()) > 0; }
+        bool operator>(const char*_string) { return strcmp(operator const char*(), _string) > 0; }
+        bool operator>(GdbString& _string) { return operator>(_string.cstr()); }
         bool operator>=(GdbString& _string) { int res = strcmp(operator const char*(), (const char*)_string.cstr()); return res > 0 || res == 0; }
 
-        inline bool operator==(const char* _string) {
+        inline bool operator==(const char* _string) const {
             if ( !_string || !m_string )
                 return ( !_string && !m_string );
             return strcmp ( m_string, _string )==0;
         }
-        inline bool operator==(GdbString& _string) { return operator==(_string.cstr()); }
-        inline bool operator!=(const char* _string) { return !operator==(_string); }
-        inline bool operator!=(GdbString& _string) { return !operator==(_string.cstr()); }
+        inline bool operator==(GdbString& _string) const { return operator==(_string.cstr()); }
+        inline bool operator!=(const char* _string) const { return !operator==(_string); }
+        inline bool operator!=(GdbString& _string) const { return !operator==(_string.cstr()); }
 
 
 
