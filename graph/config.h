@@ -21,6 +21,7 @@
 
 #define GDB_LOG_FILE   "/var/log/gdb.log"               /* graphdb logger filename */
 #define GDB_PID_FILE   "/var/run/gdbd.pid"              /* graphdb pid filename */
+#define GDB_SOCK_FILE  "/var/run/gdbd.socket"           /* graphdb socket filename in case of unix sockets*/
 
 
 typedef int Gdb_socket_desc_t;

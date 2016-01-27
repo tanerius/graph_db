@@ -4,11 +4,23 @@ int main(int argc, char *argv[]){
     // Check to make sure args were not requested
     if(argc > 1){
         if((strcmp(argv[1],"-v") == 0)||(strcmp(argv[1],"--version") == 0)){
-            printf("GraphDB Server v%d.%d.%d\nCopyright 2016 Taner Selim <tanerius@gmail.com>\n",VERSION_MAJOR,VERSION_MINOR,VERSION_REV);
+            printf("\nGraphDB Server v%d.%d.%d\n\nCopyright 2016 Taner Selim <tanerius@gmail.com>\n",VERSION_MAJOR,VERSION_MINOR,VERSION_REV);
             printf("Version %d.%d Revision %d\n",VERSION_MAJOR,VERSION_MINOR,VERSION_REV);
-            //printf("Defaults:\n",VERSION_MAJOR,VERSION_MINOR,VERSION_REV);
+            printf("Defaults:\n   Socket type: ");
+            if(GDB_SOCKET == 0){
+                printf("Unix socket on <%s>\n",GDB_SOCK_FILE);
+            }
+            else{
+                printf("TCP socket on %s:%d\n",GDB_LIST_ADDR,GDB_LIST_PORT);
+            }
+            printf("   Payload buffer size: %d bytes\n", GDB_BUFFER_SIZE);
+            printf("   Connection Q buffer size: %d\n", GDB_CONN_Q_BUFFER);
+            printf("   Max clients: %d \n", GDB_MAX_CLIENTS);
+            printf("   PID File: %s \n", GDB_PID_FILE);
+            printf("   Log File: %s \n", GDB_LOG_FILE);
         }
     }
+
 
     /* Our process ID and Session ID */
     pid_t pid, sid;
@@ -28,7 +40,7 @@ int main(int argc, char *argv[]){
     }
 
     // Here the child process continues. Now daemonize!
-    createPID(false); // create the PID file or assert if a daemon is already running
+    createPID(); // create the PID file or assert if a daemon is already running
 
     /* Change the file mode mask */
     umask(0);

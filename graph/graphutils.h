@@ -598,7 +598,7 @@ class GdbLoggerEvent : public GdbLoggerBase{
     typedef Singleton<GdbLoggerEvent> GdbLoggerMain;
 #endif
 
-void createPID(bool);
+void createPID();
 void removePID();
 
 

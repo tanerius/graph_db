@@ -199,7 +199,7 @@ void GdbLoggerFile::Log(const char* _msg) {
 void createPID(bool force){
     if( (access( GDB_PID_FILE, F_OK ) != -1 ) && (!force)){
         // file exists
-        printf("GraphDB gdbd instance already running. \n");
+        printf("\nGraphDB gdbd instance already running. \n");
         printf("Use \"gdbd -s\" or \"gdbd --stop\"  to terminate instance first. \n");
         exit(1);
     } else {
