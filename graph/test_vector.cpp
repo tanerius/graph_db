@@ -77,10 +77,8 @@ int main(){
     printf("vector2 maxSize = %lu\n",v2.maxSize());
 
     printf("\nTesting Singleton Logger ...\n");
-    GdbLoggerMain::Instance()->log("This is a generic error");
-    GdbLoggerMain::Instance()->log(MAX_NODES,"Allocating graphs");
-    GdbLoggerMain::Instance()->log(OK,"All os ok log entry");
-    GdbLoggerMain::Instance()->info("This is general information");
+    GdbLoggerMain::Instance()->Log("This is a generic log message");
+
     
     return 0;
 }

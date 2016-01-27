@@ -50,7 +50,6 @@ class GdbServer{
         int serverLoop();
 
     private:
-        GdbLogger m_logger;
         GdbMutex m_log_mutex;
         // Array of client sockets
         Gdb_socket_desc_t m_client_sockets[GDB_MAX_CLIENTS];

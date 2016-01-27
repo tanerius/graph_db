@@ -105,11 +105,19 @@ void GdbString::clear()
 
 
 
-GdbLogger::GdbLogger(){
+// **************************************************************************
+// LOGGER STUFF
+// **************************************************************************
+
+GdbLoggerEvent::GdbLoggerEvent() : GdbLoggerBase(){
     init();
 }
 
-void GdbLogger::init(){
+void GdbLoggerEvent::Log(const char*_msg) {
+    printf("%s \n",_msg);
+}
+
+void GdbLoggerEvent::init(){
     m_messages.allocate((int)MAX_RETURN_TYPES);
     m_messages.pushBack("Success. ");
     m_messages.pushBack("Illegal payload was provided. ");
@@ -136,7 +144,7 @@ void GdbLogger::init(){
     m_messages.pushBack("Generic error. ");
 }
 
-void GdbLogger::writeLog(const Gdb_ret_t _code, const char* _msg,int f){
+void GdbLoggerEvent::writeLog(const Gdb_ret_t _code, const char* _msg,int f){
     //for now just print
     if (f==1){
         //info
@@ -150,4 +158,63 @@ void GdbLogger::writeLog(const Gdb_ret_t _code, const char* _msg,int f){
             printf("[SUCCESS]: %s\n",_msg);
         }
     }
+}
+
+
+
+GdbLoggerFile::GdbLoggerFile() : GdbLoggerBase(){
+    //init the ctor
+    if(m_write_mutex.state() == MUTEX_IDLE){
+        m_log_file = fopen(GDB_LOG_FILE, "a");
+        if(m_log_file==NULL) {
+            perror("Error opening log file.");
+            assert(false);
+        }
+        fprintf(m_log_file,"%s : [Info] Initializing\n",getTimeStamp());
+        fclose(m_log_file);
+    }
+    else{
+        perror("Cant initialize mutexes.");
+        assert(false); // cant init mutextes 
+    }
+}
+void GdbLoggerFile::Log(const char* _msg) {
+    m_has_error = false;
+    m_write_mutex.lock();
+    m_log_file = fopen(GDB_LOG_FILE, "a");
+    if(m_log_file==NULL) {
+        perror("Error writing log file.");
+    }
+    else{
+        fprintf(m_log_file,"%s : %s\n",getTimeStamp(),_msg);
+        fclose(m_log_file);
+    }
+    m_write_mutex.unlock();
+}
+
+// **************************************************************************
+// PID CREATION
+// **************************************************************************
+
+void createPID(bool force){
+    if( (access( GDB_PID_FILE, F_OK ) != -1 ) && (!force)){
+        // file exists
+        printf("GraphDB gdbd instance already running. \n");
+        printf("Use \"gdbd -s\" or \"gdbd --stop\"  to terminate instance first. \n");
+        exit(1);
+    } else {
+        FILE *f_pid = fopen(GDB_PID_FILE, "w");
+        if(!f_pid){
+            printf("Cannot create PID. \n");
+            exit(1);
+        }
+        else{
+            fprintf(f_pid,"%d\n",::getpid());
+            fclose(f_pid);
+        }
+    }
+}
+
+void removePID(){
+    remove(GDB_PID_FILE);
 }

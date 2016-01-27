@@ -2,9 +2,12 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
+#define LOGGER FILE
+
 #ifndef GDB_NETWORK
+
 #ifndef GDB_SOCKET
-#define GDB_SOCKET             0                /* 0 - Unix socket, 1 - TCP */
+#define GDB_SOCKET             1                /* 0 - Unix socket, 1 - TCP */
 #endif
 
 #define GDB_LIST_PORT       6600                /* 6600 default TCP listening port */
@@ -15,6 +18,10 @@
 #define GDB_MAX_CLIENTS      100                // maximum number of clients
 #define GDB_CONN_Q_BUFFER     10                // maximum number connections to queue to buffer if main socket is busy
 #endif
+
+#define GDB_LOG_FILE   "/var/log/gdb.log"               /* graphdb logger filename */
+#define GDB_PID_FILE   "/var/run/gdbd.pid"              /* graphdb pid filename */
+
 
 typedef int Gdb_socket_desc_t;
 

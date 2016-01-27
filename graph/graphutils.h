@@ -2,9 +2,15 @@
 #ifndef _GRAPHUTILS_H_
 #define _GRAPHUTILS_H_
 
+#ifndef _CONFIG_H_
+#include "config.h"
+#endif
+
 #ifndef _PRIMITIVES_H_
 #include "primitives.h"
 #endif
+
+
 
 #include <cstring>          /* for strlen, strcpy and memset */
 #include <cstdlib>          /* for itoa */
@@ -12,6 +18,8 @@
 #include <pthread.h>
 #include <assert.h>
 #include <vector>
+#include <ctime>
+#include <unistd.h>
 
 
 /* Helper macros */
@@ -527,17 +535,39 @@ template <class T>
 */
 class GdbLoggerBase{
 private:
+    
+    time_t m_rawtime;
+    struct tm * m_timeinfo;
+protected:
     GdbMutex m_write_mutex;
+    bool m_has_error;
+    const char* getTimeStamp() {
+        time (&m_rawtime);
+        m_timeinfo = localtime (&m_rawtime);
+        char * res_time = asctime(m_timeinfo);
+        res_time[strlen(res_time)-1] = '\0';
+        return res_time;
+    }
+
 public:
-    void Log(const char*) = 0;
+    virtual void Log(const char*) = 0;
+};
+
+class GdbLoggerFile : public GdbLoggerBase{
+private:
+    FILE *m_log_file;
+public:
+    void Log(const char*_msg);
+    GdbLoggerFile(); // GDB_LOG_FILE
 };
 
 
-
-class GdbLogger{
+class GdbLoggerEvent : public GdbLoggerBase{
     public:
         // Standard ctor will create m_messages vector and output to stdout
-        GdbLogger();
+        GdbLoggerEvent();
+
+        void Log(const char*);
         
         // error message 
         inline void log(const Gdb_ret_t _code, const char* _msg){writeLog(_code,_msg,0);};
@@ -558,11 +588,18 @@ class GdbLogger{
     Thinking about whether to lock a mutex within the logger or let the calling classes handle it
 */
 
-#ifdef LOGGING
-
+#ifndef LOGGER
+    typedef Singleton<GdbLoggerEvent> GdbLoggerMain;
+#elif LOGGER == FILE
+    typedef Singleton<GdbLoggerFile> GdbLoggerMain;
+#elif LOGGER == EVENT
+    typedef Singleton<GdbLoggerEvent> GdbLoggerMain;
+#else
+    typedef Singleton<GdbLoggerEvent> GdbLoggerMain;
 #endif
-typedef Singleton<GdbLogger> GdbLoggerMain;
 
+void createPID(bool);
+void removePID();
 
 
 
