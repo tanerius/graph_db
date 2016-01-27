@@ -11,6 +11,9 @@
 #endif
 
 
+#ifndef _PICOJSON_HPP_
+#include "extlib/json.hpp"
+#endif
 
 #include <cstring>          /* for strlen, strcpy and memset */
 #include <cstdlib>          /* for itoa */
