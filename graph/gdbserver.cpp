@@ -176,7 +176,7 @@ int GdbServer::serverLoop(){
             //send new connection greeting message
             i = send(new_socket, m_client_greeting.cstr(), m_client_greeting.length(), 0);
             if(i>=0){
-                if( i != m_client_greeting.length() ) 
+                if( (unsigned int)i != m_client_greeting.length() ) 
                 {
                     GdbLoggerMain::Instance()->Log("GraphServer: send() faild to send complete msg");
                 }

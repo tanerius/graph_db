@@ -618,5 +618,79 @@ void createPID();
 void removePID();
 
 
+/*
+    A hash map that can also accept intervals.
+    The std::map should be used but hashing f(n) sholuld be as simple as possible for speed
+    This bitch will run in a loop it needs to be fast!
+    K = Key type 
+    V = value type
+*/
+
+
+template <class K, class V>
+    class GdbIntervalMap{
+        private:
+            std::map<K,V> m_map;
+        public:
+            // we need a constructotr here !!!!
+            GdbIntervalMap( V const& val){
+                m_map.insert(m_map.begin(),std::make_pair(std::numeric_limits<K>::lowest(),val));
+            };
+
+            /*
+                Member to assign an interval to the hashmap!
+                O(n) worst case! 
+                TODO: log(n) would be perfect.
+            */
+            void assign_interval(K const&key_begin, K const&key_end, const V& val){
+                if( !(key_begin < key_end)) return; // silly case begin should always be smaller
+                V val_default = (--m_map.cend())->second; // get the value of the last element - needed in order to know the infinity val
+                typename std::map<K,V>::iterator it_pred = m_map.lower_bound(key_begin);
+                if(it_pred!= m_map.cbegin()){
+                    //if interval does NOT overlap first element in map - in this case check that the interval is cannonical
+                    assert((--it_pred)->second!=val); //the requested val shouldn't be the same as first element being overlapped
+                    m_map.insert(std::make_pair(key_begin,val));
+                }
+                else{
+                    // interval startes from the beginning - just add it
+                    (m_map.begin())->second=val; // WARNING - Len(map) must be > 0 or this will be a disaster!!!
+                }
+                // walk over the interval now and clear values until upper bounds
+                it_pred = m_map.lower_bound(key_begin);
+                typename std::map<K,V>::iterator it_succ = m_map.upper_bound(key_end);
+                while (it_pred!=it_succ){
+                    if(it_pred->first < key_end){
+                        it_pred->second=val; //set the element
+                    }
+                    it_pred++;
+                }
+                // Handle case where the key_end index is actually the biggest index, in which case add the default element so
+                // we dont loose track od what was default!!!
+                // TODO: figure out why exactly we need this check ... but sounds interesting!
+                if(it_succ==m_map.cend()){
+                    m_map.insert(std::make_pair(key_end,val_default));
+                }
+            }
+
+#ifdef DEBUG
+            /*
+                A display function for the interval map which is available only if 
+                compiled in DEBUG mode (with defined macro name)
+                *** WARNING: Only works if key is a integer and value id char!!!
+            */
+            void display(){
+                int i;
+                for(i=0;i<20;i++){
+                    printf("M[%d] = %c\n",i,operator[](i)); 
+                }
+            }
+#endif
+
+            // we cant use the std::map [] operator need to modify it a bit to accomodate an interval implementation
+            V const& operator[](K const& key) const {
+                return (--m_map.upper_bound(key))->second;
+            }
+    };
+
 
 #endif

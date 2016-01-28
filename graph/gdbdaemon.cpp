@@ -29,24 +29,32 @@ void testjson(){
 
 
 int main(int argc, char *argv[]){
-/*
-    std::map<std::string,int> first;
 
-    // first insert function version (single parameter):
-    std::string t= "taner";
-    first.insert ( std::pair<std::string,int>(t,100) );
+    //initialize an interval with default element 0
+    GdbIntervalMap<unsigned int,char> test_interval_map('O');
+    //print it out
+    test_interval_map.display();
+    //add an interval [4,8) -> 'X'
+    test_interval_map.assign_interval(4, 8, 'X');
+    //display result
+    test_interval_map.display();
 
 
-    printf("k= %s ; v=%d",(char*)first.cbegin()->first, first.cbegin()->second);
+
+
+
 
     return 0;
 
 
-    first.insert ( std::pair<GdbString,int>("Bertan",200) );
-    first.insert ( std::pair<GdbString,int>("Erin",100) );
-    first.insert ( std::pair<GdbString,int>("Can",200) );
-    first.insert ( std::pair<GdbString,int>("Inci",100) );
-*/
+
+
+
+
+
+
+
+
     // Check to make sure args were not requested
     if(argc > 1){
         if((strcmp(argv[1],"-v") == 0)||(strcmp(argv[1],"--version") == 0)){
