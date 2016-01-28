@@ -72,6 +72,7 @@ class GdbServer{
 class GdbClientHandler{
     private:
         char m_buffer[GDB_BUFFER_SIZE];  //data buffer
+        picojson::value json_value; // container for parsed json after a full packet has been received!
         Gdb_socket_desc_t client_socket;
         GdbString m_current_command;
     public:

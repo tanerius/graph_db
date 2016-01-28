@@ -27,37 +27,7 @@ void testjson(){
 }
 
 
-
 int main(int argc, char *argv[]){
-
-    //initialize an interval with default element 0
-    GdbIntervalMap<unsigned int,char> test_interval_map('x');
-    //print it out
-    //test_interval_map.display();
-    //add an interval [4,8) -> 'X'
-    test_interval_map.assign(6,'z');
-    test_interval_map.assign(2,'d');
-    test_interval_map.assign(3,'j');
-    test_interval_map.assign(1,'a');
-    //display result - check ordering after insertions
-    test_interval_map.displayUsingPointers();
-
-
-
-
-
-
-    return 0;
-
-
-
-
-
-
-
-
-
-
     // Check to make sure args were not requested
     if(argc > 1){
         if((strcmp(argv[1],"-v") == 0)||(strcmp(argv[1],"--version") == 0)){
@@ -126,10 +96,10 @@ int main(int argc, char *argv[]){
     /* Daemon-specific initialization goes here */
     bool continue_cycle=true;
     /* The Big Loop */
+    GdbServer main_server;
     while (continue_cycle) {
         /* Do some task here ... */
-        GdbLoggerMain::Instance()->Log("[OK] In main loop.");
-        
+        main_server.startDebug();
         continue_cycle = false;
         sleep(10); /* wait 10 --- 30's too long seconds */
     }

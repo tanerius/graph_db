@@ -5,7 +5,7 @@
 int gdbCreateInetSocket ( DWORD u_addr, int i_port ){
     char s_address[GDB_ADDRESS_SIZE];
     gdbFormatIP ( s_address, GDB_ADDRESS_SIZE, u_addr );
-
+    GdbLoggerMain::Instance()->Log("[OK] gdbCreateInetSocket()");
     /*
     if ( u_addr==htonl ( INADDR_ANY ) )
         printf ( "listening on all interfaces, port=%d", i_port );
@@ -21,13 +21,13 @@ int gdbCreateInetSocket ( DWORD u_addr, int i_port ){
 
     int i_sock = socket ( AF_INET, SOCK_STREAM, 0 );
     if ( i_sock==-1 )
-        GdbLoggerMain::Instance()->Log("failed to create TCP socket");
+        GdbLoggerMain::Instance()->Log("[ERROR] Failed to create TCP socket");
 
 
     //set master socket to allow multiple connections , this is just a good habit, it will work without this
     int i_on = 1;
     if ( setsockopt ( i_sock, SOL_SOCKET, SO_REUSEADDR, (char*)&i_on, sizeof(i_on) ) )
-        GdbLoggerMain::Instance()->Log("setsockopt() failed");
+        GdbLoggerMain::Instance()->Log("[ERROR] setsockopt() failed");
 
 
     int iTries = 12;
@@ -39,12 +39,18 @@ int gdbCreateInetSocket ( DWORD u_addr, int i_port ){
             break;
 
         //printf ( "bind() failed on %s, retrying...", s_address );
-        GdbLoggerMain::Instance()->Log("bind() failed. Retrying...");
+        GdbLoggerMain::Instance()->Log("[ERROR] bind() failed. Retrying...");
         // TODO: SLEEP A BIT - several seconds
-        sleep(2000); // 2 seconds
+
+        /*
+            sleep(3) - Linux man page
+            Name
+            sleep - sleep for the specified number of SECONDS  
+        */
+        sleep(2); // 2 seconds
     } while ( --iTries>0 );
     if ( iRes )
-        GdbLoggerMain::Instance()->Log("bind() failed.");
+        GdbLoggerMain::Instance()->Log("[ERROR] bind() failed.");
 
     return i_sock;
 }
@@ -100,7 +106,7 @@ char * gdbFormatIP ( char * str_ip, int i_buff_size, DWORD u_address )
 GdbServer::GdbServer(){
     if(m_log_mutex.state() == MUTEX_IDLE){
         m_log_mutex.lock();
-        GdbLoggerMain::Instance()->Log("GraphServer: Initializing");
+        GdbLoggerMain::Instance()->Log("[OK] Starting graph server.");
         m_server_init_ok=true;
         m_log_mutex.unlock();
         m_client_greeting = "GraphDB TCP Server v1.0.0\n";
@@ -124,7 +130,7 @@ int GdbServer::serverLoop(){
     int loop_exit_condition = 0;
     //accept the incoming connection
     int addrlen = sizeof(address);
-    GdbLoggerMain::Instance()->Log("GraphServer: Waiting for connections / socket activity ...");
+    GdbLoggerMain::Instance()->Log("[OK] Waiting for connections / socket activity ...");
 
     Gdb_socket_desc_t sd, new_socket; // declare a temporary socket descriptor
     int i,activity,ret; // declare common vars outside loop so they created only once
@@ -152,20 +158,21 @@ int GdbServer::serverLoop(){
                 m_max_sd = sd;
         }
 
+        GdbLoggerMain::Instance()->Log("[OK] Block at the select ...");
         activity = select( m_max_sd + 1 , &readfds , NULL , NULL , NULL);
 
         if ((activity < 0) && (errno!=EINTR)) 
         {
-            GdbLoggerMain::Instance()->Log("GraphServer: select() error");
+            GdbLoggerMain::Instance()->Log("[ERROR] select() error");
         }
           
         //If something happened on the master socket , then its an incoming connection
         if (FD_ISSET(m_master_socket, &readfds)) 
         {
-            GdbLoggerMain::Instance()->Log("GraphServer: New connection via master socket.");
+            GdbLoggerMain::Instance()->Log("[OK] New connection via master socket.");
             if ((new_socket = accept(m_master_socket, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
             {
-                GdbLoggerMain::Instance()->Log("GraphServer: accept() error");
+                GdbLoggerMain::Instance()->Log("[ERROR] accept() error");
                 loop_exit_condition = 3;
                 break;
             }
@@ -239,19 +246,21 @@ int GdbServer::serverLoop(){
 #ifdef DEBUG
 int GdbServer::startDebug(){
     if(!m_server_init_ok) return 1; // server in the wrong state
-    m_message="GraphServer: GdbServer Test ECHO Server \r\n";
-    
-    // Aquire a mutex lock here since a lot of shit can happen
-    GdbLoggerMain::Instance()->Log(m_message.cstr());
+    GdbLoggerMain::Instance()->Log("[OK] startDebug()...");
         
-    m_message = "GraphServer: Listening on port ";
+    m_message = "Listening on port ";
     GdbNumeric a_number = GDB_LIST_PORT;
 
+    GdbLoggerMain::Instance()->Log("[OK] Init clienmt sockets");
     initClientSockets();
 
     //create the master socket which will listen to TCP
+    GdbLoggerMain::Instance()->Log("[OK] Create master socket!");
     m_master_socket = (GDB_SOCKET==1)?gdbCreateInetSocket ( htonl( INADDR_ANY ), GDB_LIST_PORT ): gdbCreateUnixSocket ("test.sock");
-
+    if(!m_master_socket){
+        GdbLoggerMain::Instance()->Log("[ERROR] Create master socket!");
+        return 2; // could not bind the socket!
+    }
 
     // write some info
     m_message+=a_number.cstr();
@@ -261,7 +270,7 @@ int GdbServer::startDebug(){
     if (listen(m_master_socket, GDB_CONN_Q_BUFFER) < 0){
         GdbLoggerMain::Instance()->Log("GraphServer: Listen failed.");
         m_log_mutex.unlock();
-        return 2;
+        return 3;
     }
 
     m_log_mutex.unlock();
