@@ -635,6 +635,10 @@ template <class K, class V>
                 m_map.insert(m_map.begin(),std::make_pair(std::numeric_limits<K>::lowest(),val));
             };
 
+            void assign(K const& key, const V& val){
+                m_map.insert( std::make_pair(key,val) );
+            }
+
             /*
                 Member to assign an interval to the hashmap!
                 O(n) worst case! 
@@ -669,6 +673,7 @@ template <class K, class V>
                     m_map.insert(std::make_pair(key_end,val_default));
                 }
             }
+      
 
 #ifdef DEBUG
             /*
@@ -682,6 +687,21 @@ template <class K, class V>
                     printf("M[%d] = %c\n",i,operator[](i)); 
                 }
             }
+
+            // display elements by traversing map with pointers instead of 
+            // indexes in order to check for key ordering!!!
+            // CONFIRMED - traversal by iterator gives ordered keys!
+            // Self balancing binary tree!
+            void displayUsingPointers(){
+                // get a iterator (fancy pointer) to head
+                typename std::map<K,V>::iterator head = m_map.begin();
+                while(head!=m_map.cend()){
+                    printf("Map[%d] = %c\n",head->first,head->second);
+                    //increment the pointer --- IDIOT!!!
+                    head++;
+                }
+            }
+
 #endif
 
             // we cant use the std::map [] operator need to modify it a bit to accomodate an interval implementation
@@ -690,5 +710,17 @@ template <class K, class V>
             }
     };
 
+
+/*
+    Implementation of an ordered hash map.
+    This will probably be one of the most important structures.
+    used for indexing!!!
+*/
+template <class K, class V>
+    class GdbHashMapO{
+    private:
+        char *m_string_arry;
+    public:
+    };
 
 #endif

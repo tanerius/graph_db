@@ -31,13 +31,16 @@ void testjson(){
 int main(int argc, char *argv[]){
 
     //initialize an interval with default element 0
-    GdbIntervalMap<unsigned int,std::string> test_interval_map("OOO");
+    GdbIntervalMap<unsigned int,char> test_interval_map('x');
     //print it out
-    test_interval_map.display();
+    //test_interval_map.display();
     //add an interval [4,8) -> 'X'
-    test_interval_map.assign_interval(4, 8, "X");
-    //display result
-    test_interval_map.display();
+    test_interval_map.assign(6,'z');
+    test_interval_map.assign(2,'d');
+    test_interval_map.assign(3,'j');
+    test_interval_map.assign(1,'a');
+    //display result - check ordering after insertions
+    test_interval_map.displayUsingPointers();
 
 
 

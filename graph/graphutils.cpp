@@ -3,8 +3,7 @@
 #include <cstdlib>          /*!<  malloc,calloc and free */
 #include <cstring>          /*!<  strlen, strcpy and memset */
 
-bool GdbString::reallocate(Gdb_N_t new_size)
-{
+bool GdbString::reallocate(Gdb_N_t new_size){
     // check that we want a positive size
     if(new_size <= 0)
         return false;
@@ -37,23 +36,19 @@ char* GdbString::allocateMemory(Gdb_N_t string_length){
 }
 
 
-GdbString& GdbString::operator=(const char *_string)
-{
-    if (!_string)
-    {
+GdbString& GdbString::operator=(const char *_string){
+    if (!_string){
         clear();
         return *this;
     }
 
-    if ( m_string==_string )
-        return *this;
+    if ( m_string==_string ) return *this;
 
     Gdb_N_t n_len = strlen(_string);
 
     if (n_len < m_length)    //If allocated space is enough
         strcpy(m_string, _string);
-    else
-    {
+    else{
         if (m_string){
             safeFree(m_string);
         }
@@ -74,8 +69,7 @@ GdbString& GdbString::operator=(const char *_string)
     return *this;
 }
 
-GdbString& GdbString::operator+=(const char *_string)
-{
+GdbString& GdbString::operator+=(const char *_string){
     Gdb_N_t n_len = length() + strlen(_string);
 
     if (n_len >= m_length)   //Reallocation needed
@@ -87,8 +81,7 @@ GdbString& GdbString::operator+=(const char *_string)
     return *this;
 }
 
-GdbString GdbString::operator+(const char* _string)
-{
+GdbString GdbString::operator+(const char* _string){
     GdbString new_string = cstr();
     new_string += _string;
     return new_string;
@@ -96,8 +89,7 @@ GdbString GdbString::operator+(const char* _string)
 
 
 
-void GdbString::clear()
-{
+void GdbString::clear(){
     if (m_string)
         safeFree(m_string);
     m_length = 0;
@@ -113,7 +105,7 @@ GdbLoggerEvent::GdbLoggerEvent() : GdbLoggerBase(){
     init();
 }
 
-void GdbLoggerEvent::Log(const char*_msg) {
+void GdbLoggerEvent::Log(const char*_msg){
     printf("%s \n",_msg);
 }
 
