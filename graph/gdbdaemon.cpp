@@ -28,6 +28,12 @@ void testjson(){
 
 
 int main(int argc, char *argv[]){
+    GdbString t = "Taner";
+    Gdb_N_t x = ::Hash(t);
+    printf("custom hash GdbString %lu\n",x);
+    printf("custom hash const char* %lu\n",::Hash("Taner"));
+    return 0;
+
     // Check to make sure args were not requested
     if(argc > 1){
         if((strcmp(argv[1],"-v") == 0)||(strcmp(argv[1],"--version") == 0)){

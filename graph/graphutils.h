@@ -51,6 +51,9 @@ struct Counter {
     }
 };
 
+
+
+
 /*!
     This is the GdbString class. It should be the only reporesentation of text that 
     should be used for this server. It has everything needed.
@@ -71,6 +74,7 @@ class GdbString {
     protected:
         char *m_string = NULL;              /* This is the actual string */
         Gdb_N_t m_length = 0;               /* The strings length including the terminator */
+
     private:
         /* Introduce a 4 byte gap which wont affect strlen. Needed for multibyte chars */
         static const int    BYTE_GAP  = 4;
@@ -712,15 +716,11 @@ template <class K, class V>
 
 
 /*
-    Implementation of an ordered hash map.
-    This will probably be one of the most important structures.
-    used for indexing!!!
+    Hashing definitions 
 */
-template <class K, class V>
-    class GdbHashMapO{
-    private:
-        char *m_string_arry;
-    public:
-    };
+inline Gdb_N_t Hash(const char* _string){return std::hash<std::string>()(_string);} 
+inline Gdb_N_t Hash(const GdbString& _string){return ::Hash(_string.cstr());} 
+
+
 
 #endif

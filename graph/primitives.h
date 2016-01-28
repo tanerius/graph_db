@@ -1,5 +1,6 @@
 #ifndef _PRIMITIVES_H_
 #define _PRIMITIVES_H_
+#include <cstddef> // for some really big numbers
 
 /**
  * Universal stuff used almost everywhere.
@@ -109,8 +110,9 @@ typedef void Gdb_Nothing_t, *Gdb_Payload_p;
 /*! 
     Formerly big_number and *big_number_p
     Natural (N) numbers representation
+    Can represent the size of any possible object
 */
-typedef unsigned long Gdb_N_t,*Gdb_n_p;
+typedef std::size_t Gdb_N_t,*Gdb_n_p;
 
 /*! 
     Natural (N) numbers representation that take up less space than Gdb_N_t
