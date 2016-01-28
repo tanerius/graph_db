@@ -64,6 +64,8 @@ struct Counter {
     char const *      mutable_pointer_to_constant_char;
     char       *const constant_pointer_to_mutable_char;
     char const *const constant_pointer_to_constant_char;
+
+    TODO: check problem with memory deallocation. In some cases, it is released more than once!
 */
 class GdbString {
     protected:
@@ -149,7 +151,6 @@ class GdbString {
             int res = operator<(_string);
             return res < 0 || res == 0;
         }
-
         bool operator<(GdbString& _string) const { return operator<(_string.cstr()); }
         bool operator<=(GdbString& _string) const { 
             return operator<=(_string.cstr());
@@ -160,7 +161,6 @@ class GdbString {
             int res = strcmp(operator const char*(), _string);
             return res > 0 || res == 0;
         }
-
         bool operator>(GdbString& _string) const { return operator>(_string.cstr()); }
         bool operator>=(GdbString& _string) const { return operator>=(_string.cstr());} 
 
@@ -619,14 +619,12 @@ void removePID();
 
 
 /*
-    A hash map that can also accept intervals.
+    An interval map that can also accept intervals.
     The std::map should be used but hashing f(n) sholuld be as simple as possible for speed
     This bitch will run in a loop it needs to be fast!
     K = Key type 
     V = value type
 */
-
-
 template <class K, class V>
     class GdbIntervalMap{
         private:

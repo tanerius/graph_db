@@ -31,11 +31,11 @@ void testjson(){
 int main(int argc, char *argv[]){
 
     //initialize an interval with default element 0
-    GdbIntervalMap<unsigned int,char> test_interval_map('O');
+    GdbIntervalMap<unsigned int,std::string> test_interval_map("OOO");
     //print it out
     test_interval_map.display();
     //add an interval [4,8) -> 'X'
-    test_interval_map.assign_interval(4, 8, 'X');
+    test_interval_map.assign_interval(4, 8, "X");
     //display result
     test_interval_map.display();
 

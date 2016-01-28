@@ -11,7 +11,7 @@ bool GdbString::reallocate(Gdb_N_t new_size)
     
     char *old_string = m_string;
     m_length = new_size;
-    m_string = (char*)malloc(new_size*sizeof(char));
+    m_string = allocateMemory(new_size);
 
     if (!m_string)   // Reallocation failed!!! panic 
     {
