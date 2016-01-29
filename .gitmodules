@@ -1,0 +1,3 @@
+[submodule "graph/extlib/boost/asio"]
+	path = graph/extlib/boost/asio
+	url = git@github.com:boostorg/asio.git
