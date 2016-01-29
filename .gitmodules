@@ -1,3 +1,9 @@
 [submodule "graph/extlib/boost/asio"]
 	path = graph/extlib/boost/asio
 	url = git@github.com:boostorg/asio.git
+[submodule "graph/extlib/boost/system"]
+	path = graph/extlib/boost/system
+	url = git@github.com:boostorg/system.git
+[submodule "graph/extlib/boost/regex"]
+	path = graph/extlib/boost/regex
+	url = git@github.com:boostorg/regex.git
