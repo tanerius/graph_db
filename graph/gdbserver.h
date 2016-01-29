@@ -44,6 +44,8 @@ char * gdbFormatIP ( char*, int, DWORD );
 class GdbServer{
     public:
         GdbServer(); // default ctor
+        void run();
+        
 #ifdef DEBUG
         int startDebug(); // return != 0 is bad
 #endif
@@ -65,6 +67,7 @@ class GdbServer{
 
     private: // methods
         void initClientSockets();
+
 
 };
 

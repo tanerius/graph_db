@@ -28,11 +28,6 @@ void testjson(){
 
 
 int main(int argc, char *argv[]){
-    GdbString t = "Taner";
-    Gdb_N_t x = ::Hash(t);
-    printf("custom hash GdbString %lu\n",x);
-    printf("custom hash const char* %lu\n",::Hash("Taner"));
-    return 0;
 
     // Check to make sure args were not requested
     if(argc > 1){
@@ -79,7 +74,7 @@ int main(int argc, char *argv[]){
     umask(0);
 
     /* Opening threadsafe logs */
-    GdbLoggerMain::Instance()->Log("[OK] Starting gdbd session...");
+    GdbLoggerMain::Instance()->Log("[OK] Initialize gdbd session...");
 
     /* Create a session ID for the process */
     sid = setsid();
@@ -98,18 +93,14 @@ int main(int argc, char *argv[]){
     close(STDIN_FILENO);
     close(STDOUT_FILENO);
     close(STDERR_FILENO);
+    
+    GdbLoggerMain::Instance()->Log("[OK] Starting the server.");
 
-    /* Daemon-specific initialization goes here */
-    bool continue_cycle=true;
-    /* The Big Loop */
     GdbServer main_server;
-    while (continue_cycle) {
-        /* Do some task here ... */
-        main_server.startDebug();
-        continue_cycle = false;
-        sleep(10); /* wait 10 --- 30's too long seconds */
-    }
-    GdbLoggerMain::Instance()->Log("[OK] Shutting down gdbd.");
+    main_server.run();
+    
     removePID();
+    GdbLoggerMain::Instance()->Log("[OK] Shutting down gdbd.");
+    
     return 0;
 }

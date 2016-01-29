@@ -6,13 +6,6 @@ int gdbCreateInetSocket ( DWORD u_addr, int i_port ){
     char s_address[GDB_ADDRESS_SIZE];
     gdbFormatIP ( s_address, GDB_ADDRESS_SIZE, u_addr );
     GdbLoggerMain::Instance()->Log("[OK] gdbCreateInetSocket()");
-    /*
-    if ( u_addr==htonl ( INADDR_ANY ) )
-        printf ( "listening on all interfaces, port=%d", i_port );
-    else
-        printf ( "listening on %s:%d", s_address, i_port );
-    */
-
     static struct sockaddr_in iaddr;
     memset ( &iaddr, 0, sizeof(iaddr) );
     iaddr.sin_family = AF_INET;
@@ -41,13 +34,7 @@ int gdbCreateInetSocket ( DWORD u_addr, int i_port ){
         //printf ( "bind() failed on %s, retrying...", s_address );
         GdbLoggerMain::Instance()->Log("[ERROR] bind() failed. Retrying...");
         // TODO: SLEEP A BIT - several seconds
-
-        /*
-            sleep(3) - Linux man page
-            Name
-            sleep - sleep for the specified number of SECONDS  
-        */
-        sleep(2); // 2 seconds
+        sleep(2); 
     } while ( --iTries>0 );
     if ( iRes )
         GdbLoggerMain::Instance()->Log("[ERROR] bind() failed.");
@@ -55,8 +42,7 @@ int gdbCreateInetSocket ( DWORD u_addr, int i_port ){
     return i_sock;
 }
 
-int gdbCreateUnixSocket ( const char * sock_file )
-{
+int gdbCreateUnixSocket ( const char * sock_file ){
     static struct sockaddr_un uaddr;
     size_t len = strlen ( sock_file );
 
@@ -92,8 +78,7 @@ int gdbCreateUnixSocket ( const char * sock_file )
 /*
     Format an IP address received in BIG endian to char*
 */
-char * gdbFormatIP ( char * str_ip, int i_buff_size, DWORD u_address )
-{
+char * gdbFormatIP ( char * str_ip, int i_buff_size, DWORD u_address ){
     const BYTE *a = (const BYTE *)&u_address;
     snprintf ( str_ip, i_buff_size, "%u.%u.%u.%u", a[0], a[1], a[2], a[3] );
     return str_ip;
@@ -106,7 +91,7 @@ char * gdbFormatIP ( char * str_ip, int i_buff_size, DWORD u_address )
 GdbServer::GdbServer(){
     if(m_log_mutex.state() == MUTEX_IDLE){
         m_log_mutex.lock();
-        GdbLoggerMain::Instance()->Log("[OK] Starting graph server.");
+        GdbLoggerMain::Instance()->Log("[OK] GdbServer:: Constructing the server.");
         m_server_init_ok=true;
         m_log_mutex.unlock();
         m_client_greeting = "GraphDB TCP Server v1.0.0\n";
@@ -123,6 +108,10 @@ void GdbServer::initClientSockets(){
     for (int i=0; i<GDB_MAX_CLIENTS; i++){
         m_client_sockets[i] = 0;
     }
+}
+
+void GdbServer::run(){
+    GdbLoggerMain::Instance()->Log("[OK] GdbServer:: Server Running.");
 }
 
 

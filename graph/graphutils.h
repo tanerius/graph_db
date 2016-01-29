@@ -12,7 +12,7 @@
 
 
 #ifndef _PICOJSON_HPP_
-#include "extlib/json.hpp"
+#include "extlib/json/json.hpp"
 #endif
 
 #include <cstring>          /* for strlen, strcpy and memset */

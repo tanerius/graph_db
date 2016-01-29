@@ -37,7 +37,7 @@ test.o: graphfiles.o
 graphfiles.o: graph.o graphfiles.h
 	$(CXX) $(CXXFLAGS) -c graphfiles.cpp -o $(OBJDIR)/graphfiles.o
 
-graphutils.o: primitives.h graphutils.h extlib/json.hpp
+graphutils.o: primitives.h graphutils.h extlib/json/json.hpp
 	$(CXX) $(CXXFLAGS) -c graphutils.cpp -o $(OBJDIR)/graphutils.o
 
 graph.o: init primitives.h graph.h

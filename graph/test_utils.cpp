@@ -46,6 +46,12 @@ int main(){
 
     GdbNumeric float_number = 4.0f;
     printf("float_number is a our special float: %f\n",float_number.float_val());
+
+    // Testing the server
+    GdbString t = "Taner";
+    Gdb_N_t yy = ::Hash(t);
+    printf("custom hash GdbString %lu\n",yy);
+    printf("custom hash const char* %lu\n",::Hash("Taner"));
     
     return 0; 
 }
