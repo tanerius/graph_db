@@ -217,10 +217,11 @@ void removePID(){
 
 // **************************************************************************
 // Shared mutex implementation
+// this mutex will survive a fork()
 // **************************************************************************
 
 
-GdbMutex::GdbMutex ( int _size_plus ){
+GdbSharedMutex::GdbSharedMutex ( int _size_plus ){
     m_mutex_ptr = NULL;
 
     pthread_mutexattr_t mutex_attribute;
@@ -258,23 +259,23 @@ GdbMutex::GdbMutex ( int _size_plus ){
     }
 }
 
-void GdbMutex::lock () const
+void GdbSharedMutex::lock () const
 {
     if ( m_mutex_ptr )
         pthread_mutex_lock ( m_mutex_ptr );
 }
 
 
-void GdbMutex::unlock () const
+void GdbSharedMutex::unlock () const
 {
     if ( m_mutex_ptr )
         pthread_mutex_unlock ( m_mutex_ptr );
 }
 
-const char* GdbMutex::getError()const {
+const char* GdbSharedMutex::getError()const {
     const char *err_str = NULL;
     err_str = m_err_str.cstr();
     return err_str;
 }
 
-GdbMutex::~GdbMutex ( ){}
+GdbSharedMutex::~GdbSharedMutex ( ){}

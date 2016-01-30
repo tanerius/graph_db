@@ -633,7 +633,7 @@ protected:
 
     GdbSharedBuffer
 */
-class GdbMutex{
+class GdbSharedMutex{
     protected:
         pthread_mutex_t *m_mutex_ptr;
         GdbSharedBuffer<BYTE> m_storage_buff;
@@ -647,12 +647,12 @@ class GdbMutex{
             Unlock the mutex!
         */
         void unlock() const;
-        explicit GdbMutex(int _size_plus=0);
-        ~GdbMutex();
+        explicit GdbSharedMutex(int _size_plus=0);
+        ~GdbSharedMutex();
         const char* getError() const;
 };
 
-typedef GdbMutex GdbSharedMutex;
+
 
 /*
     A singleton tempplate for thoseobjects that really need it like the primary logger 
@@ -686,7 +686,7 @@ private:
     time_t m_rawtime;
     struct tm * m_timeinfo;
 protected:
-    GdbMutex m_write_mutex;
+    GdbSharedMutex m_write_mutex;
     bool m_has_error;
     const char* getTimeStamp() {
         time (&m_rawtime);

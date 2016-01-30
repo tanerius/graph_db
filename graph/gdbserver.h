@@ -52,7 +52,7 @@ class GdbServer{
         int serverLoop();
 
     private:
-        GdbMutex m_log_mutex;
+        GdbSharedMutex m_log_mutex;
         // Array of client sockets
         Gdb_socket_desc_t m_client_sockets[GDB_MAX_CLIENTS];
         char m_buffer[GDB_BUFFER_SIZE];  //data buffer of 1K
