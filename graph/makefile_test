@@ -5,6 +5,8 @@ CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
 
 OBJDIR=build
 
+Debug: test_vector test_server test_utils test_graph gdbd
+
 default: test_vector test_server test_utils test_graph gdbd
 
 gdbd: init graphutils.o gdbserver.o gdbserver.h config.h
@@ -38,7 +40,7 @@ graphfiles.o: graph.o graphfiles.h
 	$(CXX) $(CXXFLAGS) -c graphfiles.cpp -o $(OBJDIR)/graphfiles.o
 
 graphutils.o: primitives.h graphutils.h extlib/json/json.hpp
-	$(CXX) $(CXXFLAGS) -c graphutils.cpp -o $(OBJDIR)/graphutils.o
+	$(CXX) $(CXXFLAGS) -fPIC -c graphutils.cpp -o $(OBJDIR)/graphutils.o
 
 graph.o: init primitives.h graph.h
 	$(CXX) $(CXXFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o

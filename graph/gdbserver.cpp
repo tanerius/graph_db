@@ -2,6 +2,7 @@
 #include "gdbserver.h"
 
 
+
 int gdbCreateInetSocket ( DWORD u_addr, int i_port ){
     char s_address[GDB_ADDRESS_SIZE];
     gdbFormatIP ( s_address, GDB_ADDRESS_SIZE, u_addr );
@@ -89,18 +90,13 @@ char * gdbFormatIP ( char * str_ip, int i_buff_size, DWORD u_address ){
     Server default constructor
 */
 GdbServer::GdbServer(){
-    if(m_log_mutex.state() == MUTEX_IDLE){
-        m_log_mutex.lock();
-        GdbLoggerMain::Instance()->Log("[OK] GdbServer:: Constructing the server.");
-        m_server_init_ok=true;
-        m_log_mutex.unlock();
-        m_client_greeting = "GraphDB TCP Server v1.0.0\n";
-        m_client_greeting += "Taner Selim <tanerius@gmail.com>\n\n";
-        m_client_greeting += "hello";
-    }
-    else{
-        m_server_init_ok=false;
-    }
+    m_log_mutex.lock();
+    GdbLoggerMain::Instance()->Log("[OK] GdbServer:: Constructing the server.");
+    m_server_init_ok=true;
+    m_log_mutex.unlock();
+    m_client_greeting = "GraphDB TCP Server v1.0.0\n";
+    m_client_greeting += "Taner Selim <tanerius@gmail.com>\n\n";
+    m_client_greeting += "hello";
 }
 
 void GdbServer::initClientSockets(){
@@ -112,6 +108,8 @@ void GdbServer::initClientSockets(){
 
 void GdbServer::run(){
     GdbLoggerMain::Instance()->Log("[OK] GdbServer:: Server Running.");
+    m_process_ID = getpid();
+    
 }
 
 
@@ -270,14 +268,13 @@ int GdbServer::startDebug(){
     return r;
 }
 
+
+
+
+
 void GdbClientHandler::parseCommand(){
     return;
 }
-
-
-
-
-
 
 
 

@@ -3,6 +3,8 @@
 #include <cstdlib>          /*!<  malloc,calloc and free */
 #include <cstring>          /*!<  strlen, strcpy and memset */
 
+bool global_b_head_proces=true;
+
 bool GdbString::reallocate(Gdb_N_t new_size){
     // check that we want a positive size
     if(new_size <= 0)
@@ -31,8 +33,10 @@ bool GdbString::reallocate(Gdb_N_t new_size){
     return true;
 }
 
+// consider making this a global!!!
 char* GdbString::allocateMemory(Gdb_N_t string_length){
-    return (char*)malloc(string_length*sizeof(char) + BYTE_GAP);
+    return ::allocMem<char>(string_length*sizeof(char) + BYTE_GAP);
+    //return (char*)malloc(string_length*sizeof(char) + BYTE_GAP);
 }
 
 
@@ -156,20 +160,15 @@ void GdbLoggerEvent::writeLog(const Gdb_ret_t _code, const char* _msg,int f){
 
 GdbLoggerFile::GdbLoggerFile() : GdbLoggerBase(){
     //init the ctor
-    if(m_write_mutex.state() == MUTEX_IDLE){
-        m_log_file = fopen(GDB_LOG_FILE, "a");
-        if(m_log_file==NULL) {
-            perror("Error opening log file.");
-            assert(false);
-        }
-        fprintf(m_log_file,"%s : [Info] Initializing\n",getTimeStamp());
-        fclose(m_log_file);
+    m_log_file = fopen(GDB_LOG_FILE, "a");
+    if(m_log_file==NULL) {
+        perror("Error opening log file.");
+        assert(false);
     }
-    else{
-        perror("Cant initialize mutexes.");
-        assert(false); // cant init mutextes 
-    }
+    fprintf(m_log_file,"%s : [Info] Initializing\n",getTimeStamp());
+    fclose(m_log_file);
 }
+
 void GdbLoggerFile::Log(const char* _msg) {
     m_has_error = false;
     m_write_mutex.lock();
@@ -210,3 +209,72 @@ void createPID(){
 void removePID(){
     remove(GDB_PID_FILE);
 }
+
+
+
+
+
+
+// **************************************************************************
+// Shared mutex implementation
+// **************************************************************************
+
+
+GdbMutex::GdbMutex ( int _size_plus ){
+    m_mutex_ptr = NULL;
+
+    pthread_mutexattr_t mutex_attribute;
+    int r = pthread_mutexattr_init ( &mutex_attribute );
+    if ( r )
+    {
+        //pthread_mutexattr_init, errno=%d
+        return;
+    }
+    r = pthread_mutexattr_setpshared ( &mutex_attribute, PTHREAD_PROCESS_SHARED );
+    if ( r )
+    {
+        // "pthread_mutexattr_setpshared, errno = %d"
+        m_err_str="pthread_mutexattr_setpshared error";
+        return;
+    }
+
+    GdbString s_notify;
+    // write mutexes to shared memory so all processes can use them
+    if ( !m_storage_buff.allocateMemory ( sizeof(pthread_mutex_t) + _size_plus, s_notify) )
+    {
+        //"storage.alloc, error='%s', warning='%s'"
+        m_err_str=s_notify;
+        return;
+    }
+
+    m_mutex_ptr = (pthread_mutex_t*) m_storage_buff.getBlockHeadPtr();
+    r = pthread_mutex_init ( m_mutex_ptr, &mutex_attribute );
+    if ( r )
+    {
+        m_err_str="pthread_mutex_init error";
+        m_mutex_ptr = NULL;
+        m_storage_buff.deAllocateMemory (s_notify);
+        return;
+    }
+}
+
+void GdbMutex::lock () const
+{
+    if ( m_mutex_ptr )
+        pthread_mutex_lock ( m_mutex_ptr );
+}
+
+
+void GdbMutex::unlock () const
+{
+    if ( m_mutex_ptr )
+        pthread_mutex_unlock ( m_mutex_ptr );
+}
+
+const char* GdbMutex::getError()const {
+    const char *err_str = NULL;
+    err_str = m_err_str.cstr();
+    return err_str;
+}
+
+GdbMutex::~GdbMutex ( ){}

@@ -15,6 +15,8 @@
 #include "extlib/json/json.hpp"
 #endif
 
+#include <sys/mman.h> // for mmap and mlock
+
 #include <cstring>          /* for strlen, strcpy and memset */
 #include <cstdlib>          /* for itoa */
 #include <iostream>
@@ -37,6 +39,8 @@
 typedef unsigned char BYTE;
 typedef unsigned int DWORD;
 
+extern bool global_b_head_proces;
+
 /*! 
     Our very own counter
 */
@@ -51,7 +55,8 @@ struct Counter {
     }
 };
 
-
+template <typename T>  
+T* allocMem(Gdb_N_t _size){ return (T*)malloc(_size * sizeof(T)); }
 
 
 /*!
@@ -482,50 +487,172 @@ class GdbVector {
         bool operator!=(GdbVector& _vector) { return !operator==(_vector); }
 };
 
+
 /*
-    Create an implementation for a mutex for threads
+    IPC Mechanizm!
+
+    Implementation for a shared memory buffer - for process to process chat
+    Make it template for generics
+
+    WARNING: mapping over 4GB requires 64 bit system or this will be impossible
+
+    TODO: GdbSharedBuffer test required!!!
 */
-typedef struct Gdb_mutex_s{
-    private:
-        Gdb_ret_t m_state;
-        pthread_mutex_t m_mutex_generic;
+template <class T> class GdbSharedBuffer{
+public:
+    // Construction
+    GdbSharedBuffer(): 
+        m_data_pointer(NULL),
+        m_length(0),
+        m_entities(0),
+        m_lock_ram(false){}
+
+    ~GdbSharedBuffer(){
+        deAllocateMemory();
+    }
+    void setMemLock(bool _block){ m_lock_ram=_block; } // setter for lock mode!
+
+    // Storage allocation
+    bool allocateMemory(
+        int64_t _entities, 
+        GdbString &_s_notify
+    ){
+        // fail if data not present/unitialized pointer
+        assert(!m_data_pointer);
+        int64_t element_size = sizeof(T); // get the size in bytes of the element requested
+        element_size = element_size*_entities; // how much total space we need to allocate
+        m_length = (Gdb_N_t)element_size;
+        if(element_size !=(int64_t)m_length){
+            // Cant map over 4gb on 32bits
+            _s_notify="Cannot map over 4GB.";
+            m_length=0;
+            return false;
+        }
+        //else map it!
+        m_data_pointer = (BYTE*)mmap(NULL,m_length, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANON, -1 ,0);
+        if(m_data_pointer==MAP_FAILED){
+            _s_notify="mmap() failed.";
+            m_length=0;
+            return false;
+        }
+        if(m_lock_ram){
+            if(mlock(m_data_pointer,m_length)==-1){
+                _s_notify="mlock() failed to lock to RAM.";
+                //TODO: maybe add a memory profiler at some point so we dont need to guess WTF went wrong!!
+            }
+        }
+        //crash if still nothing interesting happened
+        assert(m_data_pointer);
+        // memory mapping succesded ... GG WP!
+        m_entities=(Gdb_N_t)_entities;
+        return true;
+    }
+
+    // member for doing a relock
+    bool relockMemory(){
+        if(!m_lock_ram) return true;
+        if(mlock(m_data_pointer,m_length)!=-1) return true;
+    }
+
+    // Deallocate and reset the memory created by allocateMemory() call
+    void deAllocateMemory(GdbString &_s_notify){
+        // Case where nothing to deallocate
+        if(!m_data_pointer) return;
+
+        if(global_b_head_proces){
+            int r=munmap(m_data_pointer,m_length);
+            if(r){
+                _s_notify="munmap() failed";
+            }
+        }
+        m_data_pointer=NULL;
+        m_length=0;
+        m_entities=0;
+    }
+
+    void deAllocateMemory(){
+        // Case where nothing to deallocate
+        if(!m_data_pointer) return;
+
+        munmap(m_data_pointer,m_length);
+        m_data_pointer=NULL;
+        m_length=0;
+        m_entities=0;
+    }
+
+    /*
+        Overloading [] will enable us to refer emelents like this : example: x[5]
+    */
+    inline const T & operator[](Gdb_N_t _index){
+        assert(_index>=0);
+        assert(_index<m_entities);
+        return m_data_pointer[_index];
+    }
+
+
+    /*
+        a function thats going to return the beginning of the memory block
+    */
+    T * getBlockHeadPtr() const{
+        return m_data_pointer;
+    }
+
+    /*
+        Function to check if GdbSharedBuffer instance is and empty buffer
+    */
+    bool isEmpty(){
+        return m_data_pointer==NULL;
+    }
+
+    /*
+        Some basic getter
+    */
+    Gdb_N_t getLength() const{
+        return m_length;
+    }
+
+    Gdb_N_t getNumOfEntities() const{
+        return m_entities;
+    }
+
+
+protected:
+    T* m_data_pointer; // data to be stored
+    Gdb_N_t m_length; // data length in bytes
+    Gdb_N_t m_entities; // number of entities (total memory length + entities)
+    bool m_lock_ram; // should we lock the data to the RAM
+};
+
+
+
+
+
+/*
+    Create an implementation for a mutex for threads.
+    The mutex should be able tu survive a fork()
+
+    GdbSharedBuffer
+*/
+class GdbMutex{
+    protected:
+        pthread_mutex_t *m_mutex_ptr;
+        GdbSharedBuffer<BYTE> m_storage_buff;
+        GdbString m_err_str;
     public:
-        
         /* 
             Grabs the mutex and locks it. Others will block!
         */
-        void lock(){
-            pthread_mutex_lock(&m_mutex_generic);
-            m_state=MUTEX_LOCKED;
-        }
-
+        void lock() const;
         /* 
-            State of the mutex! It is best to always check that == MUTEX_IDLE after initialization 
-            of the class. Lock and unlock do this implicitly so no need!
+            Unlock the mutex!
         */
-        inline const Gdb_ret_t state() const{return m_state;}
+        void unlock() const;
+        explicit GdbMutex(int _size_plus=0);
+        ~GdbMutex();
+        const char* getError() const;
+};
 
-        /* 
-            Release the mutex!
-        */
-        void unlock(){
-            pthread_mutex_unlock(&m_mutex_generic);
-            m_state=MUTEX_IDLE;
-        }
-
-        Gdb_mutex_s(){
-            if (pthread_mutex_init(&m_mutex_generic, NULL) != 0){
-                m_state=MUTEX_ERR;
-            }
-            else{
-                m_state=MUTEX_IDLE;
-            }
-        }
-
-        ~Gdb_mutex_s(){
-            pthread_mutex_destroy(&m_mutex_generic);
-        }
-} GdbMutex;
+typedef GdbMutex GdbSharedMutex;
 
 /*
     A singleton tempplate for thoseobjects that really need it like the primary logger 

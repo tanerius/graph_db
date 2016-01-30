@@ -64,6 +64,7 @@ class GdbServer{
         struct sockaddr_in address; // address for incomming traffic
         GdbString m_client_greeting;
         GdbString m_message; // a variable for messages 
+        pid_t m_process_ID; // process id of the 
 
     private: // methods
         void initClientSockets();

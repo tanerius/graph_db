@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Graphdb" />
+		<Option platforms="Unix;Mac;" />
+		<Option makefile="makefile_test" />
+		<Option makefile_is_custom="1" />
+		<Option execution_dir="../graph" />
+		<Option compiler="gcc" />
+		<MakeCommands>
+			<Build command="$make -f $makefile $target" />
+			<CompileFile command="$make -f $makefile $file" />
+			<Clean command="$make -f $makefile clean" />
+			<DistClean command="$make -f $makefile distclean$target" />
+			<AskRebuildNeeded command="$make -q -f $makefile $target" />
+			<SilentBuild command="$make -f $makefile $target &gt; $(CMD_NULL)" />
+		</MakeCommands>
+		<Build>
+			<Target title="Debug">
+				<Option platforms="Unix;Mac;" />
+				<Option output="graph/bin/Debug/Graphdb" prefix_auto="1" extension_auto="1" />
+				<Option object_output="graph/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Weffc++" />
+					<Add option="-pedantic" />
+					<Add option="-std=c++11" />
+					<Add option="-Wfatal-errors" />
+					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="pthread" />
+					<Add option="-DDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+				</Linker>
+				<MakeCommands>
+					<Build command="$make -f $makefile $target" />
+					<CompileFile command="$make -f $makefile $file" />
+					<Clean command="$make -f $makefile clean" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="$make -q -f $makefile $target" />
+					<SilentBuild command="$make -f $makefile $target &gt; $(CMD_NULL)" />
+				</MakeCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="graph/bin/Release/Graphdb" prefix_auto="1" extension_auto="1" />
+				<Option object_output="graph/obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wzero-as-null-pointer-constant" />
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="../graph/config.h" />
+		<Unit filename="../graph/extlib/json/json.cpp" />
+		<Unit filename="../graph/extlib/json/json.hpp" />
+		<Unit filename="../graph/gdbdaemon.cpp" />
+		<Unit filename="../graph/gdbserver.cpp" />
+		<Unit filename="../graph/gdbserver.h" />
+		<Unit filename="../graph/graph.cpp" />
+		<Unit filename="../graph/graph.h" />
+		<Unit filename="../graph/graphfiles.cpp" />
+		<Unit filename="../graph/graphfiles.h" />
+		<Unit filename="../graph/graphutils.cpp" />
+		<Unit filename="../graph/graphutils.h" />
+		<Unit filename="../graph/primitives.h" />
+		<Unit filename="../graph/test.cpp" />
+		<Unit filename="../graph/test_server.cpp" />
+		<Unit filename="../graph/test_utils.cpp" />
+		<Unit filename="../graph/test_vector.cpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
