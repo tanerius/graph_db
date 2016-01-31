@@ -909,4 +909,18 @@ private:
     pthread_rwlock_t    m_lock;
 };
 
+
+/* 
+    An interface that prevents deriving classes from being copied 
+    by making the copy constructor private
+*/
+class GdbNoCopy{
+public:
+    GdbNoCopy () {}
+private:
+    GdbNoCopy ( const GdbNoCopy & ) {}
+    const GdbNoCopy& operator = ( const GdbNoCopy & ) { return *this; }
+};
+
+
 #endif
