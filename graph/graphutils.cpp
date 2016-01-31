@@ -279,3 +279,66 @@ const char* GdbSharedMutex::getError()const {
 }
 
 GdbSharedMutex::~GdbSharedMutex ( ){}
+
+
+/*
+    Implementation of the mutex wrapper (using the implest posix mutex)
+*/
+bool GdbMutex::init ()
+{
+    m_is_init = ( pthread_mutex_init ( &m_mutex, NULL )==0 );
+    return m_is_init;
+}
+
+bool GdbMutex::finished ()
+{
+    if ( !m_is_init )
+        return true;
+
+    m_is_init = false;
+    return pthread_mutex_destroy ( &m_mutex )==0;
+}
+
+bool GdbMutex::lock ()
+{
+    return ( pthread_mutex_lock ( &m_mutex )==0 );
+}
+
+bool GdbMutex::unlock ()
+{
+    return ( pthread_mutex_unlock ( &m_mutex )==0 );
+}
+
+
+
+/*
+    Implementation of the lock wrapper (posix works best for nGdbLockow)
+*/
+
+GdbLock::GdbLock ()
+{}
+
+bool GdbLock::init ()
+{
+    return pthread_rwlock_init ( &m_lock, NULL )==0;
+}
+
+bool GdbLock::done ()
+{
+    return pthread_rwlock_destroy ( &m_lock )==0;
+}
+
+bool GdbLock::readLock ()
+{
+    return pthread_rwlock_rdlock ( &m_lock )==0;
+}
+
+bool GdbLock::writeLock ()
+{
+    return pthread_rwlock_wrlock ( &m_lock )==0;
+}
+
+bool GdbLock::unlock ()
+{
+    return pthread_rwlock_unlock ( &m_lock )==0;
+}

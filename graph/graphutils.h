@@ -848,6 +848,65 @@ template <class K, class V>
 inline Gdb_N_t Hash(const char* _string){return std::hash<std::string>()(_string);} 
 inline Gdb_N_t Hash(const GdbString& _string){return ::Hash(_string.cstr());} 
 
+/* 
+    Basic synchronization services
+*/
 
+/* 
+    Wrapper for a mutex
+*/
+class GdbMutex
+{
+public:
+    GdbMutex () : m_is_init ( false ) {}
+    ~GdbMutex () { assert ( !m_is_init ); }
+
+    bool init ();
+    bool finished ();
+    bool lock ();
+    bool unlock ();
+
+protected:
+    bool m_is_init;
+    // coundlnt decide wheather c++11 or POSIX, but 
+    // then went posix since forums say its better
+    pthread_mutex_t m_mutex;
+};
+
+/*
+    For super global variables
+*/
+class GdbStaticMutex : public GdbMutex
+{
+public:
+    GdbStaticMutex()
+    {
+        assert ( init() );
+    }
+
+    ~GdbStaticMutex()
+    {
+        finished();
+    }
+};
+
+
+/* 
+    Wrapper for read/write lock
+*/
+class GdbLock
+{
+public:
+    GdbLock ();
+    ~GdbLock () {}
+
+    bool init ();
+    bool done ();
+    bool readLock ();
+    bool writeLock ();
+    bool unlock ();
+private:
+    pthread_rwlock_t    m_lock;
+};
 
 #endif
