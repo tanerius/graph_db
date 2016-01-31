@@ -4,6 +4,7 @@
 #include <cstring>          /*!<  strlen, strcpy and memset */
 
 bool global_b_head_proces=true;
+static int global_thread_stack_size = PTHREAD_STACK_MIN + 65536;
 
 bool GdbString::reallocate(Gdb_N_t new_size){
     // check that we want a positive size
@@ -341,4 +342,53 @@ bool GdbLock::writeLock ()
 bool GdbLock::unlock ()
 {
     return pthread_rwlock_unlock ( &m_lock )==0;
+}
+
+
+/*
+    Thread related implementations
+*/
+GdbThreadKey_t global_thread_cleanup_key;
+GdbThreadKey_t global_thread_stack;
+
+
+bool threadKeyCreate ( GdbThreadKey_t * _p_key )
+{
+    return pthread_key_create ( _p_key, NULL )==0;
+}
+
+
+void * threadInit ( bool _detached ){
+    static bool b_init = false;
+    static pthread_attr_t joinableAttr;
+    static pthread_attr_t detachedAttr;
+    if ( !b_init )
+    {
+        // we're single-threaded yet, right?!
+        if ( !::threadKeyCreate ( &global_thread_cleanup_key ) )
+            exit(1);
+
+        if ( !::threadKeyCreate ( &global_thread_stack ) )
+            exit(1);
+
+        if ( pthread_attr_init ( &joinableAttr ) )
+            exit(1);
+
+        if ( pthread_attr_init ( &detachedAttr ) )
+            exit(1);
+
+        if ( pthread_attr_setdetachstate ( &detachedAttr, PTHREAD_CREATE_DETACHED ) )
+            exit(1);
+
+        b_init = true;
+    }
+
+    if ( pthread_attr_setstacksize ( &joinableAttr, global_thread_stack_size ) )
+        exit(1);
+
+    if ( pthread_attr_setstacksize ( &detachedAttr, global_thread_stack_size ) )
+        exit(1);
+
+    return _detached ? &detachedAttr : &joinableAttr;
+
 }

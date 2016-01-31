@@ -24,6 +24,7 @@
 #include <assert.h>
 #include <vector>
 #include <ctime>
+#include <climits>
 #include <unistd.h>
 
 
@@ -848,8 +849,10 @@ template <class K, class V>
 inline Gdb_N_t Hash(const char* _string){return std::hash<std::string>()(_string);} 
 inline Gdb_N_t Hash(const GdbString& _string){return ::Hash(_string.cstr());} 
 
+
+
 /* 
-    Basic synchronization services
+    THREADS STUFF
 */
 
 /* 
@@ -922,5 +925,32 @@ private:
     const GdbNoCopy& operator = ( const GdbNoCopy & ) { return *this; }
 };
 
+
+/*
+    defining custom thread type in case we decide to change the thread type at some point
+*/
+typedef pthread_t GdbThread_t;
+typedef pthread_key_t GdbThreadKey_t;
+
+// define a thread function
+#define GDB_THREAD_FN void *
+
+
+
+/*
+    Thread key creator
+*/
+bool threadKeyCreate ( GdbThreadKey_t * _p_key );
+
+/*
+    Initialize a thread
+*/
+void * threadInit ( bool _detached=false );
+
+
+/*
+    Finish a thread
+*/
+void threadDone ( int _i );
 
 #endif
