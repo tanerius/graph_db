@@ -942,6 +942,7 @@ typedef pthread_key_t GdbThreadKey_t;
 */
 bool threadKeyCreate ( GdbThreadKey_t * _p_key );
 
+
 /*
     Initialize a thread
 */

@@ -360,8 +360,8 @@ bool threadKeyCreate ( GdbThreadKey_t * _p_key )
 
 void * threadInit ( bool _detached ){
     static bool b_init = false;
-    static pthread_attr_t joinableAttr;
-    static pthread_attr_t detachedAttr;
+    static pthread_attr_t joinable_attr;
+    static pthread_attr_t detached_attr;
     if ( !b_init )
     {
         // we're single-threaded yet, right?!
@@ -371,24 +371,24 @@ void * threadInit ( bool _detached ){
         if ( !::threadKeyCreate ( &global_thread_stack ) )
             exit(1);
 
-        if ( pthread_attr_init ( &joinableAttr ) )
+        if ( pthread_attr_init ( &joinable_attr ) )
             exit(1);
 
-        if ( pthread_attr_init ( &detachedAttr ) )
+        if ( pthread_attr_init ( &detached_attr ) )
             exit(1);
 
-        if ( pthread_attr_setdetachstate ( &detachedAttr, PTHREAD_CREATE_DETACHED ) )
+        if ( pthread_attr_setdetachstate ( &detached_attr, PTHREAD_CREATE_DETACHED ) )
             exit(1);
 
         b_init = true;
     }
 
-    if ( pthread_attr_setstacksize ( &joinableAttr, global_thread_stack_size ) )
+    if ( pthread_attr_setstacksize ( &joinable_attr, global_thread_stack_size ) )
         exit(1);
 
-    if ( pthread_attr_setstacksize ( &detachedAttr, global_thread_stack_size ) )
+    if ( pthread_attr_setstacksize ( &detached_attr, global_thread_stack_size ) )
         exit(1);
 
-    return _detached ? &detachedAttr : &joinableAttr;
+    return _detached ? &detached_attr : &joinable_attr;
 
 }
