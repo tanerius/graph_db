@@ -351,6 +351,23 @@ bool GdbLock::unlock ()
 GdbThreadKey_t global_thread_cleanup_key;
 GdbThreadKey_t global_thread_stack;
 
+struct GdbThreadCaller_t{
+    void (*m_pCallingFn)(void *_arg);
+    void *m_argument;
+    GdbThreadCaller_t * m_next_caller;
+};
+
+GDB_THREAD_FN gdbThreadFnWrapper(void*_arguments){
+    //char c_top_of_the_stack;
+    GdbThreadCaller_t *p_call = (GdbThreadCaller_t*)_arguments;
+    // we should remember the top of the stack somehow
+    //...
+    // call the actual function we want to run
+    p_call->m_pCallingFn(p_call->m_argument);
+
+    return 0; // double check the return cuz i think we are wrong!
+}
+
 
 bool threadKeyCreate ( GdbThreadKey_t * _p_key )
 {
@@ -386,9 +403,26 @@ void * threadInit ( bool _detached ){
     if ( pthread_attr_setstacksize ( &joinable_attr, global_thread_stack_size ) )
         exit(1);
 
-    if ( pthread_attr_setstacksize ( &detached_attr, global_thread_stack_size ) )
-        exit(1);
-
     return _detached ? &detached_attr : &joinable_attr;
 
+}
+
+/*
+    Actually initialize a thread here. True if thread was created normally else false!
+*/  
+bool gdbThreadCreate(GdbThread_t *_thread, void (*_threadFn)(GDB_THREAD_FN), void *_arg, bool _is_detached ){
+    // Need to make sure that the thread doesnt go out of 
+    // scope or die before the wrapper is able to see it
+    GdbThreadCaller_t *p_caller = ::allocMem<GdbThreadCaller_t>(sizeof(GdbThreadCaller_t));
+    p_caller->m_next_caller=NULL;
+    p_caller->m_pCallingFn=_threadFn;
+    p_caller->m_argument=_arg;
+    // now we want to actually create the thread
+    void *tmp_attrs=::threadInit ( _is_detached );
+    // TODO: CREATE THIS NOW gdbProcedureWrapper
+    int creation_result = pthread_create(_thread,(pthread_attr_t*) tmp_attrs, gdbThreadFnWrapper, p_caller);
+
+    //will p_caller leak here????
+
+    return (creation_result==0);
 }

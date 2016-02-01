@@ -940,18 +940,17 @@ typedef pthread_key_t GdbThreadKey_t;
 /*
     Thread key creator
 */
-bool threadKeyCreate ( GdbThreadKey_t * _p_key );
+bool gdbThreadKeyCreate ( GdbThreadKey_t * _p_key );
 
 
 /*
     Initialize a thread
 */
-void * threadInit ( bool _detached=false );
-
+void * gdbThreadInit ( bool _detached=false );
 
 /*
-    Finish a thread
+    Function to create a thread. Thread callback should be available!
 */
-void threadDone ( int _i );
+bool gdbThreadCreate(GdbThread_t *_thread, void (*_threaFn)(GDB_THREAD_FN), void *_arg, bool _is_detached );
 
 #endif
