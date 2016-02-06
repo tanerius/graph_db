@@ -1,5 +1,7 @@
 #include "gdbserver.h"
 
+volatile sig_atomic_t g_terminate;
+
 void testjson(){
     picojson::value v;
 
@@ -26,6 +28,12 @@ void testjson(){
     }
 }
 
+/*
+    This is the user signal handler. Be careful this can handle only a number of funcitons.
+*/
+void signalHandler(int signum){
+    g_terminate = 1;
+}
 
 int main(int argc, char *argv[]){
 
@@ -48,7 +56,13 @@ int main(int argc, char *argv[]){
             printf("   Log File: %s \n", GDB_LOG_FILE);
         }
     }
-    signal(SIGCHLD, SIG_IGN);  /* now I don't have to wait() after a fork ! */
+
+
+    struct sigaction action;
+    memset(&action,0,sizeof(struct sigaction));
+    action.sa_handler = signalHandler;
+    sigaction(SIGTERM,&action,NULL);
+    sigaction(SIGQUIT,&action,NULL);
 
     /* Our process ID and Session ID */
     pid_t pid, sid;
@@ -69,6 +83,7 @@ int main(int argc, char *argv[]){
 
     // Here the child process continues. Now daemonize!
     createPID(); // create the PID file or assert if a daemon is already running
+    g_terminate = 0;
 
     /* Change the file mode mask */
     umask(0);
@@ -95,9 +110,16 @@ int main(int argc, char *argv[]){
     close(STDERR_FILENO);
     
     GdbLoggerMain::Instance()->Log("[OK] Starting the server.");
+    GdbLoggerMain::Instance()->Log("[OK] Starting the server.");
 
-    GdbServer main_server;
-    main_server.run();
+    while(g_terminate==0){
+        sleep(5); // sleep for 5 seconds
+        GdbLoggerMain::Instance()->Log("[OK] No termination. Continuing");
+    }
+    //GdbServer main_server;
+    //main_server.run();
+
+    GdbLoggerMain::Instance()->Log("[OK] Received terminate.");
     
     removePID();
     GdbLoggerMain::Instance()->Log("[OK] Shutting down gdbd.");

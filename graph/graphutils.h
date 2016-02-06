@@ -25,6 +25,7 @@
 #include <vector>
 #include <ctime>
 #include <climits>
+#include <csignal>
 #include <unistd.h>
 
 
