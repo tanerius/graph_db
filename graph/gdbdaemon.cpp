@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
             printf("   Log File: %s \n", GDB_LOG_FILE);
         }
     }
-
+    signal(SIGCHLD, SIG_IGN);  /* now I don't have to wait() after a fork ! */
 
     /* Our process ID and Session ID */
     pid_t pid, sid;
