@@ -2,13 +2,81 @@
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
 
-#ifndef _PRIMITIVES_H_
-#include "primitives.h"
+#ifndef _GRAPHUTILS_H_
+#include "graphutils.h"
 #endif
-#include <cstdlib>          /*!<  malloc,calloc and free */
-#include <cstring>          /*!<  strlen, strcpy and memset */
-#include <cstdio>           /*!<  FILE stuff, printf and so much more */
-#include <pthread.h>        /*!<  For threadding (duh!) POSIX so we be compatible */
+
+
+
+/*
+    The interface for GDB defining all the primary graph operations
+    V -> Vertex Type Representation
+    U -> Edge Type Representation
+*/
+template < typename U, typename V >
+class IGdb{
+protected:
+    bool m_is_directional;
+    Gdb_N_t m_vertexes;
+    Gdb_N_t m_edges;
+
+public: 
+    IGdb(bool _type, Gdb_N_t _edges, Gdb_N_t _vertexes)
+    : m_is_directional(_type)
+    , m_edges( _edges )
+    , m_vertexes( _vertexes ) {}
+
+    virtual ~IGdb() {};
+
+    /*
+        Add edge between _v1 and _v2 vertexes and return a reference to it. 
+    */
+    virtual U* AddEdge(const V &_v1, const V &_v2)=0;
+
+    /*
+        Add vertex _v to the graph 
+    */
+    virtual void AddVertex(V &_v)=0;
+
+    /*
+        Tests whether there is an edge from _v1 to _v2;
+    */
+    virtual bool Adjacent(const V &_v1, const V &_v2) = 0; 
+
+    /*
+        Some standard getters return bool if found and false if not
+    */
+    virtual GdbVariant GetEdgeValue(const V &_v1, GdbString &_prop)=0;
+    virtual V& GetVertexValue(GdbString &_id)=0;
+
+    /*
+        Gets a list of all vertexes that have an edge to _x
+    */
+    virtual V* Neighbours (Gdb_N_t &_size, const V& _x) = 0; 
+
+    /*
+        Remove edge between _v1 and _v2
+    */
+    virtual void RemoveEdge(const V &_v1, const V &_v2)=0;
+
+    /*
+        Remove vertex _v from the graph (also removing edges)
+    */
+    virtual void RemoveVertex(V &_v)=0;
+
+    /*
+        Some standard setters return bool if found and false if not
+    */
+    virtual void SetEdgeValue(GdbString &_prop)=0;
+    virtual void SetVertexValue(GdbString &_prop)=0;
+
+};
+
+
+
+
+
+
 
 /*! 
     Adjacency list node representation
@@ -38,6 +106,11 @@ typedef struct List
     Node_t *head;                           /*!< head of the adjacency linked list is the actual element */
 }List_t, *List_p;
  
+
+
+
+
+
 /*! 
     This is the main graph structure
 */

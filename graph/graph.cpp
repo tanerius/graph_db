@@ -1,8 +1,4 @@
 /*graph.c*/
-#ifndef _PRIMITIVES_H_
-#include "primitives.h"
-#endif
-
 #include "graph.h"
 
 pthread_mutex_t edge_mutex;     /* A mutex for edges */
@@ -451,3 +447,4 @@ void releaseMemory(void *ptr){
 void *resizeMemory(void *ptr, size_t size){
     return realloc(ptr, size);
 }
+

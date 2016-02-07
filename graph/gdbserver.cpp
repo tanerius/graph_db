@@ -221,7 +221,7 @@ int GdbServer::serverLoop(){
                     //set the string terminating NULL byte on the end of the data read
                     m_buffer[ret] = '\0';
                     printf("The client sent: %s\n",m_buffer);
-                    //echo
+                    //echoooo
                     send(sd , m_buffer , strlen(m_buffer) , 0 );
                 }
             }
@@ -236,7 +236,7 @@ int GdbServer::startDebug(){
     GdbLoggerMain::Instance()->Log("[OK] startDebug()...");
         
     m_message = "Listening on port ";
-    GdbNumeric a_number = GDB_LIST_PORT;
+    GdbVariant a_number = GDB_LIST_PORT;
 
     GdbLoggerMain::Instance()->Log("[OK] Init clienmt sockets");
     initClientSockets();

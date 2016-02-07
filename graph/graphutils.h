@@ -61,6 +61,9 @@ template <typename T>
 T* allocMem(Gdb_N_t _size){ return (T*)malloc(_size * sizeof(T)); }
 
 
+
+
+
 /*!
     This is the GdbString class. It should be the only reporesentation of text that 
     should be used for this server. It has everything needed.
@@ -162,8 +165,8 @@ class GdbString {
             int res = operator<(_string);
             return res < 0 || res == 0;
         }
-        bool operator<(GdbString& _string) const { return operator<(_string.cstr()); }
-        bool operator<=(GdbString& _string) const { 
+        bool operator<(const GdbString& _string) const { return operator<(_string.cstr()); }
+        bool operator<=(const GdbString& _string) const { 
             return operator<=(_string.cstr());
         }
         
@@ -172,8 +175,8 @@ class GdbString {
             int res = strcmp(operator const char*(), _string);
             return res > 0 || res == 0;
         }
-        bool operator>(GdbString& _string) const { return operator>(_string.cstr()); }
-        bool operator>=(GdbString& _string) const { return operator>=(_string.cstr());} 
+        bool operator>(const GdbString& _string) const { return operator>(_string.cstr()); }
+        bool operator>=(const GdbString& _string) const { return operator>=(_string.cstr());} 
 
         inline bool operator==(const char* _string) const {
             if ( !_string || !m_string )
@@ -194,41 +197,41 @@ class GdbString {
 
 
 /*!
-    This is the GdbNumeric class derived from the GdbString class. 
+    This is the GdbVariant class derived from the GdbString class. 
     It represents easily printable immutable numbers
 */
-class GdbNumeric : public GdbString
+class GdbVariant : public GdbString
 {
     protected:
         int             m_int;
         float           m_float;
     public:
         /* default */
-        GdbNumeric () : GdbString ()
+        GdbVariant () : GdbString ()
             , m_int ( 0 )
             , m_float ( 0.0f )
         {}
 
         /* ctor for char* as param */
-        GdbNumeric ( const char * _string ) : GdbString ( _string )
+        GdbVariant ( const char * _string ) : GdbString ( _string )
             , m_int ( m_string ? atoi ( m_string ) : 0 )
             , m_float ( m_string ? (float)atof ( m_string ) : 0.0f )
         {}
 
         /* ctor for int as param  */
-        GdbNumeric ( int _int ) : GdbString ( std::to_string(_int).c_str() )
+        GdbVariant ( int _int ) : GdbString ( std::to_string(_int).c_str() )
             , m_int ( _int )
             , m_float ( (float)_int )
         {}
 
         /* ctor for float as param  */
-        GdbNumeric ( float _float ) : GdbString ( std::to_string(_float).c_str() )
+        GdbVariant ( float _float ) : GdbString ( std::to_string(_float).c_str() )
             , m_int ( (int)_float )
             , m_float ( _float )
         {}
 
         /* copy ctor */
-        GdbNumeric ( const GdbNumeric & rhs ) : GdbString ()
+        GdbVariant ( const GdbVariant & rhs ) : GdbString ()
             , m_int ( 0 )
             , m_float ( 0.0f )
         {
@@ -242,7 +245,7 @@ class GdbNumeric : public GdbString
         float float_val () const { return m_float; }
 
         /* Assignment operator */
-        const GdbNumeric & operator = ( const GdbNumeric & rhs ) {
+        const GdbVariant & operator = ( const GdbVariant & rhs ) {
             GdbString::operator = ( rhs );
             m_int = rhs.m_int;
             m_float = rhs.m_float;

@@ -41,10 +41,10 @@ int main(){
     GdbString a4 = z.subString(3,5);
     printf("a4 is a subString: %s\n",a4.cstr());
 
-    GdbNumeric int_number = 3;
+    GdbVariant int_number = 3;
     printf("int_number is a our special int: %d\n",int_number.int_val());
-
-    GdbNumeric float_number = 4.0f;
+ 
+    GdbVariant float_number = 4.0f;
     printf("float_number is a our special float: %f\n",float_number.float_val());
 
     // Testing the server

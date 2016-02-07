@@ -5,9 +5,9 @@ CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
 
 OBJDIR=build
 
-Debug: test_vector test_server test_utils test_graph gdbd
+Debug: test_vector test_server test_utils  gdbd
 
-default: test_vector test_server test_utils test_graph gdbd
+default: test_vector test_server test_utils  gdbd
 
 gdbd: init graphutils.o gdbserver.o gdbserver.h config.h
 	$(CXX) $(CXXFLAGS) gdbdaemon.cpp -o $(OBJDIR)/gdbd $(OBJDIR)/graphutils.o $(OBJDIR)/gdbserver.o
@@ -15,8 +15,8 @@ gdbd: init graphutils.o gdbserver.o gdbserver.h config.h
 test_server: init graphutils.o gdbserver.o gdbserver.h config.h
 	$(CXX) $(CXXFLAGS) test_server.cpp -o $(OBJDIR)/test_server $(OBJDIR)/graphutils.o $(OBJDIR)/gdbserver.o
 
-test_graph: test.o
-	$(CXX) $(CXXFLAGS) -o $(OBJDIR)/test_graph $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphfiles.o 
+#test_graph: test.o
+#	$(CXX) $(CXXFLAGS) -o $(OBJDIR)/test_graph $(OBJDIR)/test.o $(OBJDIR)/graph.o $(OBJDIR)/graphfiles.o 
 
 test_vector: test_vector.o 
 	$(CXX) $(CXXFLAGS) -o $(OBJDIR)/test_vector $(OBJDIR)/test_vector.o $(OBJDIR)/graphutils.o
@@ -33,17 +33,18 @@ test_vector.o: init graphutils.o
 test_utils.o: init graphutils.o 
 	$(CXX) $(CXXFLAGS) -c test_utils.cpp -o $(OBJDIR)/test_utils.o
 
-test.o: graphfiles.o
-	$(CXX) $(CXXFLAGS) -c test.cpp -o $(OBJDIR)/test.o
+#test.o: graphfiles.o 
+#	$(CXX) $(CXXFLAGS) -c test.cpp -o $(OBJDIR)/test.o
 
-graphfiles.o: graph.o graphfiles.h
-	$(CXX) $(CXXFLAGS) -c graphfiles.cpp -o $(OBJDIR)/graphfiles.o
+#graphfiles.o: graph.o graphutils.o graphfiles.h graphutils.h
+#	$(CXX) $(CXXFLAGS) -c graphfiles.cpp -o $(OBJDIR)/graphfiles.o
+
+
+graph.o: init graphutils.o graph.h graphutils.h
+	$(CXX) $(CXXFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o
 
 graphutils.o: primitives.h graphutils.h extlib/json/json.hpp
 	$(CXX) $(CXXFLAGS) -fPIC -c graphutils.cpp -o $(OBJDIR)/graphutils.o
-
-graph.o: init primitives.h graph.h
-	$(CXX) $(CXXFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o
 
 init: 
 	- mkdir -p $(OBJDIR)
