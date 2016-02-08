@@ -11,7 +11,7 @@
 #define MAX_PAGE_SIZE            20     /* MAX_PAGE_SIZE defines how much should the adjacency list size grow/page */
 #define VERSION_MAJOR             0     /* Major version */
 #define VERSION_MINOR             1     /* Minor version */
-#define VERSION_REV               13    /* Revision version */
+#define VERSION_REV              13     /* Revision version */
 #define THEORETICAL_MAX     1000000     /* Maximums used in generating IDs for nodes */
 #define GDB_ENGINE_MEMORY         0     /* Memory engine type */
  
@@ -130,6 +130,7 @@ typedef long Gdb_Z_t,*Gdb_z_p;
 */
 typedef unsigned char Gdb_byte_t;
 
+#define GDB_ID_SIZE         sizeof(Gdb_N_t)     /* Memory engine type */
 
 
 #endif

@@ -10,7 +10,7 @@ Debug: test_gdbmemory
 default: test_gdbmemory
 
 test_gdbmemory: init graphutils.o graph.o graph.h graphutils.h
-	$(CXX) $(CXXFLAGS) test_gdbmemory.cpp -o $(OBJDIR)/graphutils.o $(OBJDIR)/graph.o
+	$(CXX) $(CXXFLAGS) test_gdbmemory.cpp -o $(OBJDIR)/test_gdbmemory $(OBJDIR)/graphutils.o $(OBJDIR)/graph.o
 
 graph.o: init graphutils.o graph.h graphutils.h
 	$(CXX) $(CXXFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o

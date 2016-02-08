@@ -43,19 +43,7 @@ typedef unsigned int DWORD;
 
 extern bool global_b_head_proces;
 
-/*! 
-    Our very own counter
-*/
-struct Counter {
-    Gdb_N_t value;
 
-    Counter() : value(0) {} 
-    void increment() { ++value; }
-
-    void decrement(){
-        if(value > 0){ --value; }
-    }
-};
 
 template <typename T>  
 T* allocMem(Gdb_N_t _size){ return (T*)malloc(_size * sizeof(T)); }
