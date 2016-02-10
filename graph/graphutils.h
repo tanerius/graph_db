@@ -27,6 +27,7 @@
 #include <climits>
 #include <csignal>
 #include <unistd.h>
+#include <fcntl.h>
 
 
 /* Helper macros */

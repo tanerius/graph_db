@@ -62,7 +62,6 @@ class IGdb{
         
         //virtual void SetEdgeValue(GdbString &_prop)=0;
         //virtual void SetVertexValue(GdbString &_prop)=0;
-
 };
 
 
