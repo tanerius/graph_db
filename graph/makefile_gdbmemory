@@ -7,6 +7,8 @@ OBJDIR=build
 
 Debug: test_gdbmemory
 
+Release: test_gdbmemory
+
 default: test_gdbmemory
 
 test_gdbmemory: init graphutils.o graph.o graph.h graphutils.h

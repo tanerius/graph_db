@@ -28,6 +28,7 @@
 #include <csignal>
 #include <unistd.h>
 #include <fcntl.h>
+#include <arpa/inet.h> // for htonl()
 
 
 /* Helper macros */
@@ -49,9 +50,12 @@ extern bool global_b_head_proces;
 template <typename T>  
 T* allocMem(Gdb_N_t _size){ return (T*)malloc(_size * sizeof(T)); }
 
-
-
-
+/*
+    A simple function to check endianness
+*/
+inline bool isBigEndian(){
+    return htonl(47) == 47;
+}
 
 /*!
     This is the GdbString class. It should be the only reporesentation of text that 

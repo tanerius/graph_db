@@ -23,7 +23,7 @@ class IGdb{
         Gdb_N_t m_vertexes;
         Gdb_N_t m_edges;
 
-    public: 
+    public:
         // Ctor only for direct initialization
         explicit IGdb(bool _type, Gdb_N_t _edges, Gdb_N_t _vertexes)
         : m_is_directional(_type)
@@ -32,17 +32,17 @@ class IGdb{
 
         virtual ~IGdb() {};
         /*
-            Add edge between _v1 and _v2 vertexes. 
+            Add edge between _v1 and _v2 vertexes.
         */
         virtual void AddEdge(const V &_v1, const V &_v2)=0;
         /*
-            Add vertex _v to the graph 
+            Add vertex _v to the graph
         */
         virtual void AddVertex(V &_v)=0;
         /*
             Tests whether there is an edge from _v1 to _v2;
         */
-        virtual bool Adjacent(const V &_v1, const V &_v2) = 0; 
+        virtual bool Adjacent(const V &_v1, const V &_v2) = 0;
 
         //virtual GetEdgeValue(const V &_v1, GdbString &_prop)=0;
         //virtual V& GetVertexValue(GdbString &_id)=0;
@@ -50,7 +50,7 @@ class IGdb{
         /*
             Gets a list of all vertexes that have an edge to _x
         */
-        virtual V* Neighbours (Gdb_N_t &_size, const V& _x) = 0; 
+        virtual V* Neighbours (Gdb_N_t &_size, const V& _x) = 0;
         /*
             Remove edge between _v1 and _v2
         */
@@ -59,20 +59,13 @@ class IGdb{
             Remove vertex _v from the graph (also removing edges)
         */
         virtual void RemoveVertex(V &_v)=0;
-        
+
         //virtual void SetEdgeValue(GdbString &_prop)=0;
         //virtual void SetVertexValue(GdbString &_prop)=0;
 };
 
 
-
-
-
-
-
-
-
-/*! 
+/*!
     Adjacency list node representation
 */
 typedef struct Node
@@ -83,10 +76,10 @@ typedef struct Node
     Gdb_N_t vertex;         /*!<  index of the vertex being pointed at */
     Gdb_hr_t type;          /*!< Type of edge */
     struct Node *next;      /*!< Pointer to the next node */
-    struct Node *prev;      /*!< Pointer to the prev node in order to enable B-Tree */    
+    struct Node *prev;      /*!< Pointer to the prev node in order to enable B-Tree */
 }Node_t, *Node_p;
- 
-/*! 
+
+/*!
     Adjacency list - This is actually a representation of a vertex
 */
 typedef struct List
@@ -99,13 +92,13 @@ typedef struct List
     Gdb_hr_t type;                          /*!< Type of vertex */
     Node_t *head;                           /*!< head of the adjacency linked list is the actual element */
 }List_t, *List_p;
- 
 
 
 
 
 
-/*! 
+
+/*!
     This is the main graph structure
 */
 typedef struct Graph
@@ -134,7 +127,7 @@ typedef struct Graph
     bool needs_page_increase;           /* When true, grow the ghraph page */
 }Graph_t, *Graph_p;
 
-/*! 
+/*!
     Type for edge sorting function pointer
 */
 typedef Gdb_ret_t (*Gdb_sort_fn_p)(List_t*, Gdb_N_t, Node_t*);
@@ -142,7 +135,7 @@ typedef Gdb_ret_t (*Gdb_sort_fn_p)(List_t*, Gdb_N_t, Node_t*);
 Gdb_ret_t addEdge(Graph_t*, const Gdb_N_t, const Gdb_N_t, Gdb_hr_t);
 Gdb_ret_t addEdgeSL(List_t*, Gdb_N_t, Node_t*);
 Gdb_ret_t addEdgeUL(List_t*, Gdb_N_t, Node_t*);
-Gdb_ret_t addGraphElement(Graph_t*, Gdb_hr_t); 
+Gdb_ret_t addGraphElement(Graph_t*, Gdb_hr_t);
 Gdb_ret_t allMutexesLock();
 Gdb_ret_t allMutexesUnLock();
 Gdb_ret_t computeID(Graph_t*, Gdb_N_t*, Gdb_N_t*, const bool b);
@@ -154,7 +147,7 @@ Gdb_ret_t deleteGraphElement(Graph_t*, const Gdb_N_t); // only flag as deleted
 Gdb_Nothing_t destroyEdges(Node_p);
 Gdb_Nothing_t destroyGraph(Graph_p);
 
-List_p getElementPointerByID(const Graph_p, const Gdb_N_t, const Gdb_N_t); 
+List_p getElementPointerByID(const Graph_p, const Gdb_N_t, const Gdb_N_t);
 List_p getElementPointerByIndex(const Graph_p, const Gdb_N_t); /* Direct return by arry index O(1) complexity */
 
 Gdb_ret_t initMutexes();
