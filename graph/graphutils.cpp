@@ -279,7 +279,10 @@ const char* GdbSharedMutex::getError()const {
     return err_str;
 }
 
-GdbSharedMutex::~GdbSharedMutex ( ){}
+GdbSharedMutex::~GdbSharedMutex ( ){
+    m_storage_buff.deAllocateMemory ();
+    pthread_mutex_destroy(m_mutex_ptr);
+}
 
 
 /*
