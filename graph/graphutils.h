@@ -486,6 +486,15 @@ class GdbVector {
 };
 
 
+
+
+
+
+
+
+
+
+
 /*
     IPC Mechanizm!
 
@@ -743,8 +752,17 @@ class GdbLoggerEvent : public GdbLoggerBase{
     typedef Singleton<GdbLoggerEvent> GdbLoggerMain;
 #endif
 
+
+
+
+
 void createPID();
 void removePID();
+
+
+
+
+
 
 
 /*
@@ -840,6 +858,13 @@ template <class K, class V>
     };
 
 
+
+
+
+
+
+
+
 /*
     Hashing definitions 
 */
@@ -851,6 +876,8 @@ inline Gdb_N_t Hash(const GdbString& _string){return ::Hash(_string.cstr());}
 /* 
     THREADS STUFF
 */
+
+
 
 /* 
     Wrapper for a mutex
@@ -873,6 +900,23 @@ protected:
     pthread_mutex_t m_mutex;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
     For super global variables
 */
@@ -889,6 +933,16 @@ public:
         finished();
     }
 };
+
+
+
+
+
+
+
+
+
+
 
 
 /* 
@@ -910,6 +964,17 @@ private:
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
 /* 
     An interface that prevents deriving classes from being copied 
     by making the copy constructor private
@@ -921,6 +986,20 @@ private:
     GdbNoCopy ( const GdbNoCopy & ) {}
     const GdbNoCopy& operator = ( const GdbNoCopy & ) { return *this; }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
