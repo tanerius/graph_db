@@ -62,8 +62,6 @@ inline bool isBigEndian(){
     should be used for this server. It has everything needed.
     These strings are thread safe and ready to travel across sockets.
 
-    Plus since everyone is implementing their own strings...here it goes!
-
     Some stuff that i have problems remembering :
 
     char       *      mutable_pointer_to_mutable_char;
@@ -751,6 +749,7 @@ class GdbLoggerEvent : public GdbLoggerBase{
 #else
     typedef Singleton<GdbLoggerEvent> GdbLoggerMain;
 #endif
+
 
 
 
