@@ -1,0 +1,22 @@
+CC=gcc
+CFLAGS=-g -Wall -std=c99 -pthread 
+
+OBJDIR=build
+
+Debug: bobtest
+
+Release: bobtest
+
+default: bobtest
+
+bobtest: init bobutils.o bobutils.h
+	$(CC) $(CFLAGS) bobtest.c -o $(OBJDIR)/bobtest $(OBJDIR)/bobutils.o
+
+bobutils.o: bobprimitives.h bobutils.h
+	$(CC) $(CFLAGS) -c bobutils.c -o $(OBJDIR)/bobutils.o
+
+init: 
+	- mkdir -p $(OBJDIR)
+
+clean:
+	- rm -rf $(OBJDIR)
