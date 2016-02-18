@@ -12,6 +12,9 @@ default: bobtest
 bobtest: init bobutils.o bobutils.h
 	$(CC) $(CFLAGS) bobtest.c -o $(OBJDIR)/bobtest $(OBJDIR)/bobutils.o
 
+bobipc.o: init bobutils.o bobutils.h bobprimitives.h bobipc.h
+	$(CC) $(CFLAGS) -c bobipc.c -o $(OBJDIR)/bobipc.o 
+
 bobutils.o: bobprimitives.h bobutils.h
 	$(CC) $(CFLAGS) -c bobutils.c -o $(OBJDIR)/bobutils.o
 

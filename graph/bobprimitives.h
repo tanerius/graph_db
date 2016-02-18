@@ -19,8 +19,16 @@
 
 typedef unsigned char Byte_t;
 typedef size_t Bobuint_t;
+
 typedef enum {
     FALSE=0, 
     TRUE
 } bool;
+
+typedef enum {
+    SYS_INT,
+    SYS_CHAR,
+    BOB_STRING
+} Types_t;
+
 #endif

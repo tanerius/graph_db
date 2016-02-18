@@ -27,17 +27,17 @@
 */
 inline bool is_big_endian() { return htonl(47) == 47; }
 
-
 /*
     Custom string definition together with initialzer
 */
-typedef struct Bobstring_s
-{
+typedef struct Bobstring_s {
     char *str;
     Bobuint_t len;
-} Bobstring;
+} Bobstring_t;
 
-bool init_bobstring(Bobstring*, const char*);
+int bobstring_concat(Bobstring_t*, const char*);
+int bobstring_init(Bobstring_t*, const char*);
+
 
 
 #endif
