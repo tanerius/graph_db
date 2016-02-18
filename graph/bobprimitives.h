@@ -14,21 +14,17 @@
 #define VERSION_REV              13     /* Revision version */
 #define THEORETICAL_MAX     1000000     /* Maximums used in generating IDs for nodes */
 #define GDB_ENGINE_MEMORY         0     /* Memory engine type */
+#define FALSE                     0
+#define TRUE                      1
 
-
+#define SYS_INT         0
+#define SYS_CHAR        1
+#define BOB_STRING      2
 
 typedef unsigned char Byte_t;
 typedef size_t Bobuint_t;
 
-typedef enum {
-    FALSE=0, 
-    TRUE
-} bool;
-
-typedef enum {
-    SYS_INT,
-    SYS_CHAR,
-    BOB_STRING
-} Types_t;
+typedef unsigned char bool;
+typedef char Types_t;
 
 #endif

@@ -7,6 +7,7 @@
 #endif
 
 #include <sys/mman.h>               // for mmap and mlock
+#include <errno.h>                  // needed for errno
 #include <stdlib.h>                 // malloc, calloc, atoi etc.
 #include <stdio.h>                  // FILE
 #include <string.h>                 // for strlen, strcpy and memset
@@ -21,18 +22,15 @@
 #define MaxElement(a,b)            ((a)>(b)?(a):(b))
 #define SafeFree(_x)        { if (_x) { free (_x); (_x) = NULL; } }
 
-
-/*
-    A simple function to check endianness
-*/
 inline bool is_big_endian() { return htonl(47) == 47; }
+inline bool is_64bit() { return sizeof(int *) == 8; }
 
 /*
     Custom string definition together with initialzer
 */
 typedef struct Bobstring_s {
-    char *str;
     Bobuint_t len;
+    char *str;
 } Bobstring_t;
 
 int bobstring_concat(Bobstring_t*, const char*);
