@@ -29,8 +29,8 @@ inline bool is_64bit() { return sizeof(int *) == 8; }
     Custom string definition together with initialzer
 */
 typedef struct Bobstring_s {
-    Bobuint_t len;
     char *str;
+    Bobuint_t len; 
 } Bobstring_t;
 
 int bobstring_concat(Bobstring_t*, const char*);
