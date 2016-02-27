@@ -18,5 +18,7 @@ typedef struct Shared_buffer_s {
 } Shared_buffer_t;
 
 int shared_buffer_init(Shared_buffer_t *_instance);
+void* shared_buffer_read(Shared_buffer_t *_instance, Bobuint_t _index);
+void shared_buffer_write(const void *_src_element, Shared_buffer_t *_instance);
 
 #endif

@@ -23,3 +23,17 @@ int shared_buffer_init(Shared_buffer_t *_instance) {
     
     return 0;
 }
+
+/*
+    Copy data to shared memory 
+*/
+void shared_buffer_write(const void *_src_element, Shared_buffer_t *_instance) {
+    memcpy(&_instance->data_ptr[_instance->buffer_len], _src_element, _instance->entity_size);
+    _instance->total_entities =  _instance->total_entities + 1;
+}
+
+void*  shared_buffer_read(Shared_buffer_t *_instance, Bobuint_t _index) {
+    void *_dest_element = malloc(sizeof(Byte_t) * _instance->entity_size);
+    memcpy(_dest_element, &_instance->data_ptr[_instance->buffer_len], _instance->entity_size);
+    return _dest_element;
+}

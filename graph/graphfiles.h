@@ -20,7 +20,7 @@ class CSerializer {
         static void* createDbThread(void *arg) { return static_cast<CSerializer*>(arg)->createDb(); }
 
         Gdb_ret_t initialize();
-        
+ 
     private:
         pthread_t db_writer_t;      /*!< Thread used for writing gdb */
         pthread_t edge_writer_t;    /*!< Thread used for writing edb */
