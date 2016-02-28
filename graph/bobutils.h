@@ -37,6 +37,9 @@ typedef struct Bobstring_s {
 int bobstring_concat(Bobstring_t*, const char*);
 int bobstring_init(Bobstring_t*, const char*);
 
-
+// Popular hashing functions for strings
+unsigned int hash_djb2(const char*);
+unsigned long hash_djb2_l(const char*);
+unsigned long hash_sdbm(const char*);
 
 #endif

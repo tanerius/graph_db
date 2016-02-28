@@ -42,6 +42,7 @@ void test_shared_buffer() {
 }
 
 
+
 int main() {
     test_bobstring();
     Shared_msg_t* shared_space = create_mmap(sizeof(Shared_msg_t));
@@ -52,6 +53,9 @@ int main() {
     wait_for_children(child_procs,2);
     printf("All exited unmapping memory\n");
     delete_mmap(shared_space);
+
+    printf("Hash djb2: %lu \n", hash_djb2("Hello this is me"));
+    printf("Hash sdbm: %lu \n", hash_sdbm("Hello this is me"));
 
     return 0;
 }
