@@ -13,10 +13,12 @@
 #endif
 #include <signal.h>
 
+
+
 /*
     a function which helps to fork children processes by providind a handler function as an argument and an IPC variable
 */
-pid_t fork_child(void (*func)(void*), Shared_msg_t*); 
+pid_t fork_child(void (*func)(void*), void*); 
 void wait_for_children(pid_t*, const unsigned char); // function to instruct parent to wait for its children
 
 #endif

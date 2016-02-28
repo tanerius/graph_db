@@ -1,6 +1,6 @@
 #include "bobprocess.h"
 
-pid_t fork_child(void (*func)(void* arg), Shared_msg_t* state) {
+pid_t fork_child(void (*func)(void* arg), void* state_args) {
     pid_t child_pid;
     switch (child_pid = fork()) {
         case ERROR:
@@ -9,8 +9,8 @@ pid_t fork_child(void (*func)(void* arg), Shared_msg_t* state) {
             break;
         case 0:
             // successfully forked this is the child 
-            (*func)((Shared_msg_t*)state); 
-            return 0; 
+            (*func)(state_args); 
+            exit(0); 
             break;
         default: 
             // parent continues
