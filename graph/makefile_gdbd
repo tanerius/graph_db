@@ -9,8 +9,11 @@ Release: bobtest
 
 default: bobtest
 
-bobtest: init bobutils.o bobipc.o bobutils.h bobipc.h
-	$(CC) $(CFLAGS) bobtest.c -o $(OBJDIR)/bobtest $(OBJDIR)/bobutils.o $(OBJDIR)/bobipc.o
+bobtest: init bobutils.o bobipc.o bobprocess.o bobutils.h bobipc.h bobprocess.h
+	$(CC) $(CFLAGS) bobtest.c -o $(OBJDIR)/bobtest $(OBJDIR)/bobutils.o $(OBJDIR)/bobipc.o $(OBJDIR)/bobprocess.o
+
+bobprocess.o: init bobutils.o bobutils.h bobprimitives.h bobprocess.h
+	$(CC) $(CFLAGS) -c bobprocess.c -o $(OBJDIR)/bobprocess.o
 
 bobipc.o: init bobutils.o bobutils.h bobprimitives.h bobipc.h
 	$(CC) $(CFLAGS) -c bobipc.c -o $(OBJDIR)/bobipc.o 

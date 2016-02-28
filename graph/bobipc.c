@@ -18,12 +18,12 @@ Shared_msg_t* create_mmap(Bobuint_t map_size) {
         return NULL;
     }
 
-    return ret
+    return ret;
 }
 
 /*
     Delete a created map
 */
 void delete_mmap(void* addr) {
-    munmap(arrd, sizeof(Shared_msg_t));
+    munmap(addr, sizeof(Shared_msg_t));
 }
