@@ -8,17 +8,17 @@
 #include "bobutils.h"
 #endif
 
-typedef struct Shared_buffer_s {
-    void *data_ptr; 
-    Bobuint_t buffer_len;
-    Bobuint_t entity_size;
-    Bobuint_t total_entities;
-    Types_t data_type;
-    bool lock_ram;
-} Shared_buffer_t;
+#ifndef SH_MSG_SIZE
+    #define SH_MSG_SIZE 45
+#endif
+    
+#define ERROR -1
 
-int shared_buffer_init(Shared_buffer_t *_instance);
-void* shared_buffer_read(Shared_buffer_t *_instance, Bobuint_t _index);
-void shared_buffer_write(const void *_src_element, Shared_buffer_t *_instance);
+typedef struct Shared_msg_s {
+    char msg[SH_MSG_SIZE];
+    int count;
+} Shared_msg_t;
 
+Shared_msg_t* create_mmap(Bobuint_t map_size);
+void delete_mmap(void* addr);
 #endif

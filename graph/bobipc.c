@@ -3,37 +3,27 @@
 
 
 /*
-    Routine to initialize a buffer which will be shared across forks
+    Routine to create a shared mem buffer which will survive a fork
 */
-int shared_buffer_init(Shared_buffer_t *_instance) {
-    _instance->buffer_len = _instance->total_entities * _instance->entity_size;
-    _instance->data_ptr = (Byte_t*)mmap(NULL,_instance->buffer_len, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANON, -1 ,0);
-    
-    if (_instance->data_ptr==MAP_FAILED) {
-        _instance->buffer_len = 0;
-        _instance->total_entities = 0;
-        return errno;
+Shared_msg_t* create_mmap(Bobuint_t map_size) {
+    void* saddr = 0; // starting address of the mapping. Let kernel decide
+    int map_security = PROT_READ|PROT_WRITE; //can read and write to map
+    int flags = MAP_SHARED|MAP_ANONYMOUS; // just share mem no file mapping
+    int fd = -1; // used if mapping to a file which in this case no
+    int offset = 0;
+
+    Shared_msg_t* ret = mmap(saddr, map_size, map_security, flags, fd, offset);
+
+    if ((void*) ERROR == ret) {
+        return NULL;
     }
-    
-    if (_instance->lock_ram == TRUE) {
-        if (mlock(_instance->data_ptr, _instance->buffer_len) == -1) {
-            return errno;
-        }
-    }
-    
-    return 0;
+
+    return ret
 }
 
 /*
-    Copy data to shared memory 
+    Delete a created map
 */
-void shared_buffer_write(const void *_src_element, Shared_buffer_t *_instance) {
-    memcpy(&_instance->data_ptr[_instance->buffer_len], _src_element, _instance->entity_size);
-    _instance->total_entities =  _instance->total_entities + 1;
-}
-
-void*  shared_buffer_read(Shared_buffer_t *_instance, Bobuint_t _index) {
-    void *_dest_element = malloc(sizeof(Byte_t) * _instance->entity_size);
-    memcpy(_dest_element, &_instance->data_ptr[_instance->buffer_len], _instance->entity_size);
-    return _dest_element;
+void delete_mmap(void* addr) {
+    munmap(arrd, sizeof(Shared_msg_t));
 }

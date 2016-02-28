@@ -16,6 +16,7 @@
 #include <limits.h>                 // for assert()
 #include <arpa/inet.h>              // for htonl()
 #include <time.h>                   // for assert()
+#include <unistd.h>                 // fork()
 
 /* Helper macros */
 #define MinElement(a,b)            ((a)<(b)?(a):(b))

@@ -16,6 +16,7 @@
 #define GDB_ENGINE_MEMORY         0     /* Memory engine type */
 #define FALSE                     0
 #define TRUE                      1
+#define SH_MSG_SIZE             100     // Shared message size for IPC
 
 #define SYS_INT         0
 #define SYS_CHAR        1
