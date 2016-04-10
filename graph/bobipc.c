@@ -3,6 +3,8 @@
 
 
 /*
+    Author: Taner Selim
+    
     Routine to create a shared mem buffer which will survive a fork
 */
 Shared_msg_t* create_mmap(Bobuint_t map_size) {

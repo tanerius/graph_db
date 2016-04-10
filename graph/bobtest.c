@@ -54,7 +54,7 @@ int main() {
     printf("All exited unmapping memory\n");
     delete_mmap(shared_space);
 
-    printf("Hash djb2: %lu \n", hash_djb2("Hello this is me"));
+    printf("Hash djb2: %u \n", hash_djb2("Hello this is me"));
     printf("Hash sdbm: %lu \n", hash_sdbm("Hello this is me"));
 
     return 0;
