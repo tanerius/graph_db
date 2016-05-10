@@ -13,17 +13,17 @@ typedef struct Test_s {
 void fn_proc_producer(void* ipc) {
     Shared_msg_t* shared_space = (Shared_msg_t*)ipc;
     printf("This is a producer process \n");
-    strcpy(shared_space->msg, "Hi from Producer \n");
+    strcpy(shared_space[0]->msg, "Hi from Producer \n");
     sleep(10);
-    printf("Shared var from producer: %s", shared_space->msg);
+    printf("Shared var from producer: %s", shared_space[0]->msg);
 }
 
 void fn_proc_consumer(void* ipc) {
     Shared_msg_t* shared_space = (Shared_msg_t*)ipc;
     printf("This is a consumer process  \n");
     sleep(5); // sleep 10 seconds
-    printf("Shared var from consumer: %s", shared_space->msg);
-    strcpy(shared_space->msg, "Hi back \n");
+    printf("Shared var from consumer: %s", shared_space[0]->msg);
+    strcpy(shared_space[0]->msg, "Hi back \n");
 }
 
 
@@ -45,8 +45,8 @@ void test_shared_buffer() {
 
 int main() {
     test_bobstring();
-    Shared_msg_t* shared_space = create_mmap(sizeof(Shared_msg_t));
-    shared_space->count = 0;
+    Shared_msg_t* shared_space = create_mmap(sizeof(Shared_msg_t)*2);
+    shared_space[0]->count = 0;
     pid_t child_procs[2];
     child_procs[0] = fork_child(fn_proc_producer, shared_space);
     child_procs[1] = fork_child(fn_proc_consumer, shared_space);

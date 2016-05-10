@@ -1,0 +1,28 @@
+CC=gcc
+CFLAGS=-g -Wall -std=gnu99 -pthread 
+
+OBJDIR=build
+
+Debug: bobtest
+
+Release: bobtest
+
+default: bobtest
+
+bobtest: init bobutils.o bobipc.o bobprocess.o bobutils.h bobipc.h bobprocess.h
+	$(CC) $(CFLAGS) bobtest.c -o $(OBJDIR)/bobtest $(OBJDIR)/bobutils.o $(OBJDIR)/bobipc.o $(OBJDIR)/bobprocess.o
+
+bobprocess.o: init bobutils.o bobutils.h bobprimitives.h bobprocess.h
+	$(CC) $(CFLAGS) -c bobprocess.c -o $(OBJDIR)/bobprocess.o
+
+bobipc.o: init bobutils.o bobutils.h bobprimitives.h bobipc.h
+	$(CC) $(CFLAGS) -c bobipc.c -o $(OBJDIR)/bobipc.o 
+
+bobutils.o: bobprimitives.h bobutils.h
+	$(CC) $(CFLAGS) -c bobutils.c -o $(OBJDIR)/bobutils.o
+
+init: 
+	- mkdir -p $(OBJDIR)
+
+clean:
+	- rm -rf $(OBJDIR)
