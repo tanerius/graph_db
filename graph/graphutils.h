@@ -11,10 +11,6 @@
 #endif
 
 
-#ifndef _PICOJSON_HPP_
-#include "extlib/json/json.hpp"
-#endif
-
 #include <sys/mman.h> // for mmap and mlock
 
 #include <cstring>          /* for strlen, strcpy and memset */
@@ -34,17 +30,14 @@
 /* Helper macros */
 #define minElement(a,b)            ((a)<(b)?(a):(b))
 #define maxElement(a,b)            ((a)>(b)?(a):(b))
-#define safeFree(_x)        { if (_x) { free (_x); (_x) = NULL; } }
-#define safeDelete(_x)      { if (_x) { delete (_x); (_x) = NULL; } }
-#define safeDeleteArray(_x) { if (_x) { delete [] (_x); (_x) = NULL; } }
-#define safeRelease(_x)     { if (_x) { (_x)->Release(); (_x) = NULL; } }
+#define safeFree(_x)        { if (_x) { free (_x); (_x) = nullptr; } }
+#define safeDelete(_x)      { if (_x) { delete (_x); (_x) = nullptr; } }
+#define safeDeleteArray(_x) { if (_x) { delete [] (_x); (_x) = nullptr; } }
+#define safeRelease(_x)     { if (_x) { (_x)->Release(); (_x) = nullptr; } }
 
 /* so windows ppl can be more familiar */
 typedef unsigned char BYTE;
 typedef unsigned int DWORD;
-
-extern bool global_b_head_proces;
-
 
 
 template <typename T>  
