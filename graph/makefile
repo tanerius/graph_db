@@ -43,7 +43,7 @@ test_utils.o: init graphutils.o
 graph.o: init graphutils.o graph.h graphutils.h
 	$(CXX) $(CXXFLAGS) -c graph.cpp -o $(OBJDIR)/graph.o
 
-graphutils.o: primitives.h graphutils.h extlib/json/json.hpp
+graphutils.o: primitives.h graphutils.h
 	$(CXX) $(CXXFLAGS) -fPIC -c graphutils.cpp -o $(OBJDIR)/graphutils.o
 
 init: 

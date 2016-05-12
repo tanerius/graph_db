@@ -1,0 +1,25 @@
+# Declare a variable for the compliler which we are going to use
+CXX=g++
+# Declare another variable with the flags which we are going to use
+CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
+
+OBJDIR=build
+
+Debug: test_string
+
+Release: test_string
+
+default: test_string
+
+
+test_string: init gdbstring.o gdbstring.h graphutils.h
+	$(CXX) $(CXXFLAGS) test_string.cpp -o $(OBJDIR)/test_string $(OBJDIR)/gdbstring.o
+
+gdbstring.o: init gdbstring.h primitives.h
+	$(CXX) $(CXXFLAGS) -fPIC -c gdbstring.cpp -o $(OBJDIR)/gdbstring.o
+
+init: 
+	- mkdir -p $(OBJDIR)
+
+clean:
+	- rm -rf $(OBJDIR)
