@@ -47,7 +47,7 @@ GdbVector <GdbString> GdbString::tokenize() {
     {
         GdbString token = pch;
         tokens.pushBack(token);
-        pch = strtok (NULL, " ,.-");
+        pch = strtok (NULL, " ,.\n\t");
     }
 
     return tokens;
