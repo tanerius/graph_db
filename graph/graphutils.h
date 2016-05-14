@@ -72,7 +72,7 @@ class GdbVector {
         /* Member fn used to grow the size of the vector as needed by Gdb_N_t */
         Gdb_N_t resizeVector(const Gdb_N_t _new_max_length){
             assert(_new_max_length > m_length);
-            T *_arr_resized = (T*)malloc(sizeof(T) * _new_max_length);
+            T *_arr_resized = new T [ _new_max_length ]; //(T*)malloc(sizeof(T) * _new_max_length);
             if(_arr_resized){
                 m_max_length = _new_max_length;
                 for(Gdb_N_t i=0;i<m_length;i++){
@@ -132,7 +132,7 @@ class GdbVector {
         Gdb_N_t allocate(const Gdb_N_t _size){
             assert(_size > 0);
             assert(m_arr_elements==NULL);
-            m_arr_elements = (T*)malloc(sizeof(T) * _size);
+            m_arr_elements = new T [ _size ]; //(T*)malloc(sizeof(T) * _size);
             if(m_arr_elements){
                 m_length=0;
                 m_max_length=_size; 

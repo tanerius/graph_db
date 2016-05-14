@@ -33,6 +33,20 @@ char* GdbString::allocateMemory(Gdb_N_t string_length){
     return new char[string_length + BYTE_GAP];
 }
 
+GdbString* GdbString::tokenizeString() {
+    Gdb_N_t len = m_length-1;
+    Gdb_N_t previous = 0;
+    GdbVector <GdbString> tokens(10);
+    int count = 0;
+    for(count=0;count < len; count++) { // the initializer may be an array}
+        if ((count>previous) && (m_string[count] == ' ') && (count < (len-1)) && (count > 0)){
+            tokens.pushBack(subString(previous,count-previous));
+            previous = count+1;
+        }
+    } 
+    return nullptr;
+}
+
 
 GdbString& GdbString::operator=(const char *_string){
     if (!_string){
