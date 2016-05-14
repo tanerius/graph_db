@@ -1,4 +1,6 @@
 #include "gdbstring.h"
+#include <cstring>
+#include <iostream>
 
 bool GdbString::reallocate(Gdb_N_t new_size){
     // check that we want a positive size
@@ -33,18 +35,22 @@ char* GdbString::allocateMemory(Gdb_N_t string_length){
     return new char[string_length + BYTE_GAP];
 }
 
-GdbString* GdbString::tokenizeString() {
-    Gdb_N_t len = m_length-1;
-    Gdb_N_t previous = 0;
-    GdbVector <GdbString> tokens(10);
-    int count = 0;
-    for(count=0;count < len; count++) { // the initializer may be an array}
-        if ((count>previous) && (m_string[count] == ' ') && (count < (len-1)) && (count > 0)){
-            tokens.pushBack(subString(previous,count-previous));
-            previous = count+1;
-        }
-    } 
-    return nullptr;
+GdbVector <GdbString> GdbString::tokenize() {
+    assert ( m_length > 0 );
+    assert (m_string != nullptr);
+
+    GdbVector <GdbString> tokens(5);
+    GdbString to_tokenize = cstr();
+    
+    char *pch = std::strtok (to_tokenize.m_string," ,.\n\t");
+    while (pch != NULL)
+    {
+        GdbString token = pch;
+        tokens.pushBack(token);
+        pch = strtok (NULL, " ,.-");
+    }
+
+    return tokens;
 }
 
 

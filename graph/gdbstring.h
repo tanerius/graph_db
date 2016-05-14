@@ -339,7 +339,7 @@ class GdbString {
             return new_str;
         }
 
-        GdbString* tokenizeString();
+        GdbVector <GdbString> tokenize(); // maybe make default space
 
 
         // Operators for assignment
