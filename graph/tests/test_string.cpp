@@ -32,11 +32,14 @@ int main()
 
     GdbVector<GdbString> token_vector = x.tokenize();
     printf("Tokens Vector size = %lu \n",token_vector.size());
-    printf("Printing tokens: \n",token_vector.size());
+    printf("Printing tokens: \n");
     for (int i=0;i<token_vector.size();i++){
         printf(": %s\n",token_vector[i].cstr());
     }
 
+    printf("\nHashing...\n");
+    printf("The SDBM has for x is: %lu\n",x.hashSdbm());
+    printf("The DJB2 has for x is: %lu\n",x.hashDjb2());
 
 
 

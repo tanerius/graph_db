@@ -5,12 +5,14 @@ CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
 
 OBJDIR=../build
 
-Debug: test_string
+Debug: test_string test_timers
 
-Release: test_string
+Release: test_string test_timers
 
-default: test_string
+default: test_string test_timers
 
+test_timers: init 
+	$(CXX) $(CXXFLAGS) test_timers.cpp -o $(OBJDIR)/test_timers 
 
 test_string: init gdbstring.o ../gdbstring.h ../graphutils.h
 	$(CXX) $(CXXFLAGS) test_string.cpp -o $(OBJDIR)/test_string $(OBJDIR)/gdbstring.o
