@@ -304,6 +304,10 @@ class GdbString {
             return strncmp ( m_string+i_val-i_prefix, _string, i_prefix )==0;
         }
 
+        Gdb_N_t hashDjb2();
+
+        Gdb_N_t hashSdbm();
+
         /* Checks to see if string is empty */
         bool isEmpty () const
         {

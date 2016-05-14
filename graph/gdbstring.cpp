@@ -2,6 +2,27 @@
 #include <cstring>
 #include <iostream>
 
+
+Gdb_N_t GdbString::hashDjb2(){
+    Gdb_N_t h = 5381;
+    const char *p = m_string;
+
+    while (*p != '\0')
+        h = ((h << 5) + h) + (*p++); /* hash * 33 + c */
+
+    return h;
+}
+
+Gdb_N_t GdbString::hashSdbm(){
+    Gdb_N_t hash = 0;
+    const char *p = m_string;
+
+    while (*p != '\0')
+        hash = (*p++) + (hash << 6) + (hash << 16) - hash;
+
+    return hash;
+}
+
 bool GdbString::reallocate(Gdb_N_t new_size){
     // check that we want a positive size
     if(new_size <= 0)
