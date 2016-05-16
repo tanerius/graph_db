@@ -132,5 +132,9 @@ typedef unsigned char Gdb_byte_t;
 
 #define GDB_ID_SIZE         sizeof(Gdb_N_t)     /* Memory engine type */
 
+/* so windows ppl can be more familiar */
+typedef unsigned char BYTE;
+typedef unsigned int DWORD;
+
 
 #endif

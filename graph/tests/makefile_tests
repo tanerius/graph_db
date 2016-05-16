@@ -14,7 +14,7 @@ default: test_string test_timers
 test_timers: init 
 	$(CXX) $(CXXFLAGS) test_timers.cpp -o $(OBJDIR)/test_timers 
 
-test_string: init gdbstring.o ../gdbstring.h ../graphutils.h
+test_string: init gdbstring.o ../gdbstring.h
 	$(CXX) $(CXXFLAGS) test_string.cpp -o $(OBJDIR)/test_string $(OBJDIR)/gdbstring.o
 
 gdbstring.o: init ../gdbstring.h ../primitives.h
