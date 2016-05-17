@@ -1,15 +1,18 @@
 # Declare a variable for the compliler which we are going to use
 CXX=g++
 # Declare another variable with the flags which we are going to use
-CXXFLAGS=-g -Wall -std=c++11 -pthread -DDEBUG
+CXXFLAGS= -g -Wall -std=c++11 -pthread -DDEBUG -I ../
 
 OBJDIR=../build
 
-Debug: test_string test_timers
+Debug: test_string test_timers test_json
 
-Release: test_string test_timers
+Release: test_string test_timers test_json
 
-default: test_string test_timers
+default: test_string test_timers test_json
+
+test_json: init ../gdbjson.hpp
+	$(CXX) $(CXXFLAGS) test_json.cpp -o $(OBJDIR)/test_json
 
 test_timers: init 
 	$(CXX) $(CXXFLAGS) test_timers.cpp -o $(OBJDIR)/test_timers 
