@@ -4,6 +4,7 @@ CXX=g++
 CXXFLAGS= -g -Wall -std=c++11 -pthread -DDEBUG -I ../
 
 OBJDIR=../build
+BOOSTDIR=../build/boost
 
 Debug: test_string test_timers test_json
 
@@ -11,8 +12,11 @@ Release: test_string test_timers test_json
 
 default: test_string test_timers test_json
 
-test_json: init ../gdbjson.hpp
-	$(CXX) $(CXXFLAGS) test_json.cpp -o $(OBJDIR)/test_json
+test_json: init gdbjson.o gdbstring.o ../gdbjson.hpp ../gdbstring.h
+	$(CXX) $(CXXFLAGS) test_json.cpp -o $(OBJDIR)/test_json $(OBJDIR)/gdbjson.o $(OBJDIR)/gdbstring.o
+
+gdbjson.o: init gdbstring.o ../gdbstring.h ../gdbjson.hpp
+	$(CXX) $(CXXFLAGS) -c ../gdbjson.cpp -o $(OBJDIR)/gdbjson.o $(OBJDIR)/gdbstring.o
 
 test_timers: init 
 	$(CXX) $(CXXFLAGS) test_timers.cpp -o $(OBJDIR)/test_timers 
