@@ -321,8 +321,8 @@ class GdbString {
         /* Return a cstr immutable representation of the stored string */
         const char * cstr () const {return m_string; }
         
-        Gdb_N_t length() { return m_string?strlen(m_string):0; } 
-        Gdb_N_t length_serialized() { return m_string?strlen(m_string)+sizeof(char):0; } 
+        Gdb_N_t length() { return (m_string!=nullptr)?strlen(m_string):0; } 
+        Gdb_N_t length_serialized() { return (m_string!=nullptr)?strlen(m_string)+sizeof(char):0; } 
 
         // Construction and destruction
         GdbString() {m_string = nullptr, m_length = 0;}; /* Defult constructor */
@@ -378,8 +378,8 @@ class GdbString {
         bool operator>=(const GdbString& _string) const { return operator>=(_string.cstr());} 
 
         inline bool operator==(const char* _string) const {
-            if ( !_string || !m_string )
-                return ( !_string && !m_string );
+            if ( (_string==nullptr) || (m_string==nullptr) )
+                return ( (_string==nullptr) && (m_string==nullptr) );
             return strcmp ( m_string, _string )==0;
         }
         inline bool operator==(GdbString& _string) const { return operator==(_string.cstr()); }
@@ -388,7 +388,7 @@ class GdbString {
 
         // Cast operator ... 
         // TODO: check performance of this
-        operator const char*() const { return m_string ? m_string: ""; }
+        operator const char*() const { return (m_string!=nullptr) ? m_string: ""; }
 
         void clear();
 
@@ -413,8 +413,8 @@ class GdbVariant : public GdbString
 
         /* ctor for char* as param */
         GdbVariant ( const char * _string ) : GdbString ( _string )
-            , m_int ( m_string ? atoi ( m_string ) : 0 )
-            , m_float ( m_string ? (float)atof ( m_string ) : 0.0f )
+            , m_int ( (m_string!=nullptr) ? atoi ( m_string ) : 0 )
+            , m_float ( (m_string!=nullptr) ? (float)atof ( m_string ) : 0.0f )
         {}
 
         /* ctor for int as param  */
