@@ -3,10 +3,16 @@
 
 
 
-void GdbJson::readJson(const char* _value){
+void GdbJson::readJson(const char* _value, const bool _is_file=false){
     std::string json = _value;
-    std::istringstream is (json);
-    read_json (is, root_element);
+    if(!_is_file){
+        std::istringstream is (json);
+        read_json (is, root_element);
+    }
+    else{
+        read_json (_value, root_element);
+    }
+    
     
     // Write json.
   //ptree pt;
@@ -24,11 +30,11 @@ GdbString GdbJson::getValueString(const char* _value){
 }
 
 GdbVariant GdbJson::getValueFloat(const char* _value){
-    GdbVariant x;
-    return x;
+    GdbVariant f = root_element.get<float>(_value);
+    return f;
 }
 
 GdbVariant GdbJson::getValueInt(const char* _value){
-    GdbVariant x;
-    return x;
+    GdbVariant i = root_element.get<int>(_value);;
+    return i;
 }

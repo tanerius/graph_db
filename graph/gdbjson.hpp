@@ -20,7 +20,7 @@ class GdbJson {
       GdbVariant getValueInt(const char* _value);
       GdbVariant getValueFloat(const char* _value);
       GdbString getValueString(const char* _value);
-      void readJson(const char* _value); 
+      void readJson(const char* _value, const bool _is_file); 
         
 };
 
