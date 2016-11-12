@@ -1,0 +1,6 @@
+[submodule "graph/boost/property_tree"]
+	path = graph/boost/property_tree
+	url = git@github.com:boostorg/property_tree.git
+[submodule "graph/boost/log"]
+	path = graph/boost/log
+	url = git@github.com:boostorg/log.git
