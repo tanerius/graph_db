@@ -403,36 +403,42 @@ class GdbVariant : public GdbString
 {
     protected:
         int             m_int;
-        float           m_float;
+        double          m_double;
     public:
         /* default */
         GdbVariant () : GdbString ()
             , m_int ( 0 )
-            , m_float ( 0.0f )
+            , m_double ( 0.0f )
         {}
 
         /* ctor for char* as param */
         GdbVariant ( const char * _string ) : GdbString ( _string )
             , m_int ( (m_string!=nullptr) ? atoi ( m_string ) : 0 )
-            , m_float ( (m_string!=nullptr) ? (float)atof ( m_string ) : 0.0f )
+            , m_double ( (m_string!=nullptr) ? (float)atof ( m_string ) : 0.0f )
         {}
 
         /* ctor for int as param  */
         GdbVariant ( int _int ) : GdbString ( std::to_string(_int).c_str() )
             , m_int ( _int )
-            , m_float ( (float)_int )
+            , m_double ( (float)_int )
         {}
 
         /* ctor for float as param  */
         GdbVariant ( float _float ) : GdbString ( std::to_string(_float).c_str() )
             , m_int ( (int)_float )
-            , m_float ( _float )
+            , m_double ( _float )
+        {}
+
+        /* ctor for float as param  */
+        GdbVariant ( double _double ) : GdbString ( std::to_string(_double).c_str() )
+            , m_int ( (int)_double )
+            , m_double ( _double )
         {}
 
         /* copy ctor */
         GdbVariant ( const GdbVariant & rhs ) : GdbString ()
             , m_int ( 0 )
-            , m_float ( 0.0f )
+            , m_double ( 0.0f )
         {
             *this = rhs;
         }
@@ -441,13 +447,16 @@ class GdbVariant : public GdbString
         int int_val () const {return m_int;}
 
         /* Get the float value */
-        float float_val () const { return m_float; }
+        float float_val () const { return (float)m_double; }
+
+        /* Get the float value */
+        double double_val () const { return m_double; }
 
         /* Assignment operator */
         const GdbVariant & operator = ( const GdbVariant & rhs ) {
             GdbString::operator = ( rhs );
             m_int = rhs.m_int;
-            m_float = rhs.m_float;
+            m_double = rhs.m_double;
             return *this;
         }
 };

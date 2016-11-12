@@ -29,6 +29,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <arpa/inet.h> // for htonl()
+#include <numeric>
+#include <chrono>
 
 #include <numeric>
 #include <chrono>
@@ -42,6 +44,8 @@
 #define safeRelease(_x)     { if (_x) { (_x)->Release(); (_x) = nullptr; } }
 
 
+namespace GDBUtils
+{
 
 /*
     A simple function to check endianness
@@ -60,9 +64,28 @@ class GdbObject /* wish it wont sound like Java */
     public:
         virtual const char* objDisplay() = 0;
         virtual const char* objGetID() = 0;
+
+        inline void timer_start() 
+        {
+            event_start = std::chrono::high_resolution_clock::now();
+        }
+
+        inline void timer_stop()
+        {
+            event_end = std::chrono::high_resolution_clock::now();
+            event_diff = event_end - event_start;
+        }
+
+        inline GdbVariant get_timer() 
+        {
+            return event_diff.count(); 
+        }
         // That's it (for now)
-    public:
-        bool gdb_thread_safe;
+    private:
+        // Make some stuff for being able to measure time
+        std::chrono::time_point<std::chrono::high_resolution_clock> event_start;
+        std::chrono::time_point<std::chrono::high_resolution_clock> event_end;
+        std::chrono::duration<double> event_diff;
 
 };
 
@@ -70,7 +93,7 @@ class GdbObject /* wish it wont sound like Java */
 
 
 
-
+}
 
 
 #endif
