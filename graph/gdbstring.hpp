@@ -3,11 +3,11 @@
 #define _GDBSTRING_H_
 
 #ifndef _CONFIG_H_
-#include "config.h"
+#include "config.hpp"
 #endif
 
 #ifndef _PRIMITIVES_H_
-#include "primitives.h"
+#include "primitives.hpp"
 #endif
 
 #include <cstring>          /* for strlen, strcpy and memset */

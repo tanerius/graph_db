@@ -1,4 +1,4 @@
-#include "../gdbstring.h"
+#include "../gdbstring.hpp"
 #include <cstdio>
 
 int main()

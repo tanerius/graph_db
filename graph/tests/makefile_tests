@@ -6,26 +6,25 @@ CXXFLAGS= -g -Wall -std=c++11 -pthread -DDEBUG -I ../
 OBJDIR=../build
 BOOSTDIR=../build/boost
 
-Debug: test_string test_timers test_json
+default: clean init graphutils.o test_string test_timers test_json
 
-Release: test_string test_timers test_json
-
-default: test_string test_timers test_json
-
-test_json: init gdbjson.o gdbstring.o ../gdbjson.hpp ../gdbstring.h
+test_json: gdbjson.o gdbstring.o ../gdbjson.hpp ../gdbstring.hpp
 	$(CXX) $(CXXFLAGS) test_json.cpp -o $(OBJDIR)/test_json $(OBJDIR)/gdbjson.o $(OBJDIR)/gdbstring.o
 
-gdbjson.o: init gdbstring.o ../gdbstring.h ../gdbjson.hpp
+gdbjson.o: gdbstring.o ../gdbstring.hpp ../gdbjson.hpp
 	$(CXX) $(CXXFLAGS) -c ../gdbjson.cpp -o $(OBJDIR)/gdbjson.o $(OBJDIR)/gdbstring.o
 
-test_timers: init 
+test_timers: 
 	$(CXX) $(CXXFLAGS) test_timers.cpp -o $(OBJDIR)/test_timers 
 
-test_string: init gdbstring.o ../gdbstring.h
+test_string: gdbstring.o ../gdbstring.hpp
 	$(CXX) $(CXXFLAGS) test_string.cpp -o $(OBJDIR)/test_string $(OBJDIR)/gdbstring.o
 
-gdbstring.o: init ../gdbstring.h ../primitives.h
+gdbstring.o: ../gdbstring.hpp ../primitives.hpp
 	$(CXX) $(CXXFLAGS) -fPIC -c ../gdbstring.cpp -o $(OBJDIR)/gdbstring.o
+
+graphutils.o: ../graphutils.hpp ../primitives.hpp ../config.hpp
+	$(CXX) $(CXXFLAGS) -c ../graphutils.cpp -o $(OBJDIR)/graphutils.o
 
 init: 
 	- mkdir -p $(OBJDIR)

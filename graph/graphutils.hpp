@@ -3,11 +3,15 @@
 #define _GRAPHUTILS_H_
 
 #ifndef _CONFIG_H_
-#include "config.h"
+#include "config.hpp"
 #endif
 
 #ifndef _PRIMITIVES_H_
-#include "primitives.h"
+#include "primitives.hpp"
+#endif
+
+#ifndef _GDBSTRING_H_
+#include "gdbstring.hpp"
 #endif
 
 
@@ -47,6 +51,20 @@ inline bool isBigEndian(){
 }
 
 
+
+/*
+    A general class from which almost all Gdb all classes must inherit to use advanced functionalities. 
+*/
+class GdbObject /* wish it wont sound like Java */
+{
+    public:
+        virtual const char* objDisplay() = 0;
+        virtual const char* objGetID() = 0;
+        // That's it (for now)
+    public:
+        bool gdb_thread_safe;
+
+};
 
 
 

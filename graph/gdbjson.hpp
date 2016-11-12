@@ -3,7 +3,7 @@
 #define _GDBJSON_HPP_
 
 #ifndef _GDBSTRING_H_
-#include "gdbstring.h"
+#include "gdbstring.hpp"
 #endif
 
 #include "boost/property_tree/ptree.hpp"

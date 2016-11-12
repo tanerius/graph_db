@@ -1,5 +1,5 @@
 #ifndef _PRIMITIVES_H_
-#include "primitives.h"
+#include "primitives.hpp"
 #endif
 #include <cstring>          /* for strlen, strcpy and memset */
 #include <cstdlib>          /* for itoa */
