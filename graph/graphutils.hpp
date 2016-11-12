@@ -35,6 +35,8 @@
 #include <numeric>
 #include <chrono>
 
+namespace GDBUtils
+{
 
 /* Helper macros */
 #define minElement(a,b)            ((a)<(b)?(a):(b))
@@ -43,9 +45,6 @@
 #define safeDeleteArray(_x) { if (_x) { delete [] (_x); (_x) = nullptr; } }
 #define safeRelease(_x)     { if (_x) { (_x)->Release(); (_x) = nullptr; } }
 
-
-namespace GDBUtils
-{
 
 /*
     A simple function to check endianness
@@ -58,6 +57,9 @@ inline bool isBigEndian(){
 
 /*
     A general class from which almost all Gdb all classes must inherit to use advanced functionalities. 
+
+    Things to consider to add here:
+    - version number
 */
 class GdbObject /* wish it wont sound like Java */
 {
@@ -86,7 +88,6 @@ class GdbObject /* wish it wont sound like Java */
         std::chrono::time_point<std::chrono::high_resolution_clock> event_start;
         std::chrono::time_point<std::chrono::high_resolution_clock> event_end;
         std::chrono::duration<double> event_diff;
-
 };
 
 
