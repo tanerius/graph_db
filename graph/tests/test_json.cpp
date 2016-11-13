@@ -6,6 +6,8 @@ int main()
     printf("Testing GdbJson string...\n");
 
     GdbJson j;
+    printf("The size of a GDBJson instance is: %lu bytes \n",sizeof(j));
+
     j.readJson("{\"arry\":{\"arry1\":\"one\"},\"foo\":\"bar\",\"height\":15, \"ratio\":2.3}",false);
     GdbString s = j.getValueString("foo");
     GdbVariant i = j.getValueInt("height");

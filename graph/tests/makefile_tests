@@ -1,18 +1,18 @@
 # Declare a variable for the compliler which we are going to use
 CXX=g++
 # Declare another variable with the flags which we are going to use
-CXXFLAGS= -g -Wall -std=c++11 -pthread -DDEBUG -I ../
+CXXFLAGS= -g -Wall -std=c++11 -pthread -DDEBUG -I ../../../boost_1_62_0
 
 OBJDIR=../build
 BOOSTDIR=../build/boost
 
-default: clean init graphutils.o test_string test_timers test_json
+default: clean init graphutils.o test_string test_timers test_json test_other
 
 test_json: gdbjson.o gdbstring.o ../gdbjson.hpp ../gdbstring.hpp
 	$(CXX) $(CXXFLAGS) test_json.cpp -o $(OBJDIR)/test_json $(OBJDIR)/gdbjson.o $(OBJDIR)/gdbstring.o
 
-gdbjson.o: gdbstring.o ../gdbstring.hpp ../gdbjson.hpp
-	$(CXX) $(CXXFLAGS) -c ../gdbjson.cpp -o $(OBJDIR)/gdbjson.o $(OBJDIR)/gdbstring.o
+gdbjson.o: ../gdbjson.hpp
+	$(CXX) $(CXXFLAGS) -c ../gdbjson.cpp -o $(OBJDIR)/gdbjson.o 
 
 test_timers: 
 	$(CXX) $(CXXFLAGS) test_timers.cpp -o $(OBJDIR)/test_timers 
@@ -20,8 +20,8 @@ test_timers:
 test_string: gdbstring.o ../gdbstring.hpp
 	$(CXX) $(CXXFLAGS) test_string.cpp -o $(OBJDIR)/test_string $(OBJDIR)/gdbstring.o
 
-test_other: gdbstring.o
-	$(CXX) $(CXXFLAGS) test_other.cpp -o $(OBJDIR)/test_other 
+test_other: gdbstring.o ../gdbstring.hpp
+	$(CXX) $(CXXFLAGS) test_other.cpp -o $(OBJDIR)/test_other $(OBJDIR)/gdbstring.o
 
 gdbstring.o: ../gdbstring.hpp ../primitives.hpp
 	$(CXX) $(CXXFLAGS) -fPIC -c ../gdbstring.cpp -o $(OBJDIR)/gdbstring.o

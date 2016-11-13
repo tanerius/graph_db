@@ -14,7 +14,6 @@
 #include "gdbstring.hpp"
 #endif
 
-
 #include <sys/mman.h> // for mmap and mlock
 
 #include <cstring>          /* for strlen, strcpy and memset */
@@ -34,6 +33,8 @@
 
 #include <numeric>
 #include <chrono>
+
+#include <cstdarg> // for declaring variadic function
 
 namespace GDBUtils
 {
@@ -82,7 +83,75 @@ class GdbObject /* wish it wont sound like Java */
         {
             return event_diff.count(); 
         }
-        // That's it (for now)
+
+        inline const char* getTimestamp()
+        {
+            time_t now = time (NULL);
+            char* date = ctime(&now);
+            return date;
+        }
+        
+        // Throw in basic logging
+        static bool restart_log()
+        {
+            FILE* file = fopen(GDB_LOCAL_LOG_FILE, "w");
+            if (!file) 
+            {
+                fprintf(
+                    stderr,
+                    "ERROR: Could not open GDB_LOCAL_LOG_FILE log file %s for writing\n",
+                    GDB_LOCAL_LOG_FILE
+                );
+                return false;
+            }
+            time_t now = time (NULL);
+            char* date = ctime(&now);
+            fprintf(file, "GDB_LOCAL_LOG_FILE log. Local time %s \n", date);
+            fclose(file);
+            return true;
+        }
+        //bool gl_log(const char* message, ...);
+        /* add a message to the log file. arguments work the same way as printf() */
+        static bool log (const char* message, ...) 
+        {
+            va_list argptr;
+            FILE* file = fopen (GDB_LOCAL_LOG_FILE, "a");
+            if (!file) {
+                fprintf (
+                    stderr,
+                    "ERROR: could not open GDB_LOCAL_LOG_FILE %s file for appending\n",
+                    GDB_LOCAL_LOG_FILE
+                );
+                return false;
+            }
+            va_start (argptr, message);
+            vfprintf (file, message, argptr);
+            va_end (argptr);
+            fclose (file);
+            return true;
+        }
+
+        static bool gl_log_err (const char* message, ...) 
+        {
+            va_list argptr;
+            FILE* file = fopen (GDB_LOCAL_LOG_FILE, "a");
+            if (!file) {
+                fprintf (
+                    stderr,
+                    "ERROR: could not open GDB_LOCAL_LOG_FILE %s file for appending\n",
+                    GDB_LOCAL_LOG_FILE
+                );
+                return false;
+            }
+            va_start (argptr, message);
+            vfprintf (file, message, argptr);
+            va_end (argptr);
+            va_start (argptr, message);
+            vfprintf (stderr, message, argptr);
+            va_end (argptr);
+            fclose (file);
+            return true;
+        }
     private:
         // Make some stuff for being able to measure time
         std::chrono::time_point<std::chrono::high_resolution_clock> event_start;
@@ -91,6 +160,20 @@ class GdbObject /* wish it wont sound like Java */
 };
 
 
+
+class GdbTester : public GdbObject 
+{
+    public:
+        const char* objDisplay() 
+        {
+            return "\nobjDisplay() method called...\n";
+        }
+
+        const char* objGetID()
+        {
+            return "\nobjGetID() method called...\n";
+        }
+};
 
 
 

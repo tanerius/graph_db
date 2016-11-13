@@ -6,11 +6,9 @@
 #include "gdbstring.hpp"
 #endif
 
-#include "boost/config/include/boost/config/user.hpp"
-#include "boost/config/include/boost/config.hpp"
-#include "boost/property_tree/include/boost/property_tree/ptree_fwd.hpp"
-#include "boost/property_tree/include/boost/property_tree/ptree.hpp"
-#include "boost/property_tree/include/boost/property_tree/json_parser.hpp"
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
 // alias the namespace for convenience
 namespace boost_pt = boost::property_tree;
