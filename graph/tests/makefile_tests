@@ -20,6 +20,9 @@ test_timers:
 test_string: gdbstring.o ../gdbstring.hpp
 	$(CXX) $(CXXFLAGS) test_string.cpp -o $(OBJDIR)/test_string $(OBJDIR)/gdbstring.o
 
+test_other: gdbstring.o
+	$(CXX) $(CXXFLAGS) test_other.cpp -o $(OBJDIR)/test_other 
+
 gdbstring.o: ../gdbstring.hpp ../primitives.hpp
 	$(CXX) $(CXXFLAGS) -fPIC -c ../gdbstring.cpp -o $(OBJDIR)/gdbstring.o
 
