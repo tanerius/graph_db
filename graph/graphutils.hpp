@@ -54,6 +54,16 @@ inline bool isBigEndian(){
     return htonl(47) == 47;
 }
 
+/*
+    A simple function to return a string timestamp
+*/
+inline const char* getTimestamp()
+{
+    time_t now = time (NULL);
+    char* date = ctime(&now);
+    return date;
+}
+
 
 
 /*
@@ -82,13 +92,6 @@ class GdbObject /* wish it wont sound like Java */
         inline GdbVariant get_timer() 
         {
             return event_diff.count(); 
-        }
-
-        inline const char* getTimestamp()
-        {
-            time_t now = time (NULL);
-            char* date = ctime(&now);
-            return date;
         }
         
         // Throw in basic logging
@@ -175,8 +178,36 @@ class GdbTester : public GdbObject
         }
 };
 
+/*
+    GdbBinFile thread safe implementation of a binary file manipulation class. Can be used generically for binary files.
+*/
+class GdbBinFile : public GdbObject
+    public:
+        GdbBinFile(const char* fileName)
+        {
+            curOpen = false;
+            m_pFile = nullptr;
+            m_fileName = fileName;
+        }
+                
+        const char* objGetID() 
+        { 
+            return m_fileName.cstr(); 
+        }
+
+        void setFile(const char* newFile); // implementation
 
 
+    private:
+        FILE* m_pFile;
+        GdbString m_fileName;
+        bool m_curOpen;
+
+        bool checkOpen()
+        {
+            return !((m_pFile == NULL) || (m_pFile == nullptr))
+        }
+        
 }
 
 

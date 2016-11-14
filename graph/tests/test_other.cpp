@@ -16,10 +16,12 @@
 
 int main(){
     GDBUtils::GdbTester test;
-    GdbString x = test.getTimestamp();
+    GDBUtils::GdbTester* pTest = new GDBUtils::GdbTester();
+
+    GdbString x = GDBUtils::getTimestamp();
     x += "This is my first log entry";
     printf("GdbTester outputs: %s \n",test.objDisplay());
+    printf("GdbTester* outputs: %s \n",pTest->objDisplay());
     GDBUtils::GdbTester::restart_log();
     GDBUtils::GdbTester::log(x.cstr());
-
 }
