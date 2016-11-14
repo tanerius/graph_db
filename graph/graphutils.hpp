@@ -182,10 +182,11 @@ class GdbTester : public GdbObject
     GdbBinFile thread safe implementation of a binary file manipulation class. Can be used generically for binary files.
 */
 class GdbBinFile : public GdbObject
+{
     public:
         GdbBinFile(const char* fileName)
         {
-            curOpen = false;
+            m_curOpen = false;
             m_pFile = nullptr;
             m_fileName = fileName;
         }
@@ -205,9 +206,11 @@ class GdbBinFile : public GdbObject
 
         bool checkOpen()
         {
-            return !((m_pFile == NULL) || (m_pFile == nullptr))
+            return !((m_pFile == NULL) || (m_pFile == nullptr));
         }
         
+};
+
 }
 
 
