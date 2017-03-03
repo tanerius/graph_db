@@ -1,7 +1,7 @@
 # Declare a variable for the compliler which we are going to use
 CXX=g++
 # Declare another variable with the flags which we are going to use
-CXXFLAGS= -g -Wall -std=c++11 -pthread -DDEBUG -I ../../../boost_1_62_0
+CXXFLAGS= -g -Wall -std=c++11 -pthread -DDEBUG -I ../../../boost_current
 
 OBJDIR=../build
 BOOSTDIR=../build/boost
@@ -26,11 +26,12 @@ test_other: gdbstring.o ../gdbstring.hpp
 gdbstring.o: ../gdbstring.hpp ../primitives.hpp
 	$(CXX) $(CXXFLAGS) -fPIC -c ../gdbstring.cpp -o $(OBJDIR)/gdbstring.o
 
-graphutils.o: ../graphutils.hpp ../primitives.hpp ../config.hpp
+graphutils.o: ../graphutils.hpp ../primitives.hpp 
 	$(CXX) $(CXXFLAGS) -c ../graphutils.cpp -o $(OBJDIR)/graphutils.o
 
 init: 
 	- mkdir -p $(OBJDIR)
 
 clean:
+	- echo "Make sure you have a boost_current folder"
 	- rm -rf $(OBJDIR)

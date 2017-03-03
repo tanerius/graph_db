@@ -75,86 +75,15 @@ namespace GDBUtils
     class GdbObject /* wish it wont sound like Java */
     {
         public:
-            virtual const char* objDisplay() = 0;
-            virtual const char* objGetID() = 0;
+            // pure virtual - these must be overriden
+            virtual const char*             ObjDisplay() = 0;
+            virtual const char*             ObjGetID() = 0;
 
-            inline void timer_start() 
-            {
-                event_start = std::chrono::high_resolution_clock::now();
-            }
+            // These are optional
+            virtual GdbVariant*             GetTimer();
+            virtual void                    TimerStart();
+            virtual void                    TimerLap();
 
-            inline void timer_stop()
-            {
-                event_end = std::chrono::high_resolution_clock::now();
-                event_diff = event_end - event_start;
-            }
-
-            inline GdbVariant get_timer() 
-            {
-                return event_diff.count(); 
-            }
-            
-            // Throw in basic logging
-            static bool restart_log()
-            {
-                FILE* file = fopen(GDB_LOCAL_LOG_FILE, "w");
-                if (!file) 
-                {
-                    fprintf(
-                        stderr,
-                        "ERROR: Could not open GDB_LOCAL_LOG_FILE log file %s for writing\n",
-                        GDB_LOCAL_LOG_FILE
-                    );
-                    return false;
-                }
-                time_t now = time (NULL);
-                char* date = ctime(&now);
-                fprintf(file, "GDB_LOCAL_LOG_FILE log. Local time %s \n", date);
-                fclose(file);
-                return true;
-            }
-            //bool gl_log(const char* message, ...);
-            /* add a message to the log file. arguments work the same way as printf() */
-            static bool log (const char* message, ...) 
-            {
-                va_list argptr;
-                FILE* file = fopen (GDB_LOCAL_LOG_FILE, "a");
-                if (!file) {
-                    fprintf (
-                        stderr,
-                        "ERROR: could not open GDB_LOCAL_LOG_FILE %s file for appending\n",
-                        GDB_LOCAL_LOG_FILE
-                    );
-                    return false;
-                }
-                va_start (argptr, message);
-                vfprintf (file, message, argptr);
-                va_end (argptr);
-                fclose (file);
-                return true;
-            }
-
-            static bool gl_log_err (const char* message, ...) 
-            {
-                va_list argptr;
-                FILE* file = fopen (GDB_LOCAL_LOG_FILE, "a");
-                if (!file) {
-                    fprintf (
-                        stderr,
-                        "ERROR: could not open GDB_LOCAL_LOG_FILE %s file for appending\n",
-                        GDB_LOCAL_LOG_FILE
-                    );
-                    return false;
-                }
-                va_start (argptr, message);
-                vfprintf (file, message, argptr);
-                va_end (argptr);
-                va_start (argptr, message);
-                vfprintf (stderr, message, argptr);
-                va_end (argptr);
-                fclose (file);
-                return true;
-            }
         private:
             // Make some stuff for being able to measure time
             std::chrono::time_point<std::chrono::high_resolution_clock> event_start;
@@ -163,51 +92,22 @@ namespace GDBUtils
     };
 
 
-
-    class GdbTester : public GdbObject 
-    {
-        public:
-            const char* objDisplay() 
-            {
-                return "\nobjDisplay() method called...\n";
-            }
-
-            const char* objGetID()
-            {
-                return "\nobjGetID() method called...\n";
-            }
-    };
-
     /*
-        GdbBinFile thread safe implementation of a binary file manipulation class. Can be used generically for binary files.
+        GdbBinFile thread safe implementation of a binary file manipulation class. 
+        Can be used generically for binary files.
     */
     class GdbBinFile : public GdbObject
     {    
         private:
             FILE* m_pFile;
-            GdbString m_fileName;
+            GdbString* m_fileName;
 
-            bool checkOpen()
-            {
-                return !((m_pFile == NULL) || (m_pFile == nullptr));
-            }
+            bool CheckOpen();
+            virtual const char*             ObjDisplay() override;
+            virtual const char*             ObjGetID() override;
 
         public: // properties
-            std::mutex file_mutex;
-            
-        public: // member funcitons
-            GdbBinFile(const char* fileName)
-            {
-                m_pFile = nullptr;
-                m_fileName = fileName;
-            }
-                    
-            const char* objGetID() 
-            { 
-                return m_fileName.cstr(); 
-            }
-
-            bool setFile(const char* newFile);    
+            std::mutex file_mutex; 
     };
     
 }

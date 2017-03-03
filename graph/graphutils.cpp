@@ -3,20 +3,38 @@
 
 using namespace GDBUtils;
 
-bool GdbBinFile::setFile(const char* newFile)
-{
-    if (file_mutex.try_lock())
-    {
-        if(checkOpen())
-        {
-            fclose(m_pFile);
-            m_pFile = nullptr;
-        }
-        m_fileName = newFile;
-        file_mutex.unlock();
-        return true;
-    }
 
-    // mutex couldnt be aquired
-    return false;
+/* ********************************************************
+    GdbObject
+******************************************************* **/
+
+GdbVariant* GdbObject::GetTimer() 
+{
+    GdbVariant* TimerResult = new GdbVariant(event_diff.count());
+    return TimerResult; 
+}
+
+void GdbObject::TimerStart() 
+{
+    event_start = std::chrono::high_resolution_clock::now();
+}
+
+void GdbObject::TimerLap()
+{
+    event_end = std::chrono::high_resolution_clock::now();
+    event_diff = event_end - event_start;
+}
+
+
+/* ********************************************************
+    GdbBinFile
+******************************************************* **/
+const char* GdbBinFile::ObjDisplay()
+{
+    return "ObjDisplay displaying the object";
+}
+
+const char* GdbBinFile::ObjGetID()
+{
+    return "ObjGetID: 1";
 }
