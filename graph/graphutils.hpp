@@ -48,6 +48,7 @@ namespace GDBUtils
     inline bool isBigEndian(){
         return htonl(47) == 47;
     }
+    
 
     /*
         A simple function to return a string timestamp
@@ -58,7 +59,6 @@ namespace GDBUtils
         char* date = ctime(&now);
         return date;
     }
-
 
 
     /*
