@@ -83,6 +83,9 @@ namespace GDBUtils
             virtual GdbVariant*             GetTimer();
             virtual void                    TimerStart();
             virtual void                    TimerLap();
+            
+                                            GdbObject() {};
+            virtual                         ~GdbObject() = default;
 
         private:
             // Make some stuff for being able to measure time

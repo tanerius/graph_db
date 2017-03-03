@@ -15,6 +15,7 @@
 
 
 int main(){
-    
+    GDBUtils::GdbBinFile* BinaryFile = new GDBUtils::GdbBinFile();
+    delete BinaryFile;
     return 0;
 }

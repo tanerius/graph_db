@@ -1,25 +1,25 @@
 /*graphutils.cpp*/
 #include "graphutils.hpp"
 
-using namespace GDBUtils;
+//using namespace GDBUtils;
 
 
 /* ********************************************************
     GdbObject
 ******************************************************* **/
 
-GdbVariant* GdbObject::GetTimer() 
+GdbVariant* GDBUtils::GdbObject::GetTimer() 
 {
     GdbVariant* TimerResult = new GdbVariant(event_diff.count());
     return TimerResult; 
 }
 
-void GdbObject::TimerStart() 
+void GDBUtils::GdbObject::TimerStart() 
 {
     event_start = std::chrono::high_resolution_clock::now();
 }
 
-void GdbObject::TimerLap()
+void GDBUtils::GdbObject::TimerLap()
 {
     event_end = std::chrono::high_resolution_clock::now();
     event_diff = event_end - event_start;
@@ -29,18 +29,17 @@ void GdbObject::TimerLap()
 /* ********************************************************
     GdbBinFile
 ******************************************************* **/
-bool GdbBinFile::CheckOpen()
+bool GDBUtils::GdbBinFile::CheckOpen()
 {
     return (m_pFile || m_fileName);
 }
 
-
-const char* GdbBinFile::ObjDisplay()
+const char* GDBUtils::GdbBinFile::ObjDisplay()
 {
     return "ObjDisplay displaying the object";
 }
 
-const char* GdbBinFile::ObjGetID()
+const char* GDBUtils::GdbBinFile::ObjGetID()
 {
     return "ObjGetID: 1";
 }
