@@ -29,6 +29,12 @@ void GdbObject::TimerLap()
 /* ********************************************************
     GdbBinFile
 ******************************************************* **/
+bool GdbBinFile::CheckOpen()
+{
+    return (m_pFile || m_fileName);
+}
+
+
 const char* GdbBinFile::ObjDisplay()
 {
     return "ObjDisplay displaying the object";

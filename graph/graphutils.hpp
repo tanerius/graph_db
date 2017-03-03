@@ -99,10 +99,10 @@ namespace GDBUtils
     class GdbBinFile : public GdbObject
     {    
         private:
-            FILE* m_pFile;
-            GdbString* m_fileName;
+            FILE* m_pFile = nullptr;
+            GdbString* m_fileName = nullptr;
 
-            bool CheckOpen();
+            bool                            CheckOpen();
             virtual const char*             ObjDisplay() override;
             virtual const char*             ObjGetID() override;
 
