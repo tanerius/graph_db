@@ -1,7 +1,8 @@
 /*graphutils.cpp*/
 #include "graphutils.hpp"
-
-//using namespace GDBUtils;
+#ifndef _GDBSTRING_H_
+#include "gdbstring.hpp"
+#endif
 
 
 /* ********************************************************

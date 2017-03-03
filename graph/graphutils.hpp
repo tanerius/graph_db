@@ -2,16 +2,8 @@
 #ifndef _GRAPHUTILS_H_
 #define _GRAPHUTILS_H_
 
-#ifndef _CONFIG_H_
-#include "config.hpp"
-#endif
-
 #ifndef _PRIMITIVES_H_
 #include "primitives.hpp"
-#endif
-
-#ifndef _GDBSTRING_H_
-#include "gdbstring.hpp"
 #endif
 
 #include <sys/mman.h> // for mmap and mlock
@@ -35,6 +27,9 @@
 #include <chrono>
 
 #include <cstdarg> // for declaring variadic function
+
+class GdbString;
+class GdbVariant;
 
 namespace GDBUtils
 {
@@ -102,17 +97,17 @@ namespace GDBUtils
     class GdbBinFile : public GdbObject
     {    
         private:
-            FILE* m_pFile = nullptr;
-            GdbString* m_fileName = nullptr;
-
+            // Properties
+            FILE*                           m_pFile = nullptr;
+            GdbString*                      m_fileName = nullptr;
+            std::mutex                      FileMutex;
+            // Member functions
             bool                            CheckOpen();
+     
+        public: // properties
             virtual const char*             ObjDisplay() override;
             virtual const char*             ObjGetID() override;
-
-        public: // properties
-            std::mutex file_mutex; 
     };
-    
 }
 
 

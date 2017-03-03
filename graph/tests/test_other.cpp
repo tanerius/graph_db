@@ -16,6 +16,7 @@
 
 int main(){
     GDBUtils::GdbBinFile* BinaryFile = new GDBUtils::GdbBinFile();
+    std::cout << BinaryFile->ObjDisplay();
     delete BinaryFile;
     return 0;
 }
